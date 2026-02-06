@@ -68,10 +68,13 @@ export interface Config {
   blocks: {};
   collections: {
     users: User;
-    gallery: Gallery;
+    media: Media;
+    'gallery-albums': GalleryAlbum;
+    'gallery-photos': GalleryPhoto;
+    'audio-albums': AudioAlbum;
+    'audio-tracks': AudioTrack;
+    members: Member;
     timetable: Timetable;
-    about: About;
-    audio: Audio;
     'payload-kv': PayloadKv;
     'payload-locked-documents': PayloadLockedDocument;
     'payload-preferences': PayloadPreference;
@@ -80,10 +83,13 @@ export interface Config {
   collectionsJoins: {};
   collectionsSelect: {
     users: UsersSelect<false> | UsersSelect<true>;
-    gallery: GallerySelect<false> | GallerySelect<true>;
+    media: MediaSelect<false> | MediaSelect<true>;
+    'gallery-albums': GalleryAlbumsSelect<false> | GalleryAlbumsSelect<true>;
+    'gallery-photos': GalleryPhotosSelect<false> | GalleryPhotosSelect<true>;
+    'audio-albums': AudioAlbumsSelect<false> | AudioAlbumsSelect<true>;
+    'audio-tracks': AudioTracksSelect<false> | AudioTracksSelect<true>;
+    members: MembersSelect<false> | MembersSelect<true>;
     timetable: TimetableSelect<false> | TimetableSelect<true>;
-    about: AboutSelect<false> | AboutSelect<true>;
-    audio: AudioSelect<false> | AudioSelect<true>;
     'payload-kv': PayloadKvSelect<false> | PayloadKvSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
     'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
@@ -93,8 +99,22 @@ export interface Config {
     defaultIDType: string;
   };
   fallbackLocale: null;
-  globals: {};
-  globalsSelect: {};
+  globals: {
+    'site-settings': SiteSetting;
+    'home-page': HomePage;
+    'about-page': AboutPage;
+    'contact-page': ContactPage;
+    'gallery-page': GalleryPage;
+    'audio-page': AudioPage;
+  };
+  globalsSelect: {
+    'site-settings': SiteSettingsSelect<false> | SiteSettingsSelect<true>;
+    'home-page': HomePageSelect<false> | HomePageSelect<true>;
+    'about-page': AboutPageSelect<false> | AboutPageSelect<true>;
+    'contact-page': ContactPageSelect<false> | ContactPageSelect<true>;
+    'gallery-page': GalleryPageSelect<false> | GalleryPageSelect<true>;
+    'audio-page': AudioPageSelect<false> | AudioPageSelect<true>;
+  };
   locale: null;
   user: User;
   jobs: {
@@ -147,9 +167,9 @@ export interface User {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "gallery".
+ * via the `definition` "media".
  */
-export interface Gallery {
+export interface Media {
   id: string;
   alt: string;
   updatedAt: string;
@@ -163,6 +183,134 @@ export interface Gallery {
   height?: number | null;
   focalX?: number | null;
   focalY?: number | null;
+  sizes?: {
+    thumbnail?: {
+      url?: string | null;
+      width?: number | null;
+      height?: number | null;
+      mimeType?: string | null;
+      filesize?: number | null;
+      filename?: string | null;
+    };
+    card?: {
+      url?: string | null;
+      width?: number | null;
+      height?: number | null;
+      mimeType?: string | null;
+      filesize?: number | null;
+      filename?: string | null;
+    };
+    hero?: {
+      url?: string | null;
+      width?: number | null;
+      height?: number | null;
+      mimeType?: string | null;
+      filesize?: number | null;
+      filename?: string | null;
+    };
+  };
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "gallery-albums".
+ */
+export interface GalleryAlbum {
+  id: string;
+  title: string;
+  slug: string;
+  description?: string | null;
+  coverImage?: (string | null) | Media;
+  order?: number | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "gallery-photos".
+ */
+export interface GalleryPhoto {
+  id: string;
+  alt: string;
+  album: string | GalleryAlbum;
+  order?: number | null;
+  updatedAt: string;
+  createdAt: string;
+  url?: string | null;
+  thumbnailURL?: string | null;
+  filename?: string | null;
+  mimeType?: string | null;
+  filesize?: number | null;
+  width?: number | null;
+  height?: number | null;
+  focalX?: number | null;
+  focalY?: number | null;
+  sizes?: {
+    thumbnail?: {
+      url?: string | null;
+      width?: number | null;
+      height?: number | null;
+      mimeType?: string | null;
+      filesize?: number | null;
+      filename?: string | null;
+    };
+    large?: {
+      url?: string | null;
+      width?: number | null;
+      height?: number | null;
+      mimeType?: string | null;
+      filesize?: number | null;
+      filename?: string | null;
+    };
+  };
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "audio-albums".
+ */
+export interface AudioAlbum {
+  id: string;
+  title: string;
+  slug: string;
+  description?: string | null;
+  coverImage?: (string | null) | Media;
+  order?: number | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "audio-tracks".
+ */
+export interface AudioTrack {
+  id: string;
+  title: string;
+  album: string | AudioAlbum;
+  order?: number | null;
+  updatedAt: string;
+  createdAt: string;
+  url?: string | null;
+  thumbnailURL?: string | null;
+  filename?: string | null;
+  mimeType?: string | null;
+  filesize?: number | null;
+  width?: number | null;
+  height?: number | null;
+  focalX?: number | null;
+  focalY?: number | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "members".
+ */
+export interface Member {
+  id: string;
+  name: string;
+  role: string;
+  bio?: string | null;
+  photo?: (string | null) | Media;
+  order?: number | null;
+  updatedAt: string;
+  createdAt: string;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -170,45 +318,9 @@ export interface Gallery {
  */
 export interface Timetable {
   id: string;
-  alt: string;
-  updatedAt: string;
-  createdAt: string;
-  url?: string | null;
-  thumbnailURL?: string | null;
-  filename?: string | null;
-  mimeType?: string | null;
-  filesize?: number | null;
-  width?: number | null;
-  height?: number | null;
-  focalX?: number | null;
-  focalY?: number | null;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "about".
- */
-export interface About {
-  id: string;
-  alt: string;
-  updatedAt: string;
-  createdAt: string;
-  url?: string | null;
-  thumbnailURL?: string | null;
-  filename?: string | null;
-  mimeType?: string | null;
-  filesize?: number | null;
-  width?: number | null;
-  height?: number | null;
-  focalX?: number | null;
-  focalY?: number | null;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "audio".
- */
-export interface Audio {
-  id: string;
-  alt: string;
+  title: string;
+  description?: string | null;
+  year?: number | null;
   updatedAt: string;
   createdAt: string;
   url?: string | null;
@@ -250,20 +362,32 @@ export interface PayloadLockedDocument {
         value: string | User;
       } | null)
     | ({
-        relationTo: 'gallery';
-        value: string | Gallery;
+        relationTo: 'media';
+        value: string | Media;
+      } | null)
+    | ({
+        relationTo: 'gallery-albums';
+        value: string | GalleryAlbum;
+      } | null)
+    | ({
+        relationTo: 'gallery-photos';
+        value: string | GalleryPhoto;
+      } | null)
+    | ({
+        relationTo: 'audio-albums';
+        value: string | AudioAlbum;
+      } | null)
+    | ({
+        relationTo: 'audio-tracks';
+        value: string | AudioTrack;
+      } | null)
+    | ({
+        relationTo: 'members';
+        value: string | Member;
       } | null)
     | ({
         relationTo: 'timetable';
         value: string | Timetable;
-      } | null)
-    | ({
-        relationTo: 'about';
-        value: string | About;
-      } | null)
-    | ({
-        relationTo: 'audio';
-        value: string | Audio;
       } | null);
   globalSlug?: string | null;
   user: {
@@ -331,9 +455,9 @@ export interface UsersSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "gallery_select".
+ * via the `definition` "media_select".
  */
-export interface GallerySelect<T extends boolean = true> {
+export interface MediaSelect<T extends boolean = true> {
   alt?: T;
   updatedAt?: T;
   createdAt?: T;
@@ -346,49 +470,152 @@ export interface GallerySelect<T extends boolean = true> {
   height?: T;
   focalX?: T;
   focalY?: T;
+  sizes?:
+    | T
+    | {
+        thumbnail?:
+          | T
+          | {
+              url?: T;
+              width?: T;
+              height?: T;
+              mimeType?: T;
+              filesize?: T;
+              filename?: T;
+            };
+        card?:
+          | T
+          | {
+              url?: T;
+              width?: T;
+              height?: T;
+              mimeType?: T;
+              filesize?: T;
+              filename?: T;
+            };
+        hero?:
+          | T
+          | {
+              url?: T;
+              width?: T;
+              height?: T;
+              mimeType?: T;
+              filesize?: T;
+              filename?: T;
+            };
+      };
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "gallery-albums_select".
+ */
+export interface GalleryAlbumsSelect<T extends boolean = true> {
+  title?: T;
+  slug?: T;
+  description?: T;
+  coverImage?: T;
+  order?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "gallery-photos_select".
+ */
+export interface GalleryPhotosSelect<T extends boolean = true> {
+  alt?: T;
+  album?: T;
+  order?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  url?: T;
+  thumbnailURL?: T;
+  filename?: T;
+  mimeType?: T;
+  filesize?: T;
+  width?: T;
+  height?: T;
+  focalX?: T;
+  focalY?: T;
+  sizes?:
+    | T
+    | {
+        thumbnail?:
+          | T
+          | {
+              url?: T;
+              width?: T;
+              height?: T;
+              mimeType?: T;
+              filesize?: T;
+              filename?: T;
+            };
+        large?:
+          | T
+          | {
+              url?: T;
+              width?: T;
+              height?: T;
+              mimeType?: T;
+              filesize?: T;
+              filename?: T;
+            };
+      };
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "audio-albums_select".
+ */
+export interface AudioAlbumsSelect<T extends boolean = true> {
+  title?: T;
+  slug?: T;
+  description?: T;
+  coverImage?: T;
+  order?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "audio-tracks_select".
+ */
+export interface AudioTracksSelect<T extends boolean = true> {
+  title?: T;
+  album?: T;
+  order?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  url?: T;
+  thumbnailURL?: T;
+  filename?: T;
+  mimeType?: T;
+  filesize?: T;
+  width?: T;
+  height?: T;
+  focalX?: T;
+  focalY?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "members_select".
+ */
+export interface MembersSelect<T extends boolean = true> {
+  name?: T;
+  role?: T;
+  bio?: T;
+  photo?: T;
+  order?: T;
+  updatedAt?: T;
+  createdAt?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "timetable_select".
  */
 export interface TimetableSelect<T extends boolean = true> {
-  alt?: T;
-  updatedAt?: T;
-  createdAt?: T;
-  url?: T;
-  thumbnailURL?: T;
-  filename?: T;
-  mimeType?: T;
-  filesize?: T;
-  width?: T;
-  height?: T;
-  focalX?: T;
-  focalY?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "about_select".
- */
-export interface AboutSelect<T extends boolean = true> {
-  alt?: T;
-  updatedAt?: T;
-  createdAt?: T;
-  url?: T;
-  thumbnailURL?: T;
-  filename?: T;
-  mimeType?: T;
-  filesize?: T;
-  width?: T;
-  height?: T;
-  focalX?: T;
-  focalY?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "audio_select".
- */
-export interface AudioSelect<T extends boolean = true> {
-  alt?: T;
+  title?: T;
+  description?: T;
+  year?: T;
   updatedAt?: T;
   createdAt?: T;
   url?: T;
@@ -440,6 +667,294 @@ export interface PayloadMigrationsSelect<T extends boolean = true> {
   batch?: T;
   updatedAt?: T;
   createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "site-settings".
+ */
+export interface SiteSetting {
+  id: string;
+  siteName: string;
+  siteTagline?: string | null;
+  phone?: string | null;
+  email?: string | null;
+  address?: string | null;
+  copyright?: string | null;
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "home-page".
+ */
+export interface HomePage {
+  id: string;
+  heroSection?: {
+    heading?: string | null;
+    subheading?: string | null;
+    description?: string | null;
+    ctaText?: string | null;
+    ctaLink?: string | null;
+    slides?:
+      | {
+          image?: (string | null) | Media;
+          /**
+           * Klasa CSS gradientu, np. "from-[#1a1a2e] to-[#16213e]"
+           */
+          gradient?: string | null;
+          id?: string | null;
+        }[]
+      | null;
+  };
+  featuresSection?: {
+    heading?: string | null;
+    subheading?: string | null;
+    features?:
+      | {
+          icon?:
+            | (
+                | 'Music'
+                | 'Drama'
+                | 'Volume2'
+                | 'Users'
+                | 'Guitar'
+                | 'Mic'
+                | 'Heart'
+                | 'Star'
+                | 'PartyPopper'
+                | 'Sparkles'
+              )
+            | null;
+          title: string;
+          description?: string | null;
+          id?: string | null;
+        }[]
+      | null;
+  };
+  aboutSection?: {
+    heading?: string | null;
+    paragraph1?: string | null;
+    paragraph2?: string | null;
+    image?: (string | null) | Media;
+    ctaText?: string | null;
+    ctaLink?: string | null;
+  };
+  ctaSection?: {
+    heading?: string | null;
+    subheading?: string | null;
+    phoneText?: string | null;
+    phoneNumber?: string | null;
+    contactText?: string | null;
+    contactLink?: string | null;
+  };
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "about-page".
+ */
+export interface AboutPage {
+  id: string;
+  heading?: string | null;
+  subheading?: string | null;
+  historyHeading?: string | null;
+  history?: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  historyFallback1?: string | null;
+  historyFallback2?: string | null;
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "contact-page".
+ */
+export interface ContactPage {
+  id: string;
+  heading?: string | null;
+  subheading?: string | null;
+  contactInfoHeading?: string | null;
+  phonePrimary?: string | null;
+  phoneSecondary?: string | null;
+  email?: string | null;
+  address?: string | null;
+  addressDescription?: string | null;
+  hoursWeekday?: string | null;
+  hoursWeekend?: string | null;
+  mapUrl?: string | null;
+  formHeading?: string | null;
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "gallery-page".
+ */
+export interface GalleryPage {
+  id: string;
+  heading?: string | null;
+  subheading?: string | null;
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "audio-page".
+ */
+export interface AudioPage {
+  id: string;
+  heading?: string | null;
+  subheading?: string | null;
+  footer?: string | null;
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "site-settings_select".
+ */
+export interface SiteSettingsSelect<T extends boolean = true> {
+  siteName?: T;
+  siteTagline?: T;
+  phone?: T;
+  email?: T;
+  address?: T;
+  copyright?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "home-page_select".
+ */
+export interface HomePageSelect<T extends boolean = true> {
+  heroSection?:
+    | T
+    | {
+        heading?: T;
+        subheading?: T;
+        description?: T;
+        ctaText?: T;
+        ctaLink?: T;
+        slides?:
+          | T
+          | {
+              image?: T;
+              gradient?: T;
+              id?: T;
+            };
+      };
+  featuresSection?:
+    | T
+    | {
+        heading?: T;
+        subheading?: T;
+        features?:
+          | T
+          | {
+              icon?: T;
+              title?: T;
+              description?: T;
+              id?: T;
+            };
+      };
+  aboutSection?:
+    | T
+    | {
+        heading?: T;
+        paragraph1?: T;
+        paragraph2?: T;
+        image?: T;
+        ctaText?: T;
+        ctaLink?: T;
+      };
+  ctaSection?:
+    | T
+    | {
+        heading?: T;
+        subheading?: T;
+        phoneText?: T;
+        phoneNumber?: T;
+        contactText?: T;
+        contactLink?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "about-page_select".
+ */
+export interface AboutPageSelect<T extends boolean = true> {
+  heading?: T;
+  subheading?: T;
+  historyHeading?: T;
+  history?: T;
+  historyFallback1?: T;
+  historyFallback2?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "contact-page_select".
+ */
+export interface ContactPageSelect<T extends boolean = true> {
+  heading?: T;
+  subheading?: T;
+  contactInfoHeading?: T;
+  phonePrimary?: T;
+  phoneSecondary?: T;
+  email?: T;
+  address?: T;
+  addressDescription?: T;
+  hoursWeekday?: T;
+  hoursWeekend?: T;
+  mapUrl?: T;
+  formHeading?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "gallery-page_select".
+ */
+export interface GalleryPageSelect<T extends boolean = true> {
+  heading?: T;
+  subheading?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "audio-page_select".
+ */
+export interface AudioPageSelect<T extends boolean = true> {
+  heading?: T;
+  subheading?: T;
+  footer?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema

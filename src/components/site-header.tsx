@@ -22,7 +22,11 @@ const navLinks = [
   { href: "/kontakt", label: "Kontakt" },
 ];
 
-export function SiteHeader() {
+interface SiteHeaderClientProps {
+  siteName?: string;
+}
+
+export function SiteHeaderClient({ siteName = "ARMAGEDON" }: SiteHeaderClientProps) {
   const pathname = usePathname();
   const [open, setOpen] = React.useState(false);
 
@@ -34,7 +38,7 @@ export function SiteHeader() {
             href="/"
             className="font-heading text-2xl text-primary font-bold tracking-wider"
           >
-            ARMAGEDON
+            {siteName}
           </Link>
 
           <nav className="hidden md:flex items-center gap-8">
@@ -83,3 +87,5 @@ export function SiteHeader() {
     </header>
   );
 }
+
+export { SiteHeaderClient as SiteHeader };

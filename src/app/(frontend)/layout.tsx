@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { Playfair_Display, Inter } from "next/font/google";
-import { SiteHeader } from "@/components/site-header";
+import { SiteHeader } from "@/components/site-header-wrapper";
 import SiteFooter from "@/components/site-footer";
 import "./globals.css";
 import React from 'react'

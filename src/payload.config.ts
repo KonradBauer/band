@@ -6,10 +6,20 @@ import { fileURLToPath } from 'url'
 import sharp from 'sharp'
 
 import { Users } from './collections/Users'
-import { Gallery } from '@/collections/GalleryAlbum'
-import { Timetable } from '@/collections/Timetable'
-import { About } from '@/collections/About'
-import { AudioAlbum } from '@/collections/AudioAlbum'
+import { Media } from './collections/Media'
+import { GalleryAlbum } from './collections/GalleryAlbum'
+import { GalleryPhoto } from './collections/GalleryPhoto'
+import { AudioAlbum } from './collections/AudioAlbum'
+import { AudioTrack } from './collections/AudioTrack'
+import { Member } from './collections/Member'
+import { Timetable } from './collections/Timetable'
+
+import { SiteSettings } from './globals/SiteSettings'
+import { HomePage } from './globals/HomePage'
+import { AboutPage } from './globals/AboutPage'
+import { ContactPage } from './globals/ContactPage'
+import { GalleryPage } from './globals/GalleryPage'
+import { AudioPage } from './globals/AudioPage'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
@@ -21,7 +31,24 @@ export default buildConfig({
       baseDir: path.resolve(dirname),
     },
   },
-  collections: [Users, Gallery, Timetable, About, AudioAlbum],
+  collections: [
+    Users,
+    Media,
+    GalleryAlbum,
+    GalleryPhoto,
+    AudioAlbum,
+    AudioTrack,
+    Member,
+    Timetable,
+  ],
+  globals: [
+    SiteSettings,
+    HomePage,
+    AboutPage,
+    ContactPage,
+    GalleryPage,
+    AudioPage,
+  ],
   editor: lexicalEditor(),
   secret: process.env.PAYLOAD_SECRET || '',
   typescript: {

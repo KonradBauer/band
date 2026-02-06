@@ -2,25 +2,43 @@ import type { Metadata } from 'next'
 import ContactForm from '@/components/contact-form'
 import { Card, CardContent } from '@/components/ui/card'
 import { Phone, Mail, MapPin, Clock } from 'lucide-react'
+import { getPayload } from 'payload'
+import configPromise from '@payload-config'
 
 export const metadata: Metadata = {
   title: 'Kontakt - ARMAGEDON',
   description: 'Skontaktuj się z zespołem weselnym ARMAGEDON',
 }
 
-export default function KontaktPage() {
+export default async function KontaktPage() {
+  const payload = await getPayload({ config: configPromise })
+  const contactPage = await payload.findGlobal({ slug: 'contact-page' })
+
+  const heading = contactPage?.heading ?? 'Kontakt'
+  const subheading = contactPage?.subheading ?? 'Masz pytania? Chętnie na nie odpowiemy!'
+  const contactInfoHeading = contactPage?.contactInfoHeading ?? 'Dane kontaktowe'
+  const phonePrimary = contactPage?.phonePrimary ?? 'Agnieszka Gołda: 512 369 305'
+  const phoneSecondary = contactPage?.phoneSecondary ?? 'Biuro: 505 566 007'
+  const email = contactPage?.email ?? 'kontakt@armagedon.com.pl'
+  const address = contactPage?.address ?? 'Śląsk, Polska'
+  const addressDescription = contactPage?.addressDescription ?? 'Obsługujemy całe województwo śląskie i okolice'
+  const hoursWeekday = contactPage?.hoursWeekday ?? 'Pon-Pt: 9:00 - 18:00'
+  const hoursWeekend = contactPage?.hoursWeekend ?? 'Sob-Ndz: 10:00 - 16:00'
+  const mapUrl = contactPage?.mapUrl ?? 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d12372.924054466643!2d19.192822397489532!3d50.895465545454414!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x4710b2527c41f9df%3A0xc08840d180fb21c1!2sArmagedon%20-%20zesp%C3%B3%C5%82%20muzyczny%20na%20wesele!5e1!3m2!1spl!2spl!4v1770404374297!5m2!1spl!2spl'
+  const formHeading = contactPage?.formHeading ?? 'Napisz do nas'
+
   return (
     <div className="py-20 px-4 sm:px-6 lg:px-8 max-w-6xl mx-auto">
       <h1 className="font-heading text-3xl md:text-4xl text-primary font-bold text-center">
-        Kontakt
+        {heading}
       </h1>
       <p className="text-muted-foreground text-center mt-2 mb-16">
-        Masz pytania? Chętnie na nie odpowiemy!
+        {subheading}
       </p>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
         <div>
-          <h2 className="font-heading text-2xl text-primary font-bold mb-6">Dane kontaktowe</h2>
+          <h2 className="font-heading text-2xl text-primary font-bold mb-6">{contactInfoHeading}</h2>
 
           <div className="space-y-4">
             <Card className="p-4">
@@ -28,8 +46,8 @@ export default function KontaktPage() {
                 <Phone className="text-primary" size={24} />
                 <div>
                   <p className="text-sm text-muted-foreground">Telefon</p>
-                  <p className="text-foreground font-medium">Agnieszka Gołda: 512 369 305</p>
-                  <p className="text-sm text-muted-foreground">Biuro: 505 566 007</p>
+                  <p className="text-foreground font-medium">{phonePrimary}</p>
+                  <p className="text-sm text-muted-foreground">{phoneSecondary}</p>
                 </div>
               </CardContent>
             </Card>
@@ -39,7 +57,7 @@ export default function KontaktPage() {
                 <Mail className="text-primary" size={24} />
                 <div>
                   <p className="text-sm text-muted-foreground">E-mail</p>
-                  <p className="text-foreground font-medium">kontakt@armagedon.com.pl</p>
+                  <p className="text-foreground font-medium">{email}</p>
                 </div>
               </CardContent>
             </Card>
@@ -49,9 +67,9 @@ export default function KontaktPage() {
                 <MapPin className="text-primary" size={24} />
                 <div>
                   <p className="text-sm text-muted-foreground">Adres</p>
-                  <p className="text-foreground font-medium">Śląsk, Polska</p>
+                  <p className="text-foreground font-medium">{address}</p>
                   <p className="text-sm text-muted-foreground">
-                    Obsługujemy całe województwo śląskie i okolice
+                    {addressDescription}
                   </p>
                 </div>
               </CardContent>
@@ -62,8 +80,8 @@ export default function KontaktPage() {
                 <Clock className="text-primary" size={24} />
                 <div>
                   <p className="text-sm text-muted-foreground">Godziny kontaktu</p>
-                  <p className="text-foreground font-medium">Pon-Pt: 9:00 - 18:00</p>
-                  <p className="text-sm text-muted-foreground">Sob-Ndz: 10:00 - 16:00</p>
+                  <p className="text-foreground font-medium">{hoursWeekday}</p>
+                  <p className="text-sm text-muted-foreground">{hoursWeekend}</p>
                 </div>
               </CardContent>
             </Card>
@@ -72,7 +90,7 @@ export default function KontaktPage() {
           <div className="mt-8">
             <div className="rounded-lg overflow-hidden border border-border h-64">
               <iframe
-                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d12372.924054466643!2d19.192822397489532!3d50.895465545454414!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x4710b2527c41f9df%3A0xc08840d180fb21c1!2sArmagedon%20-%20zesp%C3%B3%C5%82%20muzyczny%20na%20wesele!5e1!3m2!1spl!2spl!4v1770404374297!5m2!1spl!2spl"
+                src={mapUrl}
                 width="600"
                 height="450"
                 loading="lazy"
@@ -83,7 +101,7 @@ export default function KontaktPage() {
         </div>
 
         <div>
-          <h2 className="font-heading text-2xl text-primary font-bold mb-6">Napisz do nas</h2>
+          <h2 className="font-heading text-2xl text-primary font-bold mb-6">{formHeading}</h2>
           <ContactForm />
         </div>
       </div>
