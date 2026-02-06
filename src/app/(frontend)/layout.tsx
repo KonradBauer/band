@@ -15,6 +15,8 @@ const playfair = Playfair_Display({
   subsets: ["latin", "latin-ext"],
 });
 
+export const dynamic = 'force-dynamic'
+
 export const metadata: Metadata = {
   title: "ARMAGEDON - Zespół muzyczny na wesele",
   description:
