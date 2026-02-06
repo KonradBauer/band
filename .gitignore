@@ -41,6 +41,9 @@ next-env.d.ts
 .env
 
 /media
+/gallery-photos
+/audio-tracks
+/timetable
 
 # Playwright
 node_modules/

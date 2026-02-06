@@ -88,4 +88,3 @@ export function SiteHeaderClient({ siteName = "ARMAGEDON" }: SiteHeaderClientPro
   );
 }
 
-export { SiteHeaderClient as SiteHeader };
