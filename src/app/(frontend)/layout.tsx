@@ -1,19 +1,38 @@
+import type { Metadata } from "next";
+import { Playfair_Display, Inter } from "next/font/google";
+import { SiteHeader } from "@/components/site-header";
+import SiteFooter from "@/components/site-footer";
+import "./globals.css";
 import React from 'react'
-import './styles.css'
 
-export const metadata = {
-  description: 'A blank template using Payload in a Next.js app.',
-  title: 'Payload Blank Template',
-}
+const inter = Inter({
+  variable: "--font-inter",
+  subsets: ["latin", "latin-ext"],
+});
 
-export default async function RootLayout(props: { children: React.ReactNode }) {
-  const { children } = props
+const playfair = Playfair_Display({
+  variable: "--font-playfair",
+  subsets: ["latin", "latin-ext"],
+});
 
+export const metadata: Metadata = {
+  title: "ARMAGEDON - Zespół muzyczny na wesele",
+  description:
+    "Zespół weselny ARMAGEDON - profesjonalna oprawa muzyczna wesel i imprez okolicznościowych. Skecze, zabawy, instrumentarium na żywo.",
+};
+
+export default function RootLayout({
+                                     children,
+                                   }: Readonly<{
+  children: React.ReactNode;
+}>) {
   return (
-    <html lang="en">
-      <body>
-        <main>{children}</main>
-      </body>
+    <html lang="pl" className="dark">
+    <body className={`${inter.variable} ${playfair.variable} antialiased`}>
+    <SiteHeader />
+    <main className="pt-16 min-h-screen">{children}</main>
+    <SiteFooter />
+    </body>
     </html>
-  )
+  );
 }
