@@ -1,6 +1,6 @@
 import type { CollectionConfig } from 'payload'
 
-export const Audio: CollectionConfig = {
+export const AudioAlbum: CollectionConfig = {
   slug: 'audio',
   access: {
     read: () => true,
