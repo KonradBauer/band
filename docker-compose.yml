@@ -11,7 +11,10 @@ services:
       - PAYLOAD_SECRET=${PAYLOAD_SECRET}
       - NODE_ENV=production
     volumes:
-      - uploads:/app/media
+      - uploads_media:/app/media
+      - uploads_gallery:/app/gallery-photos
+      - uploads_audio:/app/audio-tracks
+      - uploads_timetable:/app/timetable
 
   mongo:
     image: mongo:7
@@ -22,4 +25,7 @@ services:
 
 volumes:
   mongodata:
-  uploads:
+  uploads_media:
+  uploads_gallery:
+  uploads_audio:
+  uploads_timetable:

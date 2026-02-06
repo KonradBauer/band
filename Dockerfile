@@ -55,6 +55,10 @@ COPY --from=builder /app/public ./public
 RUN mkdir .next
 RUN chown nextjs:nodejs .next
 
+# Create upload directories with correct permissions
+RUN mkdir -p media gallery-photos audio-tracks timetable
+RUN chown -R nextjs:nodejs media gallery-photos audio-tracks timetable
+
 # Automatically leverage output traces to reduce image size
 # https://nextjs.org/docs/advanced-features/output-file-tracing
 COPY --from=builder --chown=nextjs:nodejs /app/.next/standalone ./
