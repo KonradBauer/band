@@ -1,9 +1,7 @@
 "use client";
 
-import { useState } from "react";
-import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
-import { Button } from "@/components/ui/button";
-import { ChevronLeft, ChevronRight } from "lucide-react";
+import { useState, useEffect, useCallback } from "react";
+import { ChevronLeft, ChevronRight, X } from "lucide-react";
 import Image from "next/image";
 
 interface Photo {
@@ -21,17 +19,36 @@ interface PhotoGalleryProps {
 export default function PhotoGallery({ photos }: PhotoGalleryProps) {
   const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
 
-  const handlePrev = () => {
+  const handlePrev = useCallback(() => {
     if (selectedIndex !== null) {
       setSelectedIndex((selectedIndex - 1 + photos.length) % photos.length);
     }
-  };
+  }, [selectedIndex, photos.length]);
 
-  const handleNext = () => {
+  const handleNext = useCallback(() => {
     if (selectedIndex !== null) {
       setSelectedIndex((selectedIndex + 1) % photos.length);
     }
-  };
+  }, [selectedIndex, photos.length]);
+
+  const handleClose = useCallback(() => {
+    setSelectedIndex(null);
+  }, []);
+
+  useEffect(() => {
+    if (selectedIndex === null) return;
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "ArrowLeft") handlePrev();
+      else if (e.key === "ArrowRight") handleNext();
+      else if (e.key === "Escape") handleClose();
+    };
+    document.body.style.overflow = "hidden";
+    window.addEventListener("keydown", onKey);
+    return () => {
+      document.body.style.overflow = "";
+      window.removeEventListener("keydown", onKey);
+    };
+  }, [selectedIndex, handlePrev, handleNext, handleClose]);
 
   return (
     <>
@@ -45,7 +62,7 @@ export default function PhotoGallery({ photos }: PhotoGalleryProps) {
             <div className="relative h-48 md:h-56 transition-transform group-hover:scale-105">
               <Image
                 src={photo.thumbnailUrl ?? photo.url}
-                alt={photo.alt ?? ''}
+                alt={photo.alt ?? ""}
                 fill
                 className="object-cover"
                 sizes="(max-width: 768px) 50vw, (max-width: 1024px) 33vw, 25vw"
@@ -55,45 +72,58 @@ export default function PhotoGallery({ photos }: PhotoGalleryProps) {
         ))}
       </div>
 
-      <Dialog
-        open={selectedIndex !== null}
-        onOpenChange={(open) => !open && setSelectedIndex(null)}
-      >
-        <DialogTitle className="sr-only">Galeria zdjęć</DialogTitle>
-        <DialogContent className="max-w-4xl p-0 border-none bg-black/90 backdrop-blur-sm">
-          {selectedIndex !== null && (
-            <div className="relative">
-              <div className="relative h-[70vh] rounded-lg overflow-hidden">
-                <Image
-                  src={photos[selectedIndex].largeUrl ?? photos[selectedIndex].url}
-                  alt={photos[selectedIndex].alt ?? ''}
-                  fill
-                  className="object-contain"
-                  sizes="90vw"
-                />
-              </div>
+      {/* Fullscreen lightbox */}
+      {selectedIndex !== null && (
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black/95"
+          onClick={handleClose}
+        >
+          {/* Close button */}
+          <button
+            className="absolute top-4 right-4 z-10 text-white/70 hover:text-white transition-colors"
+            onClick={handleClose}
+          >
+            <X className="size-8" />
+          </button>
 
-              <Button
-                variant="ghost"
-                size="icon"
-                className="absolute left-4 top-1/2 -translate-y-1/2 bg-background/50 hover:bg-background/80"
-                onClick={handlePrev}
-              >
-                <ChevronLeft className="h-6 w-6" />
-              </Button>
+          {/* Prev */}
+          <button
+            className="absolute left-4 top-1/2 -translate-y-1/2 z-10 p-2 text-white/70 hover:text-white transition-colors"
+            onClick={(e) => {
+              e.stopPropagation();
+              handlePrev();
+            }}
+          >
+            <ChevronLeft className="size-10" />
+          </button>
 
-              <Button
-                variant="ghost"
-                size="icon"
-                className="absolute right-4 top-1/2 -translate-y-1/2 bg-background/50 hover:bg-background/80"
-                onClick={handleNext}
-              >
-                <ChevronRight className="h-6 w-6" />
-              </Button>
-            </div>
-          )}
-        </DialogContent>
-      </Dialog>
+          {/* Image */}
+          <div
+            className="relative w-[95vw] h-[90vh]"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <Image
+              src={photos[selectedIndex].largeUrl ?? photos[selectedIndex].url}
+              alt={photos[selectedIndex].alt ?? ""}
+              fill
+              className="object-contain"
+              sizes="95vw"
+              priority
+            />
+          </div>
+
+          {/* Next */}
+          <button
+            className="absolute right-4 top-1/2 -translate-y-1/2 z-10 p-2 text-white/70 hover:text-white transition-colors"
+            onClick={(e) => {
+              e.stopPropagation();
+              handleNext();
+            }}
+          >
+            <ChevronRight className="size-10" />
+          </button>
+        </div>
+      )}
     </>
   );
 }

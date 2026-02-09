@@ -38,12 +38,13 @@ export default async function AudioPage() {
 
     const albumTracks = trackDocs
       .filter((t) => {
+        if (!t.album) return false
         const albumRef = t.album
         const albumId =
           typeof albumRef === 'object' && albumRef !== null
             ? (albumRef as { id: string }).id
             : albumRef
-        return albumId === album.id
+        return String(albumId) === String(album.id)
       })
       .map((t) => ({
         title: t.title,
