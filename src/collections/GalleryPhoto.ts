@@ -20,14 +20,12 @@ export const GalleryPhoto: CollectionConfig = {
       {
         name: 'thumbnail',
         width: 400,
-        height: 300,
-        position: 'centre',
+        fit: 'inside',
       },
       {
         name: 'large',
         width: 1400,
-        height: 1000,
-        position: 'centre',
+        fit: 'inside',
       },
     ],
     adminThumbnail: 'thumbnail',

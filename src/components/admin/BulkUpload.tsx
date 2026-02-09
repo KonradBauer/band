@@ -53,9 +53,14 @@ export const BulkUpload: React.FC = () => {
       try {
         const formData = new FormData()
         formData.append('file', file)
-        formData.append('title', titleFromFilename(file.name))
-        formData.append('album', String(id))
-        formData.append('order', String(i + 1))
+        formData.append(
+          '_payload',
+          JSON.stringify({
+            title: titleFromFilename(file.name),
+            album: id,
+            order: i + 1,
+          }),
+        )
 
         const res = await fetch('/api/audio-tracks', {
           method: 'POST',
