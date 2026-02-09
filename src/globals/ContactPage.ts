@@ -41,19 +41,37 @@ export const ContactPage: GlobalConfig = {
       name: 'email',
       type: 'email',
       label: 'E-mail',
-      defaultValue: 'kontakt@armagedon.com.pl',
+      defaultValue: 'zespolarmagedon@gmail.com',
     },
     {
       name: 'address',
       type: 'text',
       label: 'Adres',
-      defaultValue: 'Śląsk, Polska',
+      defaultValue: 'ul. Jana Pawła II 44, 42-240 Kościelec',
     },
     {
       name: 'addressDescription',
       type: 'text',
       label: 'Opis zasięgu',
       defaultValue: 'Obsługujemy całe województwo śląskie i okolice',
+    },
+    {
+      name: 'nip',
+      type: 'text',
+      label: 'NIP',
+      defaultValue: '573-239-90-62',
+    },
+    {
+      name: 'bankAccount',
+      type: 'text',
+      label: 'Konto bankowe (m-bank)',
+      defaultValue: '63 1140 2004 0000 3602 8225 4870',
+    },
+    {
+      name: 'facebookUrl',
+      type: 'text',
+      label: 'Facebook URL',
+      defaultValue: 'https://www.facebook.com/armagedon.wesele/',
     },
     {
       name: 'hoursWeekday',
@@ -71,7 +89,7 @@ export const ContactPage: GlobalConfig = {
       name: 'mapUrl',
       type: 'text',
       label: 'URL mapy Google',
-      defaultValue: 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d12372.924054466643!2d19.192822397489532!3d50.895465545454414!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x4710b2527c41f9df%3A0xc08840d180fb21c1!2sArmagedon%20-%20zesp%C3%B3%C5%82%20muzyczny%20na%20wesele!5e1!3m2!1spl!2spl!4v1770404374297!5m2!1spl!2spl',
+      defaultValue: 'https://maps.google.com/maps?q=POLSKA%20KO%C5%9ACIELEC%20JANA%20PAW%C5%81A%20II%2044&t=m&z=13&output=embed&iwloc=near',
     },
   ],
 }

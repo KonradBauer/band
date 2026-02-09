@@ -79,7 +79,11 @@ export interface Config {
     'payload-preferences': PayloadPreference;
     'payload-migrations': PayloadMigration;
   };
-  collectionsJoins: {};
+  collectionsJoins: {
+    'audio-albums': {
+      tracks: 'audio-tracks';
+    };
+  };
   collectionsSelect: {
     users: UsersSelect<false> | UsersSelect<true>;
     media: MediaSelect<false> | MediaSelect<true>;
@@ -214,7 +218,7 @@ export interface Media {
  */
 export interface GalleryPhoto {
   id: string;
-  alt: string;
+  alt?: string | null;
   order?: number | null;
   updatedAt: string;
   createdAt: string;
@@ -256,6 +260,11 @@ export interface AudioAlbum {
   slug: string;
   description?: string | null;
   coverImage?: (string | null) | Media;
+  tracks?: {
+    docs?: (string | AudioTrack)[];
+    hasNextPage?: boolean;
+    totalDocs?: number;
+  };
   order?: number | null;
   updatedAt: string;
   createdAt: string;
@@ -536,6 +545,7 @@ export interface AudioAlbumsSelect<T extends boolean = true> {
   slug?: T;
   description?: T;
   coverImage?: T;
+  tracks?: T;
   order?: T;
   updatedAt?: T;
   createdAt?: T;
@@ -766,6 +776,9 @@ export interface ContactPage {
   email?: string | null;
   address?: string | null;
   addressDescription?: string | null;
+  nip?: string | null;
+  bankAccount?: string | null;
+  facebookUrl?: string | null;
   hoursWeekday?: string | null;
   hoursWeekend?: string | null;
   mapUrl?: string | null;
@@ -896,6 +909,9 @@ export interface ContactPageSelect<T extends boolean = true> {
   email?: T;
   address?: T;
   addressDescription?: T;
+  nip?: T;
+  bankAccount?: T;
+  facebookUrl?: T;
   hoursWeekday?: T;
   hoursWeekend?: T;
   mapUrl?: T;

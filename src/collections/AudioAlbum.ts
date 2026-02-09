@@ -42,6 +42,25 @@ export const AudioAlbum: CollectionConfig = {
       label: 'Okładka',
     },
     {
+      name: 'bulkUpload',
+      type: 'ui',
+      admin: {
+        components: {
+          Field: '@/components/admin/BulkUpload#BulkUpload',
+        },
+      },
+    },
+    {
+      name: 'tracks',
+      type: 'join',
+      collection: 'audio-tracks',
+      on: 'album',
+      label: 'Utwory',
+      admin: {
+        defaultColumns: ['title', 'order'],
+      },
+    },
+    {
       name: 'order',
       type: 'number',
       label: 'Kolejność',

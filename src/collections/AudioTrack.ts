@@ -14,7 +14,21 @@ export const AudioTrack: CollectionConfig = {
     read: () => true,
   },
   upload: {
+    bulkUpload: true,
     mimeTypes: ['audio/*'],
+  },
+  hooks: {
+    beforeValidate: [
+      ({ data, req }) => {
+        if (data && !data.title && req.file?.name) {
+          const name = req.file.name
+            .replace(/\.[^.]+$/, '')
+            .replace(/[-_]/g, ' ')
+          data.title = name.charAt(0).toUpperCase() + name.slice(1)
+        }
+        return data
+      },
+    ],
   },
   fields: [
     {

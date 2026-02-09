@@ -14,6 +14,7 @@ export const GalleryPhoto: CollectionConfig = {
     read: () => true,
   },
   upload: {
+    bulkUpload: true,
     mimeTypes: ['image/*'],
     imageSizes: [
       {
@@ -35,7 +36,7 @@ export const GalleryPhoto: CollectionConfig = {
     {
       name: 'alt',
       type: 'text',
-      required: true,
+      required: false,
       label: 'Tekst alternatywny',
     },
 {

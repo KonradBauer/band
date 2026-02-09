@@ -11,7 +11,7 @@ interface Photo {
   url: string;
   thumbnailUrl?: string;
   largeUrl?: string;
-  alt: string;
+  alt?: string | null;
 }
 
 interface PhotoGalleryProps {
@@ -45,7 +45,7 @@ export default function PhotoGallery({ photos }: PhotoGalleryProps) {
             <div className="relative h-48 md:h-56 transition-transform group-hover:scale-105">
               <Image
                 src={photo.thumbnailUrl ?? photo.url}
-                alt={photo.alt}
+                alt={photo.alt ?? ''}
                 fill
                 className="object-cover"
                 sizes="(max-width: 768px) 50vw, (max-width: 1024px) 33vw, 25vw"
@@ -66,7 +66,7 @@ export default function PhotoGallery({ photos }: PhotoGalleryProps) {
               <div className="relative h-[70vh] rounded-lg overflow-hidden">
                 <Image
                   src={photos[selectedIndex].largeUrl ?? photos[selectedIndex].url}
-                  alt={photos[selectedIndex].alt}
+                  alt={photos[selectedIndex].alt ?? ''}
                   fill
                   className="object-contain"
                   sizes="90vw"
