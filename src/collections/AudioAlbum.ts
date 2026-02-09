@@ -41,16 +41,7 @@ export const AudioAlbum: CollectionConfig = {
       relationTo: 'media',
       label: 'Okładka',
     },
-    {
-      name: 'bulkUpload',
-      type: 'ui',
-      admin: {
-        components: {
-          Field: '@/components/admin/BulkUpload#BulkUpload',
-        },
-      },
-    },
-    {
+{
       name: 'tracks',
       type: 'join',
       collection: 'audio-tracks',

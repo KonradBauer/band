@@ -41,7 +41,7 @@ export const AudioTrack: CollectionConfig = {
       name: 'album',
       type: 'relationship',
       relationTo: 'audio-albums',
-      required: true,
+      required: false,
       label: 'Album',
     },
     {

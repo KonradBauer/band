@@ -11,7 +11,6 @@ import { GalleryPhoto } from './collections/GalleryPhoto'
 import { AudioAlbum } from './collections/AudioAlbum'
 import { AudioTrack } from './collections/AudioTrack'
 import { Member } from './collections/Member'
-import { Timetable } from './collections/Timetable'
 
 import { SiteSettings } from './globals/SiteSettings'
 import { HomePage } from './globals/HomePage'
@@ -37,7 +36,6 @@ export default buildConfig({
     AudioAlbum,
     AudioTrack,
     Member,
-    Timetable,
   ],
   globals: [
     SiteSettings,

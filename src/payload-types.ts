@@ -73,7 +73,6 @@ export interface Config {
     'audio-albums': AudioAlbum;
     'audio-tracks': AudioTrack;
     members: Member;
-    timetable: Timetable;
     'payload-kv': PayloadKv;
     'payload-locked-documents': PayloadLockedDocument;
     'payload-preferences': PayloadPreference;
@@ -91,7 +90,6 @@ export interface Config {
     'audio-albums': AudioAlbumsSelect<false> | AudioAlbumsSelect<true>;
     'audio-tracks': AudioTracksSelect<false> | AudioTracksSelect<true>;
     members: MembersSelect<false> | MembersSelect<true>;
-    timetable: TimetableSelect<false> | TimetableSelect<true>;
     'payload-kv': PayloadKvSelect<false> | PayloadKvSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
     'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
@@ -276,7 +274,7 @@ export interface AudioAlbum {
 export interface AudioTrack {
   id: string;
   title: string;
-  album: string | AudioAlbum;
+  album?: (string | null) | AudioAlbum;
   order?: number | null;
   updatedAt: string;
   createdAt: string;
@@ -303,27 +301,6 @@ export interface Member {
   order?: number | null;
   updatedAt: string;
   createdAt: string;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "timetable".
- */
-export interface Timetable {
-  id: string;
-  title: string;
-  description?: string | null;
-  year?: number | null;
-  updatedAt: string;
-  createdAt: string;
-  url?: string | null;
-  thumbnailURL?: string | null;
-  filename?: string | null;
-  mimeType?: string | null;
-  filesize?: number | null;
-  width?: number | null;
-  height?: number | null;
-  focalX?: number | null;
-  focalY?: number | null;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -372,10 +349,6 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'members';
         value: string | Member;
-      } | null)
-    | ({
-        relationTo: 'timetable';
-        value: string | Timetable;
       } | null);
   globalSlug?: string | null;
   user: {
@@ -582,26 +555,6 @@ export interface MembersSelect<T extends boolean = true> {
   order?: T;
   updatedAt?: T;
   createdAt?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "timetable_select".
- */
-export interface TimetableSelect<T extends boolean = true> {
-  title?: T;
-  description?: T;
-  year?: T;
-  updatedAt?: T;
-  createdAt?: T;
-  url?: T;
-  thumbnailURL?: T;
-  filename?: T;
-  mimeType?: T;
-  filesize?: T;
-  width?: T;
-  height?: T;
-  focalX?: T;
-  focalY?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
