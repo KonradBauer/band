@@ -73,11 +73,5 @@ export const ContactPage: GlobalConfig = {
       label: 'URL mapy Google',
       defaultValue: 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d12372.924054466643!2d19.192822397489532!3d50.895465545454414!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x4710b2527c41f9df%3A0xc08840d180fb21c1!2sArmagedon%20-%20zesp%C3%B3%C5%82%20muzyczny%20na%20wesele!5e1!3m2!1spl!2spl!4v1770404374297!5m2!1spl!2spl',
     },
-    {
-      name: 'formHeading',
-      type: 'text',
-      label: 'Nagłówek formularza',
-      defaultValue: 'Napisz do nas',
-    },
   ],
 }

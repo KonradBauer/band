@@ -1,5 +1,4 @@
 import type { Metadata } from 'next'
-import ContactForm from '@/components/contact-form'
 import { Card, CardContent } from '@/components/ui/card'
 import { Phone, Mail, MapPin, Clock } from 'lucide-react'
 import { getPayload } from 'payload'
@@ -25,8 +24,6 @@ export default async function KontaktPage() {
   const hoursWeekday = contactPage?.hoursWeekday ?? 'Pon-Pt: 9:00 - 18:00'
   const hoursWeekend = contactPage?.hoursWeekend ?? 'Sob-Ndz: 10:00 - 16:00'
   const mapUrl = contactPage?.mapUrl ?? 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d12372.924054466643!2d19.192822397489532!3d50.895465545454414!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x4710b2527c41f9df%3A0xc08840d180fb21c1!2sArmagedon%20-%20zesp%C3%B3%C5%82%20muzyczny%20na%20wesele!5e1!3m2!1spl!2spl!4v1770404374297!5m2!1spl!2spl'
-  const formHeading = contactPage?.formHeading ?? 'Napisz do nas'
-
   return (
     <div className="py-20 px-4 sm:px-6 lg:px-8 max-w-6xl mx-auto">
       <h1 className="font-heading text-3xl md:text-4xl text-primary font-bold text-center">
@@ -36,8 +33,7 @@ export default async function KontaktPage() {
         {subheading}
       </p>
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
-        <div>
+      <div className="max-w-2xl mx-auto">
           <h2 className="font-heading text-2xl text-primary font-bold mb-6">{contactInfoHeading}</h2>
 
           <div className="space-y-4">
@@ -99,12 +95,6 @@ export default async function KontaktPage() {
             </div>
           </div>
         </div>
-
-        <div>
-          <h2 className="font-heading text-2xl text-primary font-bold mb-6">{formHeading}</h2>
-          <ContactForm />
-        </div>
-      </div>
     </div>
   )
 }

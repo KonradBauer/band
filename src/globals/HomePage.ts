@@ -42,26 +42,23 @@ export const HomePage: GlobalConfig = {
           label: 'Link przycisku CTA',
           defaultValue: '/kontakt',
         },
+      ],
+    },
+    {
+      name: 'availabilitySection',
+      type: 'group',
+      label: 'Wolne terminy',
+      fields: [
         {
-          name: 'slides',
-          type: 'array',
-          label: 'Slajdy',
-          fields: [
-            {
-              name: 'image',
-              type: 'upload',
-              relationTo: 'media',
-              label: 'Zdjęcie',
-            },
-            {
-              name: 'gradient',
-              type: 'text',
-              label: 'Gradient (fallback)',
-              admin: {
-                description: 'Klasa CSS gradientu, np. "from-[#1a1a2e] to-[#16213e]"',
-              },
-            },
-          ],
+          name: 'heading',
+          type: 'text',
+          label: 'Nagłówek',
+          defaultValue: 'Wolne terminy',
+        },
+        {
+          name: 'content',
+          type: 'richText',
+          label: 'Treść (terminy)',
         },
       ],
     },

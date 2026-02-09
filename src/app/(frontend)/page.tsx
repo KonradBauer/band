@@ -1,11 +1,11 @@
 import Link from "next/link";
 import { Music, Drama, Volume2, Users, Guitar, Mic, Heart, Star, PartyPopper, Sparkles } from "lucide-react";
-import HeroCarousel from "@/components/hero-carousel";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { getPayload } from 'payload'
 import configPromise from '@payload-config'
 import type { LucideIcon } from 'lucide-react'
+import { RichText } from '@payloadcms/richtext-lexical/react'
 
 const iconMap: Record<string, LucideIcon> = {
   Music,
@@ -35,15 +35,11 @@ export default async function Home() {
   const featuresData = homePage?.featuresSection
   const about = homePage?.aboutSection
   const cta = homePage?.ctaSection
+  const availability = homePage?.availabilitySection
 
   const features = featuresData?.features && featuresData.features.length > 0
     ? featuresData.features
     : defaultFeatures
-
-  const slides = hero?.slides?.map((s: { image?: unknown; gradient?: string | null }) => ({
-    image: s.image && typeof s.image === 'object' ? s.image : null,
-    gradient: s.gradient,
-  }))
 
   const aboutImageUrl = about?.image && typeof about.image === 'object' && 'sizes' in about.image
     ? ((about.image as { sizes?: { card?: { url?: string } }; url?: string }).sizes?.card?.url ?? (about.image as { url?: string }).url)
@@ -51,14 +47,38 @@ export default async function Home() {
 
   return (
     <div>
-      <HeroCarousel
-        slides={slides}
-        heading={hero?.heading ?? 'ARMAGEDON'}
-        subheading={hero?.subheading ?? 'Zespół muzyczny na wesele'}
-        description={hero?.description ?? 'Profesjonalna oprawa muzyczna wesel i imprez. Gramy z pasją od ponad 20 lat.'}
-        ctaText={hero?.ctaText ?? 'Sprawdź dostępność terminu'}
-        ctaLink={hero?.ctaLink ?? '/kontakt'}
-      />
+      {/* Hero - statyczny */}
+      <section className="relative h-[80vh] flex items-center justify-center bg-gradient-to-br from-[#1a1a2e] via-[#0f0f23] to-[#1a1a2e]">
+        <div className="absolute inset-0 bg-gradient-to-t from-background via-background/60 to-transparent" />
+        <div className="relative text-center px-4">
+          <h1 className="font-heading text-5xl md:text-7xl text-primary font-bold tracking-wider">
+            {hero?.heading ?? 'ARMAGEDON'}
+          </h1>
+          <p className="text-xl md:text-2xl text-foreground font-light mt-4">
+            {hero?.subheading ?? 'Zespół muzyczny na wesele'}
+          </p>
+          <p className="text-muted-foreground max-w-2xl mx-auto mt-2">
+            {hero?.description ?? 'Profesjonalna oprawa muzyczna wesel i imprez. Gramy z pasją od ponad 20 lat.'}
+          </p>
+          <Button variant="default" size="lg" asChild className="mt-8 text-lg px-8 py-6">
+            <Link href={hero?.ctaLink ?? '/kontakt'}>{hero?.ctaText ?? 'Sprawdź dostępność terminu'}</Link>
+          </Button>
+        </div>
+      </section>
+
+      {/* Wolne terminy */}
+      {availability?.content && (
+        <section className="py-16 px-4 sm:px-6 lg:px-8">
+          <div className="max-w-4xl mx-auto text-center">
+            <h2 className="font-heading text-3xl md:text-4xl text-primary font-bold mb-8">
+              {availability?.heading ?? 'Wolne terminy'}
+            </h2>
+            <div className="bg-card rounded-lg border border-border p-8">
+              <RichText data={availability.content} />
+            </div>
+          </div>
+        </section>
+      )}
 
       <section className="py-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
         <h2 className="font-heading text-3xl md:text-4xl text-center text-primary font-bold">

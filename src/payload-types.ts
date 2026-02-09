@@ -69,7 +69,6 @@ export interface Config {
   collections: {
     users: User;
     media: Media;
-    'gallery-albums': GalleryAlbum;
     'gallery-photos': GalleryPhoto;
     'audio-albums': AudioAlbum;
     'audio-tracks': AudioTrack;
@@ -84,7 +83,6 @@ export interface Config {
   collectionsSelect: {
     users: UsersSelect<false> | UsersSelect<true>;
     media: MediaSelect<false> | MediaSelect<true>;
-    'gallery-albums': GalleryAlbumsSelect<false> | GalleryAlbumsSelect<true>;
     'gallery-photos': GalleryPhotosSelect<false> | GalleryPhotosSelect<true>;
     'audio-albums': AudioAlbumsSelect<false> | AudioAlbumsSelect<true>;
     'audio-tracks': AudioTracksSelect<false> | AudioTracksSelect<true>;
@@ -212,26 +210,11 @@ export interface Media {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "gallery-albums".
- */
-export interface GalleryAlbum {
-  id: string;
-  title: string;
-  slug: string;
-  description?: string | null;
-  coverImage?: (string | null) | Media;
-  order?: number | null;
-  updatedAt: string;
-  createdAt: string;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "gallery-photos".
  */
 export interface GalleryPhoto {
   id: string;
   alt: string;
-  album: string | GalleryAlbum;
   order?: number | null;
   updatedAt: string;
   createdAt: string;
@@ -364,10 +347,6 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'media';
         value: string | Media;
-      } | null)
-    | ({
-        relationTo: 'gallery-albums';
-        value: string | GalleryAlbum;
       } | null)
     | ({
         relationTo: 'gallery-photos';
@@ -507,24 +486,10 @@ export interface MediaSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "gallery-albums_select".
- */
-export interface GalleryAlbumsSelect<T extends boolean = true> {
-  title?: T;
-  slug?: T;
-  description?: T;
-  coverImage?: T;
-  order?: T;
-  updatedAt?: T;
-  createdAt?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "gallery-photos_select".
  */
 export interface GalleryPhotosSelect<T extends boolean = true> {
   alt?: T;
-  album?: T;
   order?: T;
   updatedAt?: T;
   createdAt?: T;
@@ -695,16 +660,24 @@ export interface HomePage {
     description?: string | null;
     ctaText?: string | null;
     ctaLink?: string | null;
-    slides?:
-      | {
-          image?: (string | null) | Media;
-          /**
-           * Klasa CSS gradientu, np. "from-[#1a1a2e] to-[#16213e]"
-           */
-          gradient?: string | null;
-          id?: string | null;
-        }[]
-      | null;
+  };
+  availabilitySection?: {
+    heading?: string | null;
+    content?: {
+      root: {
+        type: string;
+        children: {
+          type: any;
+          version: number;
+          [k: string]: unknown;
+        }[];
+        direction: ('ltr' | 'rtl') | null;
+        format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+        indent: number;
+        version: number;
+      };
+      [k: string]: unknown;
+    } | null;
   };
   featuresSection?: {
     heading?: string | null;
@@ -796,7 +769,6 @@ export interface ContactPage {
   hoursWeekday?: string | null;
   hoursWeekend?: string | null;
   mapUrl?: string | null;
-  formHeading?: string | null;
   updatedAt?: string | null;
   createdAt?: string | null;
 }
@@ -851,13 +823,12 @@ export interface HomePageSelect<T extends boolean = true> {
         description?: T;
         ctaText?: T;
         ctaLink?: T;
-        slides?:
-          | T
-          | {
-              image?: T;
-              gradient?: T;
-              id?: T;
-            };
+      };
+  availabilitySection?:
+    | T
+    | {
+        heading?: T;
+        content?: T;
       };
   featuresSection?:
     | T
@@ -928,7 +899,6 @@ export interface ContactPageSelect<T extends boolean = true> {
   hoursWeekday?: T;
   hoursWeekend?: T;
   mapUrl?: T;
-  formHeading?: T;
   updatedAt?: T;
   createdAt?: T;
   globalType?: T;

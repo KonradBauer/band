@@ -8,7 +8,7 @@ export const GalleryPhoto: CollectionConfig = {
   },
   admin: {
     useAsTitle: 'alt',
-    defaultColumns: ['alt', 'album', 'updatedAt'],
+    defaultColumns: ['alt', 'updatedAt'],
   },
   access: {
     read: () => true,
@@ -38,14 +38,7 @@ export const GalleryPhoto: CollectionConfig = {
       required: true,
       label: 'Tekst alternatywny',
     },
-    {
-      name: 'album',
-      type: 'relationship',
-      relationTo: 'gallery-albums',
-      required: true,
-      label: 'Album',
-    },
-    {
+{
       name: 'order',
       type: 'number',
       label: 'Kolejność',
