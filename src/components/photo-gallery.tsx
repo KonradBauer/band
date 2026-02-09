@@ -60,7 +60,7 @@ export default function PhotoGallery({ photos }: PhotoGalleryProps) {
         onOpenChange={(open) => !open && setSelectedIndex(null)}
       >
         <DialogTitle className="sr-only">Galeria zdjęć</DialogTitle>
-        <DialogContent className="max-w-4xl p-0 bg-transparent border-none">
+        <DialogContent className="max-w-4xl p-0 border-none bg-black/90 backdrop-blur-sm">
           {selectedIndex !== null && (
             <div className="relative">
               <div className="relative h-[70vh] rounded-lg overflow-hidden">

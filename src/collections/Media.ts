@@ -10,6 +10,8 @@ export const Media: CollectionConfig = {
     read: () => true,
   },
   upload: {
+    crop: true,
+    focalPoint: true,
     mimeTypes: ['image/*'],
     imageSizes: [
       {
