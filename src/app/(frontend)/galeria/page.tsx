@@ -20,13 +20,23 @@ export default async function GaleriaPage() {
   const heading = galleryPage?.heading ?? 'Galeria'
   const subheading = galleryPage?.subheading ?? 'Chwile, które uwieczniamy na każdym wydarzeniu'
 
-  const photos = photoDocs.map((photo) => ({
-    id: photo.id,
-    url: photo.url ?? '',
-    thumbnailUrl: (photo.sizes as { thumbnail?: { url?: string } })?.thumbnail?.url,
-    largeUrl: (photo.sizes as { large?: { url?: string } })?.large?.url,
-    alt: photo.alt,
-  }))
+  const photos = photoDocs.map((photo) => {
+    const sizes = photo.sizes as {
+      thumbnail?: { url?: string; width?: number; height?: number }
+      large?: { url?: string }
+    } | undefined
+    return {
+      id: photo.id,
+      url: photo.url ?? '',
+      width: photo.width ?? 800,
+      height: photo.height ?? 600,
+      thumbnailUrl: sizes?.thumbnail?.url,
+      thumbnailWidth: sizes?.thumbnail?.width ?? 400,
+      thumbnailHeight: sizes?.thumbnail?.height ?? 300,
+      largeUrl: sizes?.large?.url,
+      alt: photo.alt,
+    }
+  })
 
   return (
     <div className="py-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
