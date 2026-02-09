@@ -9,6 +9,7 @@ export const AudioTrack: CollectionConfig = {
   admin: {
     useAsTitle: 'title',
     defaultColumns: ['title', 'album', 'order', 'updatedAt'],
+    hidden: true,
   },
   access: {
     read: () => true,
