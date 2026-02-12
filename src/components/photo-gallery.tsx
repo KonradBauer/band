@@ -57,22 +57,33 @@ export default function PhotoGallery({ photos }: PhotoGalleryProps) {
   return (
     <>
       <div className="columns-2 md:columns-3 lg:columns-4 gap-4 space-y-4">
-        {photos.map((photo, index) => (
-          <div
-            key={photo.id}
-            className="cursor-pointer rounded-lg overflow-hidden break-inside-avoid group"
-            onClick={() => setSelectedIndex(index)}
-          >
-            <Image
-              src={photo.thumbnailUrl ?? photo.url}
-              alt={photo.alt ?? ""}
-              width={photo.thumbnailWidth ?? photo.width}
-              height={photo.thumbnailHeight ?? photo.height}
-              className="w-full h-auto transition-transform group-hover:scale-105"
-              sizes="(max-width: 768px) 50vw, (max-width: 1024px) 33vw, 25vw"
-            />
-          </div>
-        ))}
+        {photos.map((photo, index) => {
+          const thumbW = photo.thumbnailWidth ?? photo.width;
+          const thumbH = photo.thumbnailHeight ?? photo.height;
+          return (
+            <div
+              key={photo.id}
+              className="cursor-pointer overflow-hidden rounded-lg break-inside-avoid group"
+              onClick={() => setSelectedIndex(index)}
+            >
+              <div
+                className="relative w-full overflow-hidden"
+                style={{
+                  aspectRatio: `${thumbW} / ${thumbH}`,
+                  maxHeight: "85vh",
+                }}
+              >
+                <Image
+                  src={photo.thumbnailUrl ?? photo.url}
+                  alt={photo.alt ?? ""}
+                  fill
+                  className="object-contain transition-transform group-hover:scale-105"
+                  sizes="(max-width: 768px) 50vw, (max-width: 1024px) 33vw, 25vw"
+                />
+              </div>
+            </div>
+          );
+        })}
       </div>
 
       {/* Fullscreen lightbox */}

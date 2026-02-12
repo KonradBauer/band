@@ -18,9 +18,22 @@ const playfair = Playfair_Display({
 export const dynamic = 'force-dynamic'
 
 export const metadata: Metadata = {
-  title: "ARMAGEDON - Zespół muzyczny na wesele",
+  title: {
+    default: 'ARMAGEDON - Zespół muzyczny na wesele',
+    template: '%s | ARMAGEDON',
+  },
   description:
-    "Zespół weselny ARMAGEDON - profesjonalna oprawa muzyczna wesel i imprez okolicznościowych. Skecze, zabawy, instrumentarium na żywo.",
+    'Zespół weselny ARMAGEDON - profesjonalna oprawa muzyczna wesel i imprez okolicznościowych. Skecze, zabawy, instrumentarium na żywo.',
+  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL ?? 'https://armagedon.com.pl'),
+  openGraph: {
+    type: 'website',
+    locale: 'pl_PL',
+    siteName: 'ARMAGEDON',
+  },
+  robots: {
+    index: true,
+    follow: true,
+  },
 };
 
 export default function RootLayout({

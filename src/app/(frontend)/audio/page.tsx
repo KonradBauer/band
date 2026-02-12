@@ -1,4 +1,5 @@
 import AudioAlbumCard from '@/components/audio-album-card'
+import { AudioPlayerProvider } from '@/components/audio-player-context'
 import type { Metadata } from 'next'
 import { getPayload } from 'payload'
 import configPromise from '@payload-config'
@@ -70,20 +71,22 @@ export default async function AudioPage() {
       <p className="text-muted-foreground text-center mt-2 mb-12">{subheading}</p>
 
       {hasContent ? (
-        <div className="space-y-12">
-          {albumsWithTracks.map(
-            (album) =>
-              album.tracks.length > 0 && (
-                <AudioAlbumCard
-                  key={album.id}
-                  title={album.title}
-                  description={album.description}
-                  coverUrl={album.coverUrl}
-                  tracks={album.tracks}
-                />
-              ),
-          )}
-        </div>
+        <AudioPlayerProvider>
+          <div className="space-y-12">
+            {albumsWithTracks.map(
+              (album) =>
+                album.tracks.length > 0 && (
+                  <AudioAlbumCard
+                    key={album.id}
+                    title={album.title}
+                    description={album.description}
+                    coverUrl={album.coverUrl}
+                    tracks={album.tracks}
+                  />
+                ),
+            )}
+          </div>
+        </AudioPlayerProvider>
       ) : (
         <p className="text-muted-foreground text-center py-12">Brak nagrań do wyświetlenia</p>
       )}

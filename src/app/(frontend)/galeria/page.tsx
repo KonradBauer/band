@@ -25,14 +25,16 @@ export default async function GaleriaPage() {
       thumbnail?: { url?: string; width?: number; height?: number }
       large?: { url?: string }
     } | undefined
+    const origW = photo.width ?? 800
+    const origH = photo.height ?? 600
     return {
       id: photo.id,
       url: photo.url ?? '',
-      width: photo.width ?? 800,
-      height: photo.height ?? 600,
+      width: origW,
+      height: origH,
       thumbnailUrl: sizes?.thumbnail?.url,
-      thumbnailWidth: sizes?.thumbnail?.width ?? 400,
-      thumbnailHeight: sizes?.thumbnail?.height ?? 300,
+      thumbnailWidth: sizes?.thumbnail?.width ?? origW,
+      thumbnailHeight: sizes?.thumbnail?.height ?? origH,
       largeUrl: sizes?.large?.url,
       alt: photo.alt,
     }

@@ -1,10 +1,11 @@
 'use client'
 
-import React, { useState, useRef, useEffect } from 'react'
+import React, { useState, useRef, useEffect, useCallback } from 'react'
 import Image from 'next/image'
 import { Button } from '@/components/ui/button'
 import { Play, Pause, Music2, Disc3 } from 'lucide-react'
 import { cn } from '@/lib/utils'
+import { useAudioPlayer } from '@/components/audio-player-context'
 
 interface Track {
   title: string
@@ -36,6 +37,12 @@ export default function AudioAlbumCard({
   const [duration, setDuration] = useState(0)
   const [currentTime, setCurrentTime] = useState(0)
   const audioRef = useRef<HTMLAudioElement | null>(null)
+  const { requestPlay } = useAudioPlayer()
+
+  const pausePlayback = useCallback(() => {
+    audioRef.current?.pause()
+    setIsPlaying(false)
+  }, [])
 
   const handlePlayPause = (index: number) => {
     if (currentTrack === index) {
@@ -43,10 +50,12 @@ export default function AudioAlbumCard({
         audioRef.current?.pause()
         setIsPlaying(false)
       } else {
+        requestPlay(pausePlayback)
         audioRef.current?.play()
         setIsPlaying(true)
       }
     } else {
+      requestPlay(pausePlayback)
       setCurrentTrack(index)
       setIsPlaying(true)
     }
@@ -90,10 +99,11 @@ export default function AudioAlbumCard({
     if (currentTrack !== null && audioRef.current) {
       audioRef.current.src = tracks[currentTrack].src
       if (isPlaying) {
+        requestPlay(pausePlayback)
         audioRef.current.play()
       }
     }
-  }, [currentTrack, tracks, isPlaying])
+  }, [currentTrack, tracks, isPlaying, requestPlay, pausePlayback])
 
   return (
     <div className="rounded-xl border border-border/50 bg-card/50 overflow-hidden">
