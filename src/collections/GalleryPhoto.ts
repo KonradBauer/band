@@ -7,8 +7,9 @@ export const GalleryPhoto: CollectionConfig = {
     plural: 'Zdjęcia galerii',
   },
   admin: {
-    useAsTitle: 'alt',
-    defaultColumns: ['alt', 'updatedAt'],
+    useAsTitle: 'filename',
+    defaultColumns: ['filename', 'updatedAt'],
+    listSearchableFields: ['alt', 'filename'],
   },
   access: {
     read: () => true,
