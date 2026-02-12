@@ -2,6 +2,7 @@
 
 import React, { useState, useRef, useEffect, useCallback } from 'react'
 import Image from 'next/image'
+import { Howl } from 'howler'
 import { Button } from '@/components/ui/button'
 import { Play, Pause, Music2, Disc3 } from 'lucide-react'
 import { cn } from '@/lib/utils'
@@ -36,11 +37,22 @@ export default function AudioAlbumCard({
   const [progress, setProgress] = useState(0)
   const [duration, setDuration] = useState(0)
   const [currentTime, setCurrentTime] = useState(0)
-  const audioRef = useRef<HTMLAudioElement | null>(null)
+
+  const howlRef = useRef<Howl | null>(null)
+  const rafRef = useRef<number>(0)
+  const playTrackRef = useRef<(index: number) => void>(undefined)
+
   const { requestPlay } = useAudioPlayer()
 
-  const pausePlayback = useCallback(() => {
-    audioRef.current?.pause()
+  const destroyHowl = useCallback(() => {
+    cancelAnimationFrame(rafRef.current)
+    if (howlRef.current) {
+      howlRef.current.unload()
+      howlRef.current = null
+    }
+  }, [])
+
+  const resetState = useCallback(() => {
     setIsPlaying(false)
     setCurrentTrack(null)
     setProgress(0)
@@ -48,66 +60,93 @@ export default function AudioAlbumCard({
     setDuration(0)
   }, [])
 
+  const stopPlayback = useCallback(() => {
+    destroyHowl()
+    resetState()
+  }, [destroyHowl, resetState])
+
+  const playTrack = useCallback(
+    (index: number) => {
+      destroyHowl()
+
+      const howl = new Howl({
+        src: [tracks[index].src],
+        html5: true,
+        onload() {
+          setDuration(howl.duration())
+        },
+        onend() {
+          if (index < tracks.length - 1) {
+            playTrackRef.current?.(index + 1)
+          } else {
+            destroyHowl()
+            resetState()
+          }
+        },
+      })
+
+      howlRef.current = howl
+      setCurrentTrack(index)
+      setIsPlaying(true)
+      howl.play()
+    },
+    [tracks, destroyHowl, resetState],
+  )
+
+  playTrackRef.current = playTrack
+
   const handlePlayPause = (index: number) => {
-    if (currentTrack === index) {
+    if (currentTrack === index && howlRef.current) {
       if (isPlaying) {
-        audioRef.current?.pause()
+        howlRef.current.pause()
         setIsPlaying(false)
       } else {
-        requestPlay(pausePlayback)
-        audioRef.current?.play()
+        requestPlay(stopPlayback)
+        howlRef.current.play()
         setIsPlaying(true)
       }
     } else {
-      requestPlay(pausePlayback)
-      setCurrentTrack(index)
-      setIsPlaying(true)
-    }
-  }
-
-  const handleTimeUpdate = () => {
-    if (audioRef.current) {
-      setCurrentTime(audioRef.current.currentTime)
-      setProgress((audioRef.current.currentTime / audioRef.current.duration) * 100)
-    }
-  }
-
-  const handleLoadedMetadata = () => {
-    if (audioRef.current) {
-      setDuration(audioRef.current.duration)
-    }
-  }
-
-  const handleEnded = () => {
-    if (currentTrack !== null && currentTrack < tracks.length - 1) {
-      setCurrentTrack(currentTrack + 1)
-      setIsPlaying(true)
-    } else {
-      setIsPlaying(false)
-      setCurrentTrack(null)
-      setProgress(0)
-      setCurrentTime(0)
+      requestPlay(stopPlayback)
+      playTrack(index)
     }
   }
 
   const handleProgressClick = (e: React.MouseEvent<HTMLDivElement>) => {
-    if (audioRef.current && currentTrack !== null) {
+    if (howlRef.current && currentTrack !== null) {
       const rect = e.currentTarget.getBoundingClientRect()
-      const clickX = e.clientX - rect.left
-      const percentage = clickX / rect.width
-      audioRef.current.currentTime = percentage * audioRef.current.duration
+      const percentage = (e.clientX - rect.left) / rect.width
+      howlRef.current.seek(percentage * howlRef.current.duration())
     }
   }
 
+  // Progress tracking via requestAnimationFrame
   useEffect(() => {
-    if (currentTrack !== null && audioRef.current) {
-      audioRef.current.src = tracks[currentTrack].src
-      if (isPlaying) {
-        requestPlay(pausePlayback)
-        audioRef.current.play()
+    const tick = () => {
+      if (howlRef.current && howlRef.current.playing()) {
+        const seek = howlRef.current.seek()
+        const dur = howlRef.current.duration()
+        setCurrentTime(seek)
+        setProgress(dur > 0 ? (seek / dur) * 100 : 0)
       }
+      rafRef.current = requestAnimationFrame(tick)
     }
-  }, [currentTrack, tracks, isPlaying, requestPlay, pausePlayback])
+
+    if (isPlaying) {
+      rafRef.current = requestAnimationFrame(tick)
+    } else {
+      cancelAnimationFrame(rafRef.current)
+    }
+
+    return () => cancelAnimationFrame(rafRef.current)
+  }, [isPlaying])
+
+  // Cleanup on unmount
+  useEffect(() => {
+    return () => {
+      cancelAnimationFrame(rafRef.current)
+      howlRef.current?.unload()
+    }
+  }, [])
 
   return (
     <div className="rounded-xl border border-border/50 bg-card/50 overflow-hidden">
@@ -139,12 +178,6 @@ export default function AudioAlbumCard({
 
         {/* Tracks */}
         <div className="flex-1 p-4 md:p-6">
-          <audio
-            ref={audioRef}
-            onTimeUpdate={handleTimeUpdate}
-            onLoadedMetadata={handleLoadedMetadata}
-            onEnded={handleEnded}
-          />
           <div className="space-y-1">
             {tracks.map((track, index) => {
               const isActive = currentTrack === index
