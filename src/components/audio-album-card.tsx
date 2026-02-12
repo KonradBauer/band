@@ -42,6 +42,10 @@ export default function AudioAlbumCard({
   const pausePlayback = useCallback(() => {
     audioRef.current?.pause()
     setIsPlaying(false)
+    setCurrentTrack(null)
+    setProgress(0)
+    setCurrentTime(0)
+    setDuration(0)
   }, [])
 
   const handlePlayPause = (index: number) => {

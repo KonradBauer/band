@@ -3,7 +3,11 @@
     "allow": [
       "Bash(pnpm build:*)",
       "Bash(ls:*)",
-      "Bash(cat:*)"
+      "Bash(cat:*)",
+      "WebSearch",
+      "Bash(pnpm add:*)",
+      "WebFetch(domain:react-photo-album.com)",
+      "WebFetch(domain:yet-another-react-lightbox.com)"
     ]
   }
 }

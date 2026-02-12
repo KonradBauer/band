@@ -1,8 +1,21 @@
 "use client";
 
-import { useState, useEffect, useCallback } from "react";
-import { ChevronLeft, ChevronRight, X } from "lucide-react";
+import { useState } from "react";
 import Image from "next/image";
+import { MasonryPhotoAlbum } from "react-photo-album";
+import "react-photo-album/masonry.css";
+import Lightbox, {
+  isImageSlide,
+  isImageFitCover,
+  useLightboxProps,
+  useLightboxState,
+  type RenderSlideProps,
+  type Slide,
+} from "yet-another-react-lightbox";
+import "yet-another-react-lightbox/styles.css";
+import Zoom from "yet-another-react-lightbox/plugins/zoom";
+import Counter from "yet-another-react-lightbox/plugins/counter";
+import "yet-another-react-lightbox/plugins/counter.css";
 
 interface Photo {
   id: number | string;
@@ -20,120 +33,124 @@ interface PhotoGalleryProps {
   photos: Photo[];
 }
 
+interface NextSlide extends Slide {
+  width: number;
+  height: number;
+  src: string;
+}
+
+function isNextJsImage(slide: Slide): slide is NextSlide {
+  return (
+    isImageSlide(slide) &&
+    typeof (slide as NextSlide).width === "number" &&
+    typeof (slide as NextSlide).height === "number"
+  );
+}
+
+function NextJsImage({
+  slide,
+  offset,
+  rect,
+}: Pick<RenderSlideProps, "slide" | "offset" | "rect">) {
+  const {
+    on: { click },
+    carousel: { imageFit },
+  } = useLightboxProps();
+
+  const { currentIndex } = useLightboxState();
+
+  const cover = isImageSlide(slide) && isImageFitCover(slide, imageFit);
+
+  if (!isNextJsImage(slide)) return undefined;
+
+  const width = !cover
+    ? Math.round(
+        Math.min(rect.width, (rect.height / slide.height) * slide.width),
+      )
+    : rect.width;
+
+  const height = !cover
+    ? Math.round(
+        Math.min(rect.height, (rect.width / slide.width) * slide.height),
+      )
+    : rect.height;
+
+  return (
+    <div style={{ position: "relative", width, height }}>
+      <Image
+        fill
+        alt=""
+        src={slide.src}
+        loading="eager"
+        draggable={false}
+        style={{
+          objectFit: cover ? "cover" : "contain",
+          cursor: click ? "pointer" : undefined,
+        }}
+        sizes={`${Math.ceil((width / window.innerWidth) * 100)}vw`}
+        onClick={
+          offset === 0 ? () => click?.({ index: currentIndex }) : undefined
+        }
+      />
+    </div>
+  );
+}
+
 export default function PhotoGallery({ photos }: PhotoGalleryProps) {
-  const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
+  const [index, setIndex] = useState(-1);
 
-  const handlePrev = useCallback(() => {
-    if (selectedIndex !== null) {
-      setSelectedIndex((selectedIndex - 1 + photos.length) % photos.length);
-    }
-  }, [selectedIndex, photos.length]);
+  const albumPhotos = photos.map((p) => ({
+    src: p.thumbnailUrl ?? p.url,
+    width: p.thumbnailWidth ?? p.width,
+    height: p.thumbnailHeight ?? p.height,
+    alt: p.alt ?? "",
+    key: String(p.id),
+  }));
 
-  const handleNext = useCallback(() => {
-    if (selectedIndex !== null) {
-      setSelectedIndex((selectedIndex + 1) % photos.length);
-    }
-  }, [selectedIndex, photos.length]);
-
-  const handleClose = useCallback(() => {
-    setSelectedIndex(null);
-  }, []);
-
-  useEffect(() => {
-    if (selectedIndex === null) return;
-    const onKey = (e: KeyboardEvent) => {
-      if (e.key === "ArrowLeft") handlePrev();
-      else if (e.key === "ArrowRight") handleNext();
-      else if (e.key === "Escape") handleClose();
-    };
-    document.body.style.overflow = "hidden";
-    window.addEventListener("keydown", onKey);
-    return () => {
-      document.body.style.overflow = "";
-      window.removeEventListener("keydown", onKey);
-    };
-  }, [selectedIndex, handlePrev, handleNext, handleClose]);
+  const lightboxSlides = photos.map((p) => ({
+    src: p.largeUrl ?? p.url,
+    width: p.width,
+    height: p.height,
+    alt: p.alt ?? "",
+  }));
 
   return (
     <>
-      <div className="columns-2 md:columns-3 lg:columns-4 gap-4 space-y-4">
-        {photos.map((photo, index) => {
-          const thumbW = photo.thumbnailWidth ?? photo.width;
-          const thumbH = photo.thumbnailHeight ?? photo.height;
-          return (
-            <div
-              key={photo.id}
-              className="cursor-pointer overflow-hidden rounded-lg break-inside-avoid group"
-              onClick={() => setSelectedIndex(index)}
-            >
-              <div
-                className="relative w-full overflow-hidden"
-                style={{
-                  aspectRatio: `${thumbW} / ${thumbH}`,
-                  maxHeight: "85vh",
-                }}
-              >
-                <Image
-                  src={photo.thumbnailUrl ?? photo.url}
-                  alt={photo.alt ?? ""}
-                  fill
-                  className="object-contain transition-transform group-hover:scale-105"
-                  sizes="(max-width: 768px) 50vw, (max-width: 1024px) 33vw, 25vw"
-                />
-              </div>
-            </div>
-          );
-        })}
-      </div>
-
-      {/* Fullscreen lightbox */}
-      {selectedIndex !== null && (
-        <div
-          className="fixed inset-0 z-50 flex items-center justify-center bg-black/95"
-          onClick={handleClose}
-        >
-          <button
-            className="absolute top-4 right-4 z-10 text-white/70 hover:text-white transition-colors"
-            onClick={handleClose}
-          >
-            <X className="size-8" />
-          </button>
-
-          <button
-            className="absolute left-4 top-1/2 -translate-y-1/2 z-10 p-2 text-white/70 hover:text-white transition-colors"
-            onClick={(e) => {
-              e.stopPropagation();
-              handlePrev();
-            }}
-          >
-            <ChevronLeft className="size-10" />
-          </button>
-
-          <div
-            className="relative w-[95vw] h-[90vh]"
-            onClick={(e) => e.stopPropagation()}
-          >
+      <MasonryPhotoAlbum
+        photos={albumPhotos}
+        columns={(containerWidth) => {
+          if (containerWidth < 500) return 2;
+          if (containerWidth < 900) return 3;
+          return 4;
+        }}
+        spacing={(containerWidth) => (containerWidth < 500 ? 8 : 16)}
+        onClick={({ index: i }) => setIndex(i)}
+        render={{
+          image: (props) => (
             <Image
-              src={photos[selectedIndex].largeUrl ?? photos[selectedIndex].url}
-              alt={photos[selectedIndex].alt ?? ""}
-              fill
-              className="object-contain"
-              sizes="95vw"
-              priority
+              src={props.src as string}
+              alt={(props.alt as string) || ""}
+              width={props.width as number}
+              height={props.height as number}
+              sizes={props.sizes as string}
+              className="rounded-lg"
+              style={{ cursor: "pointer" }}
             />
-          </div>
+          ),
+        }}
+      />
 
-          <button
-            className="absolute right-4 top-1/2 -translate-y-1/2 z-10 p-2 text-white/70 hover:text-white transition-colors"
-            onClick={(e) => {
-              e.stopPropagation();
-              handleNext();
-            }}
-          >
-            <ChevronRight className="size-10" />
-          </button>
-        </div>
-      )}
+      <Lightbox
+        slides={lightboxSlides}
+        open={index >= 0}
+        index={index}
+        close={() => setIndex(-1)}
+        render={{ slide: NextJsImage }}
+        plugins={[Zoom, Counter]}
+        zoom={{ maxZoomPixelRatio: 3 }}
+        counter={{ container: { style: { top: 0, bottom: "unset" } } }}
+        styles={{ container: { backgroundColor: "rgba(0,0,0,.95)" } }}
+      />
     </>
   );
 }
