@@ -35,7 +35,7 @@ export const ContactPage: GlobalConfig = {
       name: 'phoneSecondary',
       type: 'text',
       label: 'Telefon dodatkowy',
-      defaultValue: 'Biuro: 505 566 007',
+      defaultValue: ''
     },
     {
       name: 'email',

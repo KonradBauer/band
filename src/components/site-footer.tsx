@@ -12,7 +12,7 @@ export default async function SiteFooter() {
   const tagline = settings?.siteTagline ?? 'Zespół muzyczny na wesele'
   const phone = settings?.phone ?? '505 566 007'
   const email = settings?.email ?? 'kontakt@armagedon.com.pl'
-  const address = settings?.address ?? 'Śląsk, Polska'
+  const address = settings?.address ?? 'ul. Jana Pawła II 44, KOŚCIELEC 42-240'
   const copyright = settings?.copyright ?? '© 2026 ARMAGEDON. Wszelkie prawa zastrzeżone.'
 
   return (

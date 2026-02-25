@@ -111,12 +111,32 @@ export default function AudioAlbumCard({
     }
   }
 
-  const handleProgressClick = (e: React.MouseEvent<HTMLDivElement>) => {
+  const seekToPosition = (e: React.MouseEvent<HTMLDivElement> | MouseEvent, target: HTMLDivElement) => {
     if (howlRef.current && currentTrack !== null) {
-      const rect = e.currentTarget.getBoundingClientRect()
-      const percentage = (e.clientX - rect.left) / rect.width
-      howlRef.current.seek(percentage * howlRef.current.duration())
+      const rect = target.getBoundingClientRect()
+      const percentage = Math.max(0, Math.min(1, (e.clientX - rect.left) / rect.width))
+      const seekTime = percentage * howlRef.current.duration()
+      howlRef.current.seek(seekTime)
+      setCurrentTime(seekTime)
+      setProgress(percentage * 100)
     }
+  }
+
+  const handleProgressMouseDown = (e: React.MouseEvent<HTMLDivElement>) => {
+    const target = e.currentTarget
+    seekToPosition(e, target)
+
+    const handleMouseMove = (moveEvent: MouseEvent) => {
+      seekToPosition(moveEvent, target)
+    }
+
+    const handleMouseUp = () => {
+      document.removeEventListener('mousemove', handleMouseMove)
+      document.removeEventListener('mouseup', handleMouseUp)
+    }
+
+    document.addEventListener('mousemove', handleMouseMove)
+    document.addEventListener('mouseup', handleMouseUp)
   }
 
   // Progress tracking via requestAnimationFrame
@@ -231,13 +251,15 @@ export default function AudioAlbumCard({
 
                   {isActive && (
                     <div
-                      className="h-1 bg-border rounded-full overflow-hidden mt-1 mx-3 cursor-pointer"
-                      onClick={handleProgressClick}
+                      className="relative h-5 mt-1 mx-3 cursor-pointer flex items-center group"
+                      onMouseDown={handleProgressMouseDown}
                     >
-                      <div
-                        className="h-full bg-primary rounded-full transition-all"
-                        style={{ width: `${progress}%` }}
-                      />
+                      <div className="w-full h-1.5 bg-border rounded-full overflow-hidden group-hover:h-2 transition-[height]">
+                        <div
+                          className="h-full bg-primary rounded-full"
+                          style={{ width: `${progress}%` }}
+                        />
+                      </div>
                     </div>
                   )}
                 </div>

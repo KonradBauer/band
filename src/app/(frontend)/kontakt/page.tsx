@@ -19,7 +19,7 @@ export default async function KontaktPage() {
   const phonePrimary = contactPage?.phonePrimary ?? 'Agnieszka Gołda: 512 369 305'
   const phoneSecondary = contactPage?.phoneSecondary ?? 'Biuro: 505 566 007'
   const email = contactPage?.email ?? 'zespolarmagedon@gmail.com'
-  const address = contactPage?.address ?? 'ul. Jana Pawła II 44, 42-240 Kościelec'
+  const address = contactPage?.address ?? 'ul. Jana Pawła II 44, KOŚCIELEC 42-240'
   const addressDescription = contactPage?.addressDescription ?? 'Obsługujemy całe województwo śląskie i okolice'
   const nip = contactPage?.nip ?? '573-239-90-62'
   const bankAccount = contactPage?.bankAccount ?? '63 1140 2004 0000 3602 8225 4870'
