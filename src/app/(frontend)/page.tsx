@@ -61,14 +61,14 @@ export default async function Home() {
             {hero?.description ?? 'Profesjonalna oprawa muzyczna wesel i imprez. Gramy z pasją od ponad 20 lat.'}
           </p>
           <Button variant="default" size="lg" asChild className="mt-8 text-lg px-8 py-6">
-            <Link href={hero?.ctaLink ?? '/kontakt'}>{hero?.ctaText ?? 'Sprawdź dostępność terminu'}</Link>
+            <a href="#wolne-terminy">Sprawdź dostępne terminy</a>
           </Button>
         </div>
       </section>
 
       {/* Wolne terminy */}
       {availability?.content && (
-        <section className="py-16 px-4 sm:px-6 lg:px-8">
+        <section id="wolne-terminy" className="py-16 px-4 sm:px-6 lg:px-8">
           <div className="max-w-4xl mx-auto text-center">
             <h2 className="font-heading text-3xl md:text-4xl text-primary font-bold mb-8">
               {availability?.heading ?? 'Wolne terminy'}
