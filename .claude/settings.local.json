@@ -9,7 +9,8 @@
       "WebFetch(domain:react-photo-album.com)",
       "WebFetch(domain:yet-another-react-lightbox.com)",
       "Bash(curl:*)",
-      "Bash(timeout 5 bash:*)"
+      "Bash(timeout 5 bash:*)",
+      "Bash(tail:*)"
     ]
   }
 }

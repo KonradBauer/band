@@ -31,6 +31,21 @@ export const HomePage: GlobalConfig = {
           defaultValue: 'Profesjonalna oprawa muzyczna wesel i imprez. Gramy z pasją od ponad 20 lat.',
         },
         {
+          name: 'images',
+          type: 'array',
+          label: 'Zdjęcia w hero (kółka)',
+          maxRows: 5,
+          fields: [
+            {
+              name: 'image',
+              type: 'upload',
+              relationTo: 'media',
+              required: true,
+              label: 'Zdjęcie',
+            },
+          ],
+        },
+        {
           name: 'ctaText',
           type: 'text',
           label: 'Tekst przycisku CTA',

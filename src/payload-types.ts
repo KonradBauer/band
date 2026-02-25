@@ -621,6 +621,12 @@ export interface HomePage {
     heading?: string | null;
     subheading?: string | null;
     description?: string | null;
+    images?:
+      | {
+          image: string | Media;
+          id?: string | null;
+        }[]
+      | null;
     ctaText?: string | null;
     ctaLink?: string | null;
   };
@@ -787,6 +793,12 @@ export interface HomePageSelect<T extends boolean = true> {
         heading?: T;
         subheading?: T;
         description?: T;
+        images?:
+          | T
+          | {
+              image?: T;
+              id?: T;
+            };
         ctaText?: T;
         ctaLink?: T;
       };

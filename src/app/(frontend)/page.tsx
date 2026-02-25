@@ -41,16 +41,25 @@ export default async function Home() {
     ? featuresData.features
     : defaultFeatures
 
+  const heroImages = (hero?.images as Array<{ image: { sizes?: { thumbnail?: { url?: string } }; url?: string } | string }> | undefined)
+    ?.map((item) => {
+      if (typeof item.image === 'object' && item.image) {
+        return item.image.sizes?.thumbnail?.url ?? item.image.url ?? null
+      }
+      return null
+    })
+    .filter(Boolean) as string[] | undefined
+
   const aboutImageUrl = about?.image && typeof about.image === 'object' && 'sizes' in about.image
     ? ((about.image as { sizes?: { card?: { url?: string } }; url?: string }).sizes?.card?.url ?? (about.image as { url?: string }).url)
     : null
 
   return (
     <div>
-      {/* Hero - statyczny */}
-      <section className="relative h-[80vh] flex items-center justify-center bg-gradient-to-br from-[#1a1a2e] via-[#0f0f23] to-[#1a1a2e]">
+      {/* Hero */}
+      <section className="relative bg-gradient-to-br from-[#1a1a2e] via-[#0f0f23] to-[#1a1a2e]">
         <div className="absolute inset-0 bg-gradient-to-t from-background via-background/60 to-transparent" />
-        <div className="relative text-center px-4">
+        <div className="relative text-center px-4 sm:px-6 lg:px-8 py-16 md:py-24">
           <h1 className="font-heading text-5xl md:text-7xl text-primary font-bold tracking-wider">
             {hero?.heading ?? 'ARMAGEDON'}
           </h1>
@@ -60,6 +69,18 @@ export default async function Home() {
           <p className="text-muted-foreground max-w-2xl mx-auto mt-2">
             {hero?.description ?? 'Profesjonalna oprawa muzyczna wesel i imprez. Gramy z pasją od ponad 20 lat.'}
           </p>
+          {heroImages && heroImages.length > 0 && (
+            <div className="flex items-center justify-center mt-8 -space-x-3">
+              {heroImages.map((url, i) => (
+                <img
+                  key={i}
+                  src={url}
+                  alt=""
+                  className="w-16 h-16 md:w-20 md:h-20 rounded-full object-cover border-2 border-primary/50 shadow-lg"
+                />
+              ))}
+            </div>
+          )}
           <Button variant="default" size="lg" asChild className="mt-8 text-lg px-8 py-6">
             <a href="#wolne-terminy">Sprawdź dostępne terminy</a>
           </Button>
@@ -67,18 +88,27 @@ export default async function Home() {
       </section>
 
       {/* Wolne terminy */}
-      {availability?.content && (
-        <section id="wolne-terminy" className="py-16 px-4 sm:px-6 lg:px-8">
-          <div className="max-w-4xl mx-auto text-center">
-            <h2 className="font-heading text-3xl md:text-4xl text-primary font-bold mb-8">
-              {availability?.heading ?? 'Wolne terminy'}
-            </h2>
+      <section id="wolne-terminy" className="py-16 px-4 sm:px-6 lg:px-8">
+        <div className="max-w-4xl mx-auto text-center">
+          <h2 className="font-heading text-3xl md:text-4xl text-primary font-bold mb-8">
+            {availability?.heading ?? 'Wolne terminy'}
+          </h2>
+          {availability?.content ? (
             <div className="bg-card rounded-lg border border-border p-8">
               <RichText data={availability.content} />
             </div>
-          </div>
-        </section>
-      )}
+          ) : (
+            <div className="bg-card rounded-lg border border-border p-8">
+              <p className="text-muted-foreground">
+                Skontaktuj się z nami, aby sprawdzić dostępność terminów.
+              </p>
+              <Button variant="default" size="lg" asChild className="mt-6 text-lg px-8 py-6">
+                <Link href="/kontakt">Zapytaj o termin</Link>
+              </Button>
+            </div>
+          )}
+        </div>
+      </section>
 
       <section className="py-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
         <h2 className="font-heading text-3xl md:text-4xl text-center text-primary font-bold">
@@ -91,9 +121,11 @@ export default async function Home() {
           {features.map((feature: { icon?: string | null; title: string; description?: string | null }, index: number) => {
             const IconComponent = iconMap[feature.icon ?? ''] ?? Music
             return (
-              <Card key={index} className="text-center p-6 border-border hover:border-primary/50 transition-colors">
+              <Card key={index} className="text-center p-6 border-border hover:border-primary/50 transition-all duration-300 hover:scale-105 hover:shadow-lg hover:shadow-primary/5">
                 <CardContent className="p-0">
-                  <IconComponent size={40} className="text-primary mx-auto" />
+                  <div className="w-16 h-16 rounded-full bg-primary/10 flex items-center justify-center mx-auto">
+                    <IconComponent size={32} className="text-primary" />
+                  </div>
                   <h3 className="text-lg font-semibold mt-4">{feature.title}</h3>
                   <p className="text-sm text-muted-foreground mt-2">
                     {feature.description}
@@ -135,7 +167,8 @@ export default async function Home() {
         </div>
       </section>
 
-      <section className="py-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto text-center">
+      <section className="relative py-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-[#1a1a2e]/50 via-background to-[#1a1a2e]/30 text-center">
+        <div className="max-w-7xl mx-auto">
         <h2 className="font-heading text-3xl md:text-4xl text-primary font-bold">
           {cta?.heading ?? 'Zarezerwuj termin'}
         </h2>
@@ -149,6 +182,7 @@ export default async function Home() {
           <Button variant="outline" size="lg" asChild className="text-lg px-8 py-6 border-primary text-primary hover:bg-primary hover:text-primary-foreground">
             <Link href={cta?.contactLink ?? '/kontakt'}>{cta?.contactText ?? 'Napisz do nas'}</Link>
           </Button>
+        </div>
         </div>
       </section>
     </div>
