@@ -10,7 +10,9 @@
       "WebFetch(domain:yet-another-react-lightbox.com)",
       "Bash(curl:*)",
       "Bash(timeout 5 bash:*)",
-      "Bash(tail:*)"
+      "Bash(tail:*)",
+      "Bash(find:*)",
+      "Bash(cd /c/dev/band && pnpm remove howler @types/howler 2>&1)"
     ]
   }
 }

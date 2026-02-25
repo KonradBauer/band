@@ -2,7 +2,7 @@
 
 import React, { useState, useRef, useEffect, useCallback } from 'react'
 import Image from 'next/image'
-import { Howl } from 'howler'
+import WaveSurfer from 'wavesurfer.js'
 import { Button } from '@/components/ui/button'
 import { Play, Pause, Music2, Disc3 } from 'lucide-react'
 import { cn } from '@/lib/utils'
@@ -34,75 +34,93 @@ export default function AudioAlbumCard({
 }: AudioAlbumCardProps) {
   const [currentTrack, setCurrentTrack] = useState<number | null>(null)
   const [isPlaying, setIsPlaying] = useState(false)
-  const [progress, setProgress] = useState(0)
-  const [duration, setDuration] = useState(0)
   const [currentTime, setCurrentTime] = useState(0)
+  const [duration, setDuration] = useState(0)
 
-  const howlRef = useRef<Howl | null>(null)
-  const rafRef = useRef<number>(0)
+  const wsRef = useRef<WaveSurfer | null>(null)
+  const containerRefs = useRef<Map<number, HTMLDivElement>>(new Map())
   const playTrackRef = useRef<(index: number) => void>(undefined)
 
   const { requestPlay } = useAudioPlayer()
 
-  const destroyHowl = useCallback(() => {
-    cancelAnimationFrame(rafRef.current)
-    if (howlRef.current) {
-      howlRef.current.unload()
-      howlRef.current = null
+  const destroyWaveSurfer = useCallback(() => {
+    if (wsRef.current) {
+      wsRef.current.destroy()
+      wsRef.current = null
     }
   }, [])
 
   const resetState = useCallback(() => {
     setIsPlaying(false)
     setCurrentTrack(null)
-    setProgress(0)
     setCurrentTime(0)
     setDuration(0)
   }, [])
 
   const stopPlayback = useCallback(() => {
-    destroyHowl()
+    destroyWaveSurfer()
     resetState()
-  }, [destroyHowl, resetState])
+  }, [destroyWaveSurfer, resetState])
 
   const playTrack = useCallback(
     (index: number) => {
-      destroyHowl()
+      destroyWaveSurfer()
 
-      const howl = new Howl({
-        src: [tracks[index].src],
-        html5: true,
-        onload() {
-          setDuration(howl.duration())
-        },
-        onend() {
-          if (index < tracks.length - 1) {
-            playTrackRef.current?.(index + 1)
-          } else {
-            destroyHowl()
-            resetState()
-          }
-        },
+      const container = containerRefs.current.get(index)
+      if (!container) return
+
+      const ws = WaveSurfer.create({
+        container,
+        waveColor: 'rgba(201, 168, 76, 0.3)',
+        progressColor: '#c9a84c',
+        cursorColor: '#c9a84c',
+        barWidth: 2,
+        barGap: 2,
+        barRadius: 2,
+        height: 40,
+        url: tracks[index].src,
+        backend: 'MediaElement',
       })
 
-      howlRef.current = howl
+      ws.on('ready', () => {
+        setDuration(ws.getDuration())
+        ws.play()
+      })
+
+      ws.on('audioprocess', () => {
+        setCurrentTime(ws.getCurrentTime())
+      })
+
+      ws.on('seeking', () => {
+        setCurrentTime(ws.getCurrentTime())
+      })
+
+      ws.on('finish', () => {
+        if (index < tracks.length - 1) {
+          playTrackRef.current?.(index + 1)
+        } else {
+          destroyWaveSurfer()
+          resetState()
+        }
+      })
+
+      wsRef.current = ws
       setCurrentTrack(index)
       setIsPlaying(true)
-      howl.play()
     },
-    [tracks, destroyHowl, resetState],
+    [tracks, destroyWaveSurfer, resetState],
   )
 
   playTrackRef.current = playTrack
 
   const handlePlayPause = (index: number) => {
-    if (currentTrack === index && howlRef.current) {
+    if (currentTrack === index && wsRef.current) {
       if (isPlaying) {
-        howlRef.current.pause()
+        wsRef.current.pause()
         setIsPlaying(false)
       } else {
         requestPlay(stopPlayback)
-        howlRef.current.play()
+        wsRef.current.play()
         setIsPlaying(true)
       }
     } else {
@@ -111,60 +129,10 @@ export default function AudioAlbumCard({
     }
   }
 
-  const seekToPosition = (e: React.MouseEvent<HTMLDivElement> | MouseEvent, target: HTMLDivElement) => {
-    if (howlRef.current && currentTrack !== null) {
-      const rect = target.getBoundingClientRect()
-      const percentage = Math.max(0, Math.min(1, (e.clientX - rect.left) / rect.width))
-      const seekTime = percentage * howlRef.current.duration()
-      howlRef.current.seek(seekTime)
-      setCurrentTime(seekTime)
-      setProgress(percentage * 100)
-    }
-  }
-
-  const handleProgressMouseDown = (e: React.MouseEvent<HTMLDivElement>) => {
-    const target = e.currentTarget
-    seekToPosition(e, target)
-
-    const handleMouseMove = (moveEvent: MouseEvent) => {
-      seekToPosition(moveEvent, target)
-    }
-
-    const handleMouseUp = () => {
-      document.removeEventListener('mousemove', handleMouseMove)
-      document.removeEventListener('mouseup', handleMouseUp)
-    }
-
-    document.addEventListener('mousemove', handleMouseMove)
-    document.addEventListener('mouseup', handleMouseUp)
-  }
-
-  // Progress tracking via requestAnimationFrame
-  useEffect(() => {
-    const tick = () => {
-      if (howlRef.current && howlRef.current.playing()) {
-        const seek = howlRef.current.seek()
-        const dur = howlRef.current.duration()
-        setCurrentTime(seek)
-        setProgress(dur > 0 ? (seek / dur) * 100 : 0)
-      }
-      rafRef.current = requestAnimationFrame(tick)
-    }
-
-    if (isPlaying) {
-      rafRef.current = requestAnimationFrame(tick)
-    } else {
-      cancelAnimationFrame(rafRef.current)
-    }
-
-    return () => cancelAnimationFrame(rafRef.current)
-  }, [isPlaying])
-
   // Cleanup on unmount
   useEffect(() => {
     return () => {
-      cancelAnimationFrame(rafRef.current)
-      howlRef.current?.unload()
+      wsRef.current?.destroy()
     }
   }, [])
 
@@ -249,19 +217,16 @@ export default function AudioAlbumCard({
                     </span>
                   </div>
 
-                  {isActive && (
-                    <div
-                      className="relative h-5 mt-1 mx-3 cursor-pointer flex items-center group"
-                      onMouseDown={handleProgressMouseDown}
-                    >
-                      <div className="w-full h-1.5 bg-border rounded-full overflow-hidden group-hover:h-2 transition-[height]">
-                        <div
-                          className="h-full bg-primary rounded-full"
-                          style={{ width: `${progress}%` }}
-                        />
-                      </div>
-                    </div>
-                  )}
+                  {/* Waveform container - always rendered, visible only when active */}
+                  <div
+                    ref={(el) => {
+                      if (el) containerRefs.current.set(index, el)
+                    }}
+                    className={cn(
+                      'mx-3 mt-1 transition-all duration-300',
+                      isActive ? 'h-10 opacity-100' : 'h-0 opacity-0 overflow-hidden',
+                    )}
+                  />
                 </div>
               )
             })}
