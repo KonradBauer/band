@@ -3,6 +3,10 @@ import { AudioPlayerProvider } from '@/components/audio-player-context'
 import type { Metadata } from 'next'
 import { getPayload } from 'payload'
 import configPromise from '@payload-config'
+import { AnimateOnScroll } from '@/components/animations/animate-on-scroll'
+import { StaggerChildren, StaggerItem } from '@/components/animations/stagger-children'
+import { FloatingNotes } from '@/components/animations/floating-notes'
+import { SectionDivider } from '@/components/animations/section-divider'
 
 export const metadata: Metadata = {
   title: 'Audio - ARMAGEDON',
@@ -64,34 +68,44 @@ export default async function AudioPage() {
   const hasContent = albumsWithTracks.some((a) => a.tracks.length > 0)
 
   return (
-    <div className="py-20 px-4 sm:px-6 lg:px-8 max-w-5xl mx-auto">
-      <h1 className="font-heading text-3xl md:text-4xl text-primary font-bold text-center">
-        {heading}
-      </h1>
-      <p className="text-muted-foreground text-center mt-2 mb-12">{subheading}</p>
+    <div className="relative overflow-hidden py-20 px-4 sm:px-6 lg:px-8 max-w-5xl mx-auto">
+      <FloatingNotes count={8} />
+      <AnimateOnScroll direction="up">
+        <h1 className="font-heading text-3xl md:text-4xl text-primary font-bold text-center">
+          {heading}
+        </h1>
+        <p className="text-muted-foreground text-center mt-2 mb-12">{subheading}</p>
+      </AnimateOnScroll>
 
       {hasContent ? (
         <AudioPlayerProvider>
-          <div className="space-y-12">
+          <StaggerChildren className="space-y-12">
             {albumsWithTracks.map(
               (album) =>
                 album.tracks.length > 0 && (
-                  <AudioAlbumCard
-                    key={album.id}
-                    title={album.title}
-                    description={album.description}
-                    coverUrl={album.coverUrl}
-                    tracks={album.tracks}
-                  />
+                  <StaggerItem key={album.id}>
+                    <AudioAlbumCard
+                      title={album.title}
+                      description={album.description}
+                      coverUrl={album.coverUrl}
+                      tracks={album.tracks}
+                    />
+                  </StaggerItem>
                 ),
             )}
-          </div>
+          </StaggerChildren>
         </AudioPlayerProvider>
       ) : (
-        <p className="text-muted-foreground text-center py-12">Brak nagrań do wyświetlenia</p>
+        <AnimateOnScroll direction="up">
+          <p className="text-muted-foreground text-center py-12">Brak nagrań do wyświetlenia</p>
+        </AnimateOnScroll>
       )}
 
-      <p className="text-sm text-muted-foreground text-center mt-12">{footer}</p>
+      <SectionDivider className="my-12" />
+
+      <AnimateOnScroll direction="up">
+        <p className="text-sm text-muted-foreground text-center">{footer}</p>
+      </AnimateOnScroll>
     </div>
   )
 }

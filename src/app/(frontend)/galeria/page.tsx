@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import { getPayload } from 'payload'
 import configPromise from '@payload-config'
 import PhotoGallery from "@/components/photo-gallery";
+import { AnimateOnScroll } from "@/components/animations/animate-on-scroll"
+import { FloatingNotes } from "@/components/animations/floating-notes"
 
 export const metadata: Metadata = {
   title: "Galeria - ARMAGEDON",
@@ -41,20 +43,28 @@ export default async function GaleriaPage() {
   })
 
   return (
-    <div className="py-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
-      <h1 className="font-heading text-3xl md:text-4xl text-primary font-bold text-center">
-        {heading}
-      </h1>
-      <p className="text-muted-foreground text-center mt-2 mb-12">
-        {subheading}
-      </p>
+    <div className="relative overflow-hidden py-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
+      <FloatingNotes count={6} />
+
+      <AnimateOnScroll direction="up">
+        <h1 className="font-heading text-3xl md:text-4xl text-primary font-bold text-center">
+          {heading}
+        </h1>
+        <p className="text-muted-foreground text-center mt-2 mb-12">
+          {subheading}
+        </p>
+      </AnimateOnScroll>
 
       {photos.length === 0 ? (
-        <p className="text-muted-foreground text-center py-12">
-          Brak zdjęć do wyświetlenia
-        </p>
+        <AnimateOnScroll direction="up">
+          <p className="text-muted-foreground text-center py-12">
+            Brak zdjęć do wyświetlenia
+          </p>
+        </AnimateOnScroll>
       ) : (
-        <PhotoGallery photos={photos} />
+        <AnimateOnScroll direction="up" delay={0.2}>
+          <PhotoGallery photos={photos} />
+        </AnimateOnScroll>
       )}
     </div>
   );

@@ -4,6 +4,10 @@ import Image from "next/image";
 import { getPayload } from 'payload'
 import configPromise from '@payload-config'
 import { RichText } from '@payloadcms/richtext-lexical/react'
+import { AnimateOnScroll } from "@/components/animations/animate-on-scroll"
+import { StaggerChildren, StaggerItem } from "@/components/animations/stagger-children"
+import { FloatingNotes } from "@/components/animations/floating-notes"
+import { SectionDivider } from "@/components/animations/section-divider"
 
 export const metadata: Metadata = {
   title: "Kim jesteśmy - ARMAGEDON",
@@ -66,48 +70,54 @@ export default async function KimJestesmyPage() {
     : defaultMembers.map((m) => ({ ...m, photoUrl: null, photoAlt: m.name }))
 
   return (
-    <div className="py-20 px-4 sm:px-6 lg:px-8 max-w-6xl mx-auto">
-      <h1 className="font-heading text-3xl md:text-4xl text-primary font-bold text-center">
-        {heading}
-      </h1>
-      <p className="text-muted-foreground text-center mt-2 mb-16">
-        {subheading}
-      </p>
+    <div className="relative overflow-hidden py-20 px-4 sm:px-6 lg:px-8 max-w-6xl mx-auto">
+      <FloatingNotes count={6} />
 
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+      <AnimateOnScroll direction="up">
+        <h1 className="font-heading text-3xl md:text-4xl text-primary font-bold text-center">
+          {heading}
+        </h1>
+        <p className="text-muted-foreground text-center mt-2 mb-16">
+          {subheading}
+        </p>
+      </AnimateOnScroll>
+
+      <StaggerChildren className="grid grid-cols-1 md:grid-cols-3 gap-8">
         {members.map((member, index) => (
-          <Card key={member.name} className="overflow-hidden">
-            <div className="h-64 relative">
-              {member.photoUrl ? (
-                <Image
-                  src={member.photoUrl}
-                  alt={member.photoAlt}
-                  fill
-                  className="object-cover"
-                  sizes="(max-width: 768px) 100vw, 33vw"
-                />
-              ) : (
-                <div className={`h-full bg-gradient-to-br ${gradients[index % gradients.length]} flex items-center justify-center`}>
-                  <div className="w-28 h-28 flex items-center justify-center bg-gray-200 text-gray-500 rounded-full text-lg font-bold">
-                    FOTO
+          <StaggerItem key={member.name}>
+            <Card className="overflow-hidden h-full">
+              <div className="h-64 relative">
+                {member.photoUrl ? (
+                  <Image
+                    src={member.photoUrl}
+                    alt={member.photoAlt}
+                    fill
+                    className="object-cover"
+                    sizes="(max-width: 768px) 100vw, 33vw"
+                  />
+                ) : (
+                  <div className={`h-full bg-gradient-to-br ${gradients[index % gradients.length]} flex items-center justify-center`}>
+                    <div className="w-28 h-28 flex items-center justify-center bg-gray-200 text-gray-500 rounded-full text-lg font-bold">
+                      FOTO
+                    </div>
                   </div>
-                </div>
-              )}
-            </div>
-            <CardContent className="p-6">
-              <h2 className="text-xl font-bold text-foreground">
-                {member.name}
-              </h2>
-              <p className="text-sm text-primary font-medium mt-1">
-                {member.role}
-              </p>
-              <p className="text-sm text-muted-foreground mt-4 leading-relaxed">
-                {member.bio}
-              </p>
-            </CardContent>
-          </Card>
+                )}
+              </div>
+              <CardContent className="p-6">
+                <h2 className="text-xl font-bold text-foreground">
+                  {member.name}
+                </h2>
+                <p className="text-sm text-primary font-medium mt-1">
+                  {member.role}
+                </p>
+                <p className="text-sm text-muted-foreground mt-4 leading-relaxed">
+                  {member.bio}
+                </p>
+              </CardContent>
+            </Card>
+          </StaggerItem>
         ))}
-      </div>
+      </StaggerChildren>
 
       {members.length === 0 && memberDocs.length === 0 && (
         <p className="text-muted-foreground text-center py-12">
@@ -115,25 +125,29 @@ export default async function KimJestesmyPage() {
         </p>
       )}
 
-      <div className="bg-card rounded-lg p-8 md:p-12 mt-16">
-        <h2 className="font-heading text-2xl text-primary font-bold">
-          {historyHeading}
-        </h2>
-        {hasRichHistory ? (
-          <div className="text-muted-foreground mt-4 leading-relaxed prose prose-invert max-w-none">
-            <RichText data={aboutPage!.history!} />
-          </div>
-        ) : (
-          <>
-            <p className="text-muted-foreground mt-4 leading-relaxed">
-              {historyFallback1}
-            </p>
-            <p className="text-muted-foreground mt-4 leading-relaxed">
-              {historyFallback2}
-            </p>
-          </>
-        )}
-      </div>
+      <SectionDivider className="my-16" />
+
+      <AnimateOnScroll direction="up">
+        <div className="bg-card rounded-lg p-8 md:p-12">
+          <h2 className="font-heading text-2xl text-primary font-bold">
+            {historyHeading}
+          </h2>
+          {hasRichHistory ? (
+            <div className="text-muted-foreground mt-4 leading-relaxed prose prose-invert max-w-none">
+              <RichText data={aboutPage!.history!} />
+            </div>
+          ) : (
+            <>
+              <p className="text-muted-foreground mt-4 leading-relaxed">
+                {historyFallback1}
+              </p>
+              <p className="text-muted-foreground mt-4 leading-relaxed">
+                {historyFallback2}
+              </p>
+            </>
+          )}
+        </div>
+      </AnimateOnScroll>
     </div>
   );
 }
