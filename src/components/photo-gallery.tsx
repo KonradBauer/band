@@ -63,15 +63,19 @@ function NextJsImage({
 
   if (!isNextJsImage(slide)) return undefined;
 
+  // Never upscale beyond native resolution
+  const maxWidth = Math.min(rect.width, slide.width);
+  const maxHeight = Math.min(rect.height, slide.height);
+
   const width = !cover
     ? Math.round(
-        Math.min(rect.width, (rect.height / slide.height) * slide.width),
+        Math.min(maxWidth, (maxHeight / slide.height) * slide.width),
       )
     : rect.width;
 
   const height = !cover
     ? Math.round(
-        Math.min(rect.height, (rect.width / slide.width) * slide.height),
+        Math.min(maxHeight, (maxWidth / slide.width) * slide.height),
       )
     : rect.height;
 
