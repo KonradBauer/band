@@ -118,7 +118,7 @@ export default async function Home() {
               {availability?.heading ?? 'Wolne terminy'}
             </h2>
             {availability?.content ? (
-              <div className="bg-card rounded-lg border border-border p-8">
+              <div className="bg-card rounded-lg border border-border p-8 prose prose-invert max-w-none">
                 <RichText data={availability.content} />
               </div>
             ) : (
