@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useCallback } from "react";
 import Image from "next/image";
 import { MasonryPhotoAlbum } from "react-photo-album";
 import "react-photo-album/masonry.css";
@@ -96,6 +96,42 @@ function NextJsImage({
   );
 }
 
+function SkeletonImage({
+  src,
+  alt,
+  width,
+  height,
+  sizes,
+}: {
+  src: string;
+  alt: string;
+  width: number;
+  height: number;
+  sizes: string;
+}) {
+  const [loaded, setLoaded] = useState(false);
+
+  return (
+    <div className="relative overflow-hidden rounded-lg" style={{ cursor: "pointer" }}>
+      {!loaded && (
+        <div
+          className="absolute inset-0 animate-pulse bg-muted rounded-lg"
+          style={{ aspectRatio: `${width} / ${height}` }}
+        />
+      )}
+      <Image
+        src={src}
+        alt={alt}
+        width={width}
+        height={height}
+        sizes={sizes}
+        className={`rounded-lg transition-opacity duration-300 ${loaded ? "opacity-100" : "opacity-0"}`}
+        onLoad={() => setLoaded(true)}
+      />
+    </div>
+  );
+}
+
 export default function PhotoGallery({ photos }: PhotoGalleryProps) {
   const [index, setIndex] = useState(-1);
 
@@ -116,29 +152,29 @@ export default function PhotoGallery({ photos }: PhotoGalleryProps) {
 
   return (
     <>
-      <MasonryPhotoAlbum
-        photos={albumPhotos}
-        columns={(containerWidth) => {
-          if (containerWidth < 500) return 2;
-          if (containerWidth < 900) return 3;
-          return 4;
-        }}
-        spacing={(containerWidth) => (containerWidth < 500 ? 8 : 16)}
-        onClick={({ index: i }) => setIndex(i)}
-        render={{
-          image: (props) => (
-            <Image
-              src={props.src as string}
-              alt={(props.alt as string) || ""}
-              width={props.width as number}
-              height={props.height as number}
-              sizes={props.sizes as string}
-              className="rounded-lg"
-              style={{ cursor: "pointer" }}
-            />
-          ),
-        }}
-      />
+      <div className="gallery-container">
+        <MasonryPhotoAlbum
+          photos={albumPhotos}
+          columns={(containerWidth) => {
+            if (containerWidth < 500) return 2;
+            if (containerWidth < 900) return 3;
+            return 4;
+          }}
+          spacing={(containerWidth) => (containerWidth < 500 ? 8 : 16)}
+          onClick={({ index: i }) => setIndex(i)}
+          render={{
+            image: (props) => (
+              <SkeletonImage
+                src={props.src as string}
+                alt={(props.alt as string) || ""}
+                width={props.width as number}
+                height={props.height as number}
+                sizes={props.sizes as string}
+              />
+            ),
+          }}
+        />
+      </div>
 
       <Lightbox
         slides={lightboxSlides}

@@ -223,3 +223,8 @@ html {
     @apply bg-background text-foreground;
   }
 }
+
+.gallery-container .react-photo-album--masonry {
+  justify-content: center;
+  gap: calc(var(--react-photo-album--spacing, 8) * 1px);
+}
