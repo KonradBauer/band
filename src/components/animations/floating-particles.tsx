@@ -2,6 +2,7 @@
 
 import { motion } from "motion/react"
 import { useMemo } from "react"
+import { useIsMobile } from "@/hooks/use-is-mobile"
 
 interface Particle {
   id: number
@@ -14,8 +15,11 @@ interface Particle {
 }
 
 export function FloatingParticles({ count = 20 }: { count?: number }) {
+  const isMobile = useIsMobile()
+  const effectiveCount = isMobile ? Math.min(count, 8) : count
+
   const particles = useMemo<Particle[]>(() => {
-    return Array.from({ length: count }, (_, i) => ({
+    return Array.from({ length: effectiveCount }, (_, i) => ({
       id: i,
       x: Math.random() * 100,
       y: Math.random() * 100,
@@ -24,14 +28,14 @@ export function FloatingParticles({ count = 20 }: { count?: number }) {
       duration: 6 + Math.random() * 8,
       delay: Math.random() * 4,
     }))
-  }, [count])
+  }, [effectiveCount])
 
   return (
     <div className="absolute inset-0 overflow-hidden pointer-events-none" aria-hidden>
       {particles.map((p) => (
         <motion.div
           key={p.id}
-          className="absolute rounded-full bg-primary"
+          className="absolute rounded-full bg-primary will-change-transform"
           style={{
             left: `${p.x}%`,
             top: `${p.y}%`,

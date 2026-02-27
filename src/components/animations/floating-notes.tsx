@@ -2,6 +2,7 @@
 
 import { motion } from "motion/react"
 import { useMemo } from "react"
+import { useIsMobile } from "@/hooks/use-is-mobile"
 
 const NOTE_CHARS = ["♪", "♫", "♩", "♬"]
 
@@ -18,8 +19,11 @@ interface Note {
 }
 
 export function FloatingNotes({ count = 12 }: { count?: number }) {
+  const isMobile = useIsMobile()
+  const effectiveCount = isMobile ? Math.min(count, 4) : count
+
   const notes = useMemo<Note[]>(() => {
-    return Array.from({ length: count }, (_, i) => ({
+    return Array.from({ length: effectiveCount }, (_, i) => ({
       id: i,
       char: NOTE_CHARS[i % NOTE_CHARS.length],
       x: Math.random() * 100,
@@ -30,14 +34,14 @@ export function FloatingNotes({ count = 12 }: { count?: number }) {
       delay: Math.random() * 4,
       rotate: -20 + Math.random() * 40,
     }))
-  }, [count])
+  }, [effectiveCount])
 
   return (
     <div className="absolute inset-0 overflow-hidden pointer-events-none" aria-hidden>
       {notes.map((n) => (
         <motion.span
           key={n.id}
-          className="absolute text-primary select-none"
+          className="absolute text-primary select-none will-change-transform"
           style={{
             left: `${n.x}%`,
             top: `${n.y}%`,

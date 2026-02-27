@@ -70,8 +70,8 @@ export default async function Home() {
     <div>
       {/* Hero */}
       <section className="relative overflow-hidden bg-gradient-to-br from-[#1a1a2e] via-[#0f0f23] to-[#1a1a2e]">
-        <FloatingParticles count={20} />
-        <FloatingNotes count={10} />
+        <FloatingParticles count={12} />
+        <FloatingNotes count={6} />
         <HeroGlow />
         <div className="absolute inset-0 bg-gradient-to-t from-background via-background/60 to-transparent" />
         <SmokeEffect />
@@ -210,8 +210,8 @@ export default async function Home() {
       <SectionDivider />
 
       <section className="relative overflow-hidden py-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-[#1a1a2e]/50 via-background to-[#1a1a2e]/30 text-center">
-        <FloatingParticles count={8} />
-        <FloatingNotes count={6} />
+        <FloatingParticles count={6} />
+        <FloatingNotes count={4} />
         <AnimateOnScroll direction="scale">
           <div className="relative max-w-7xl mx-auto">
             <h2 className="font-heading text-3xl md:text-4xl shimmer-gold font-bold">

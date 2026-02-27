@@ -15,13 +15,12 @@ export function ScrollZoomHero({ children, className }: ScrollZoomHeroProps) {
     offset: ["start start", "end start"],
   })
 
-  const scale = useTransform(scrollYProgress, [0, 1], [1, 1.15])
-  const opacity = useTransform(scrollYProgress, [0, 0.8, 1], [1, 0.6, 0])
-  const filter = useTransform(scrollYProgress, (v) => `blur(${v * 10}px)`)
+  const scale = useTransform(scrollYProgress, [0, 1], [1, 1.1])
+  const opacity = useTransform(scrollYProgress, [0, 0.7, 1], [1, 0.5, 0])
 
   return (
     <div ref={ref} className={className}>
-      <motion.div style={{ scale, opacity, filter }}>
+      <motion.div className="will-change-transform" style={{ scale, opacity }}>
         {children}
       </motion.div>
     </div>

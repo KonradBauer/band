@@ -15,7 +15,13 @@
       "Bash(cd /c/dev/band && pnpm remove howler @types/howler 2>&1)",
       "Bash(cd:*)",
       "Bash(npx tsc:*)",
-      "Bash(grep:*)"
+      "Bash(grep:*)",
+      "WebFetch(domain:www.svgator.com)",
+      "WebFetch(domain:reallygooddesigns.com)",
+      "WebFetch(domain:www.jamhot.band)",
+      "WebFetch(domain:www.creativecorner.studio)",
+      "Bash(pnpm payload:*)",
+      "Bash(pnpm lint:*)"
     ]
   }
 }
