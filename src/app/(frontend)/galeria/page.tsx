@@ -4,6 +4,7 @@ import configPromise from '@payload-config'
 import PhotoGallery from "@/components/photo-gallery";
 import { AnimateOnScroll } from "@/components/animations/animate-on-scroll"
 import { FloatingNotes } from "@/components/animations/floating-notes"
+import { PageTransition } from "@/components/animations/page-transition"
 
 export const metadata: Metadata = {
   title: "Galeria - ARMAGEDON",
@@ -43,11 +44,12 @@ export default async function GaleriaPage() {
   })
 
   return (
+    <PageTransition>
     <div className="relative overflow-hidden py-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
       <FloatingNotes count={6} />
 
       <AnimateOnScroll direction="up">
-        <h1 className="font-heading text-3xl md:text-4xl text-primary font-bold text-center">
+        <h1 className="font-heading text-3xl md:text-4xl shimmer-gold font-bold text-center">
           {heading}
         </h1>
         <p className="text-muted-foreground text-center mt-2 mb-12">
@@ -67,5 +69,6 @@ export default async function GaleriaPage() {
         </AnimateOnScroll>
       )}
     </div>
+    </PageTransition>
   );
 }

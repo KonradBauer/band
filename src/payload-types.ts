@@ -648,6 +648,17 @@ export interface HomePage {
       [k: string]: unknown;
     } | null;
   };
+  statsSection?: {
+    heading?: string | null;
+    stats?:
+      | {
+          value: number;
+          suffix?: string | null;
+          label: string;
+          id?: string | null;
+        }[]
+      | null;
+  };
   featuresSection?: {
     heading?: string | null;
     subheading?: string | null;
@@ -807,6 +818,19 @@ export interface HomePageSelect<T extends boolean = true> {
     | {
         heading?: T;
         content?: T;
+      };
+  statsSection?:
+    | T
+    | {
+        heading?: T;
+        stats?:
+          | T
+          | {
+              value?: T;
+              suffix?: T;
+              label?: T;
+              id?: T;
+            };
       };
   featuresSection?:
     | T

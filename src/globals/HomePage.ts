@@ -78,6 +78,44 @@ export const HomePage: GlobalConfig = {
       ],
     },
     {
+      name: 'statsSection',
+      type: 'group',
+      label: 'Sekcja statystyk',
+      fields: [
+        {
+          name: 'heading',
+          type: 'text',
+          label: 'Nagłówek',
+          defaultValue: 'ARMAGEDON w liczbach',
+        },
+        {
+          name: 'stats',
+          type: 'array',
+          label: 'Statystyki',
+          maxRows: 4,
+          fields: [
+            {
+              name: 'value',
+              type: 'number',
+              required: true,
+              label: 'Wartość liczbowa',
+            },
+            {
+              name: 'suffix',
+              type: 'text',
+              label: 'Sufiks (np. "+", " lat")',
+            },
+            {
+              name: 'label',
+              type: 'text',
+              required: true,
+              label: 'Opis',
+            },
+          ],
+        },
+      ],
+    },
+    {
       name: 'featuresSection',
       type: 'group',
       label: 'Sekcja "Dlaczego my"',

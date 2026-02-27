@@ -137,7 +137,7 @@ export default function AudioAlbumCard({
   }, [])
 
   return (
-    <div className="rounded-xl border border-border/50 bg-card/50 overflow-hidden">
+    <div className="glass-card rounded-xl overflow-hidden">
       <div className="flex flex-col md:flex-row">
         {/* Cover + album info */}
         <div className="md:w-64 shrink-0 p-6 flex flex-col items-center md:items-start gap-4 bg-card/80">

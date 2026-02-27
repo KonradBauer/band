@@ -36,7 +36,7 @@ export function SiteHeaderClient({ siteName = "ARMAGEDON" }: SiteHeaderClientPro
         <div className="h-16 flex items-center justify-between">
           <Link
             href="/"
-            className="font-heading text-2xl text-primary font-bold tracking-wider"
+            className="font-heading text-2xl font-bold tracking-wider gold-gradient-text"
           >
             {siteName}
           </Link>
@@ -47,7 +47,7 @@ export function SiteHeaderClient({ siteName = "ARMAGEDON" }: SiteHeaderClientPro
                 key={link.href}
                 href={link.href}
                 className={cn(
-                  "text-sm font-medium transition-colors hover:text-primary",
+                  "text-sm font-medium transition-colors hover:text-primary nav-underline",
                   pathname === link.href && "text-primary",
                 )}
               >

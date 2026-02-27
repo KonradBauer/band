@@ -1,5 +1,5 @@
 import type { Metadata } from 'next'
-import { Card, CardContent } from '@/components/ui/card'
+import { CardContent } from '@/components/ui/card'
 import { Phone, Mail, MapPin, Clock, Facebook, CreditCard, FileText } from 'lucide-react'
 import { getPayload } from 'payload'
 import configPromise from '@payload-config'
@@ -7,6 +7,7 @@ import { AnimateOnScroll } from '@/components/animations/animate-on-scroll'
 import { StaggerChildren, StaggerItem } from '@/components/animations/stagger-children'
 import { FloatingNotes } from '@/components/animations/floating-notes'
 import { SectionDivider } from '@/components/animations/section-divider'
+import { PageTransition } from '@/components/animations/page-transition'
 
 export const metadata: Metadata = {
   title: 'Kontakt - ARMAGEDON',
@@ -33,11 +34,12 @@ export default async function KontaktPage() {
   const mapUrl = contactPage?.mapUrl ?? 'https://maps.google.com/maps?q=POLSKA%20KO%C5%9ACIELEC%20JANA%20PAW%C5%81A%20II%2044&t=m&z=13&output=embed&iwloc=near'
 
   return (
+    <PageTransition>
     <div className="relative overflow-hidden py-20 px-4 sm:px-6 lg:px-8 max-w-6xl mx-auto">
       <FloatingNotes count={6} />
 
       <AnimateOnScroll direction="up">
-        <h1 className="font-heading text-3xl md:text-4xl text-primary font-bold text-center">
+        <h1 className="font-heading text-3xl md:text-4xl shimmer-gold font-bold text-center">
           {heading}
         </h1>
         <p className="text-muted-foreground text-center mt-2 mb-16">
@@ -52,7 +54,7 @@ export default async function KontaktPage() {
 
         <StaggerChildren className="space-y-4">
           <StaggerItem>
-            <Card className="p-4">
+            <div className="glass-card rounded-xl p-4">
               <CardContent className="p-0 flex items-center gap-4">
                 <Phone className="text-primary shrink-0" size={24} />
                 <div>
@@ -61,11 +63,11 @@ export default async function KontaktPage() {
                   <p className="text-sm text-muted-foreground">{phoneSecondary}</p>
                 </div>
               </CardContent>
-            </Card>
+            </div>
           </StaggerItem>
 
           <StaggerItem>
-            <Card className="p-4">
+            <div className="glass-card rounded-xl p-4">
               <CardContent className="p-0 flex items-center gap-4">
                 <Mail className="text-primary shrink-0" size={24} />
                 <div>
@@ -73,11 +75,11 @@ export default async function KontaktPage() {
                   <p className="text-foreground font-medium">{email}</p>
                 </div>
               </CardContent>
-            </Card>
+            </div>
           </StaggerItem>
 
           <StaggerItem>
-            <Card className="p-4">
+            <div className="glass-card rounded-xl p-4">
               <CardContent className="p-0 flex items-center gap-4">
                 <MapPin className="text-primary shrink-0" size={24} />
                 <div>
@@ -86,11 +88,11 @@ export default async function KontaktPage() {
                   <p className="text-sm text-muted-foreground">{addressDescription}</p>
                 </div>
               </CardContent>
-            </Card>
+            </div>
           </StaggerItem>
 
           <StaggerItem>
-            <Card className="p-4">
+            <div className="glass-card rounded-xl p-4">
               <CardContent className="p-0 flex items-center gap-4">
                 <Clock className="text-primary shrink-0" size={24} />
                 <div>
@@ -99,11 +101,11 @@ export default async function KontaktPage() {
                   <p className="text-sm text-muted-foreground">{hoursWeekend}</p>
                 </div>
               </CardContent>
-            </Card>
+            </div>
           </StaggerItem>
 
           <StaggerItem>
-            <Card className="p-4">
+            <div className="glass-card rounded-xl p-4">
               <CardContent className="p-0 flex items-center gap-4">
                 <FileText className="text-primary shrink-0" size={24} />
                 <div>
@@ -111,11 +113,11 @@ export default async function KontaktPage() {
                   <p className="text-foreground font-medium">{nip}</p>
                 </div>
               </CardContent>
-            </Card>
+            </div>
           </StaggerItem>
 
           <StaggerItem>
-            <Card className="p-4">
+            <div className="glass-card rounded-xl p-4">
               <CardContent className="p-0 flex items-center gap-4">
                 <CreditCard className="text-primary shrink-0" size={24} />
                 <div>
@@ -123,11 +125,11 @@ export default async function KontaktPage() {
                   <p className="text-foreground font-medium">{bankAccount}</p>
                 </div>
               </CardContent>
-            </Card>
+            </div>
           </StaggerItem>
 
           <StaggerItem>
-            <Card className="p-4">
+            <div className="glass-card rounded-xl p-4">
               <CardContent className="p-0 flex items-center gap-4">
                 <Facebook className="text-primary shrink-0" size={24} />
                 <div>
@@ -137,7 +139,7 @@ export default async function KontaktPage() {
                   </a>
                 </div>
               </CardContent>
-            </Card>
+            </div>
           </StaggerItem>
         </StaggerChildren>
 
@@ -157,5 +159,6 @@ export default async function KontaktPage() {
         </AnimateOnScroll>
       </div>
     </div>
+    </PageTransition>
   )
 }

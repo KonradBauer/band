@@ -7,6 +7,7 @@ import { AnimateOnScroll } from '@/components/animations/animate-on-scroll'
 import { StaggerChildren, StaggerItem } from '@/components/animations/stagger-children'
 import { FloatingNotes } from '@/components/animations/floating-notes'
 import { SectionDivider } from '@/components/animations/section-divider'
+import { PageTransition } from '@/components/animations/page-transition'
 
 export const metadata: Metadata = {
   title: 'Audio - ARMAGEDON',
@@ -68,10 +69,11 @@ export default async function AudioPage() {
   const hasContent = albumsWithTracks.some((a) => a.tracks.length > 0)
 
   return (
+    <PageTransition>
     <div className="relative overflow-hidden py-20 px-4 sm:px-6 lg:px-8 max-w-5xl mx-auto">
       <FloatingNotes count={8} />
       <AnimateOnScroll direction="up">
-        <h1 className="font-heading text-3xl md:text-4xl text-primary font-bold text-center">
+        <h1 className="font-heading text-3xl md:text-4xl shimmer-gold font-bold text-center">
           {heading}
         </h1>
         <p className="text-muted-foreground text-center mt-2 mb-12">{subheading}</p>
@@ -107,5 +109,6 @@ export default async function AudioPage() {
         <p className="text-sm text-muted-foreground text-center">{footer}</p>
       </AnimateOnScroll>
     </div>
+    </PageTransition>
   )
 }

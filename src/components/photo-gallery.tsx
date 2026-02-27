@@ -116,7 +116,7 @@ function SkeletonImage({
   const [loaded, setLoaded] = useState(false);
 
   return (
-    <div className="relative overflow-hidden rounded-lg" style={{ cursor: "pointer" }}>
+    <div className="relative overflow-hidden rounded-lg gallery-hover" style={{ cursor: "pointer" }}>
       {!loaded && (
         <div
           className="absolute inset-0 animate-pulse bg-muted rounded-lg"

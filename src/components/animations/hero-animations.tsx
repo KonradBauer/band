@@ -49,18 +49,50 @@ export function HeroItem({
 
 export function HeroGlow() {
   return (
-    <motion.div
-      className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[400px] h-[200px] bg-primary/10 rounded-full blur-[100px]"
-      animate={{
-        scale: [1, 1.2, 1],
-        opacity: [0.3, 0.6, 0.3],
-      }}
-      transition={{
-        duration: 4,
-        repeat: Infinity,
-        ease: "easeInOut",
-      }}
-      aria-hidden
-    />
+    <>
+      <motion.div
+        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[300px] bg-primary/10 rounded-full blur-[120px]"
+        animate={{
+          scale: [1, 1.3, 1],
+          opacity: [0.2, 0.5, 0.2],
+        }}
+        transition={{
+          duration: 6,
+          repeat: Infinity,
+          ease: "easeInOut",
+        }}
+        aria-hidden
+      />
+      <motion.div
+        className="absolute top-1/2 left-1/3 -translate-x-1/2 -translate-y-1/2 w-[400px] h-[200px] rounded-full blur-[100px]"
+        style={{ background: "rgba(212, 175, 55, 0.06)" }}
+        animate={{
+          scale: [1.1, 1, 1.1],
+          opacity: [0.3, 0.6, 0.3],
+          x: [-20, 20, -20],
+        }}
+        transition={{
+          duration: 8,
+          repeat: Infinity,
+          ease: "easeInOut",
+        }}
+        aria-hidden
+      />
+      <motion.div
+        className="absolute top-1/3 right-1/4 w-[300px] h-[200px] rounded-full blur-[80px]"
+        style={{ background: "rgba(245, 230, 184, 0.04)" }}
+        animate={{
+          scale: [1, 1.2, 1],
+          opacity: [0.2, 0.4, 0.2],
+        }}
+        transition={{
+          duration: 5,
+          repeat: Infinity,
+          ease: "easeInOut",
+          delay: 1,
+        }}
+        aria-hidden
+      />
+    </>
   )
 }

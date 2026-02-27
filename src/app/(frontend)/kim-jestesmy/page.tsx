@@ -1,4 +1,4 @@
-import { Card, CardContent } from "@/components/ui/card";
+import { CardContent } from "@/components/ui/card";
 import type { Metadata } from "next";
 import Image from "next/image";
 import { getPayload } from 'payload'
@@ -8,6 +8,7 @@ import { AnimateOnScroll } from "@/components/animations/animate-on-scroll"
 import { StaggerChildren, StaggerItem } from "@/components/animations/stagger-children"
 import { FloatingNotes } from "@/components/animations/floating-notes"
 import { SectionDivider } from "@/components/animations/section-divider"
+import { PageTransition } from "@/components/animations/page-transition"
 
 export const metadata: Metadata = {
   title: "Kim jesteśmy - ARMAGEDON",
@@ -70,11 +71,12 @@ export default async function KimJestesmyPage() {
     : defaultMembers.map((m) => ({ ...m, photoUrl: null, photoAlt: m.name }))
 
   return (
+    <PageTransition>
     <div className="relative overflow-hidden py-20 px-4 sm:px-6 lg:px-8 max-w-6xl mx-auto">
       <FloatingNotes count={6} />
 
       <AnimateOnScroll direction="up">
-        <h1 className="font-heading text-3xl md:text-4xl text-primary font-bold text-center">
+        <h1 className="font-heading text-3xl md:text-4xl shimmer-gold font-bold text-center">
           {heading}
         </h1>
         <p className="text-muted-foreground text-center mt-2 mb-16">
@@ -85,7 +87,7 @@ export default async function KimJestesmyPage() {
       <StaggerChildren className="grid grid-cols-1 md:grid-cols-3 gap-8">
         {members.map((member, index) => (
           <StaggerItem key={member.name}>
-            <Card className="overflow-hidden h-full">
+            <div className="glass-card rounded-xl overflow-hidden h-full">
               <div className="h-64 relative">
                 {member.photoUrl ? (
                   <Image
@@ -114,7 +116,7 @@ export default async function KimJestesmyPage() {
                   {member.bio}
                 </p>
               </CardContent>
-            </Card>
+            </div>
           </StaggerItem>
         ))}
       </StaggerChildren>
@@ -128,8 +130,8 @@ export default async function KimJestesmyPage() {
       <SectionDivider className="my-16" />
 
       <AnimateOnScroll direction="up">
-        <div className="bg-card rounded-lg p-8 md:p-12">
-          <h2 className="font-heading text-2xl text-primary font-bold">
+        <div className="glass-card rounded-lg p-8 md:p-12">
+          <h2 className="font-heading text-2xl shimmer-gold font-bold">
             {historyHeading}
           </h2>
           {hasRichHistory ? (
@@ -149,5 +151,6 @@ export default async function KimJestesmyPage() {
         </div>
       </AnimateOnScroll>
     </div>
+    </PageTransition>
   );
 }
