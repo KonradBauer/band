@@ -20,13 +20,13 @@ export const HomePage: GlobalConfig = {
         },
         {
           name: 'subheading',
-          type: 'text',
+          type: 'textarea',
           label: 'Podnagłówek',
           defaultValue: 'Zespół muzyczny na wesele',
         },
         {
           name: 'description',
-          type: 'text',
+          type: 'textarea',
           label: 'Opis',
           defaultValue: 'Profesjonalna oprawa muzyczna wesel i imprez. Gramy z pasją od ponad 20 lat.',
         },
@@ -128,7 +128,7 @@ export const HomePage: GlobalConfig = {
         },
         {
           name: 'subheading',
-          type: 'text',
+          type: 'textarea',
           label: 'Podnagłówek',
           defaultValue: 'Od ponad 20 lat dostarczamy niezapomniane emocje na weselach',
         },
@@ -162,7 +162,7 @@ export const HomePage: GlobalConfig = {
             },
             {
               name: 'description',
-              type: 'richText',
+              type: 'textarea',
               label: 'Opis',
             },
           ],
@@ -223,7 +223,7 @@ export const HomePage: GlobalConfig = {
         },
         {
           name: 'subheading',
-          type: 'text',
+          type: 'textarea',
           label: 'Podnagłówek',
           defaultValue: 'Nie zwlekaj - popularne terminy szybko się zapełniają!',
         },

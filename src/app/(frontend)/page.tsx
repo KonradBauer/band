@@ -156,9 +156,8 @@ export default async function Home() {
           </p>
         </AnimateOnScroll>
         <StaggerChildren className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-          {features.map((feature: { icon?: string | null; title: string; description?: unknown }, index: number) => {
+          {features.map((feature: { icon?: string | null; title: string; description?: string | null }, index: number) => {
             const IconComponent = iconMap[feature.icon ?? ''] ?? Music
-            const desc = feature.description
             return (
               <StaggerItem key={index}>
                 <div className="glass-card rounded-xl text-center p-6 h-full transition-all duration-300 hover:scale-105">
@@ -166,15 +165,9 @@ export default async function Home() {
                     <IconComponent size={32} className="text-primary" />
                   </div>
                   <h3 className="text-lg font-semibold mt-4">{feature.title}</h3>
-                  {desc && typeof desc === 'object' && 'root' in desc ? (
-                    <div className="text-sm text-muted-foreground mt-2 prose prose-invert prose-sm max-w-none">
-                      <RichText data={desc as Parameters<typeof RichText>[0]['data']} />
-                    </div>
-                  ) : desc ? (
-                    <p className="text-sm text-muted-foreground mt-2">
-                      {String(desc)}
-                    </p>
-                  ) : null}
+                  <p className="text-sm text-muted-foreground mt-2">
+                    {feature.description}
+                  </p>
                 </div>
               </StaggerItem>
             )

@@ -15,7 +15,7 @@ export const AboutPage: GlobalConfig = {
     },
     {
       name: 'subheading',
-      type: 'text',
+      type: 'textarea',
       label: 'Podnagłówek',
       defaultValue: 'Poznaj ludzi, którzy tworzą niezapomniane wesela',
     },

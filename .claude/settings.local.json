@@ -23,7 +23,8 @@
       "Bash(pnpm payload:*)",
       "Bash(pnpm lint:*)",
       "Bash(npx cross-env:*)",
-      "Bash(node:*)"
+      "Bash(node:*)",
+      "Bash(npx tsx:*)"
     ]
   }
 }

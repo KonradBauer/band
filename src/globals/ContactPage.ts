@@ -15,7 +15,7 @@ export const ContactPage: GlobalConfig = {
     },
     {
       name: 'subheading',
-      type: 'text',
+      type: 'textarea',
       label: 'Podnagłówek',
       defaultValue: 'Masz pytania? Chętnie na nie odpowiemy!',
     },
@@ -51,7 +51,7 @@ export const ContactPage: GlobalConfig = {
     },
     {
       name: 'addressDescription',
-      type: 'text',
+      type: 'textarea',
       label: 'Opis zasięgu',
       defaultValue: 'Obsługujemy całe województwo śląskie i okolice',
     },

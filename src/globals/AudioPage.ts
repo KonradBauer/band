@@ -15,13 +15,13 @@ export const AudioPage: GlobalConfig = {
     },
     {
       name: 'subheading',
-      type: 'text',
+      type: 'textarea',
       label: 'Podnagłówek',
       defaultValue: 'Posłuchaj fragmentów naszego repertuaru',
     },
     {
       name: 'footer',
-      type: 'text',
+      type: 'textarea',
       label: 'Tekst stopki',
       defaultValue: 'Pełny repertuar omawiamy indywidualnie z Młodą Parą',
     },

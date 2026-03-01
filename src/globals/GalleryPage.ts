@@ -15,7 +15,7 @@ export const GalleryPage: GlobalConfig = {
     },
     {
       name: 'subheading',
-      type: 'text',
+      type: 'textarea',
       label: 'Podnagłówek',
       defaultValue: 'Chwile, które uwieczniamy na każdym wydarzeniu',
     },
