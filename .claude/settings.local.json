@@ -21,7 +21,8 @@
       "WebFetch(domain:www.jamhot.band)",
       "WebFetch(domain:www.creativecorner.studio)",
       "Bash(pnpm payload:*)",
-      "Bash(pnpm lint:*)"
+      "Bash(pnpm lint:*)",
+      "Bash(npx cross-env:*)"
     ]
   }
 }

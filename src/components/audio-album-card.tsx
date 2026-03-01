@@ -7,6 +7,7 @@ import { Button } from '@/components/ui/button'
 import { Play, Pause, Music2, Disc3 } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { useAudioPlayer } from '@/components/audio-player-context'
+import { RichText } from '@payloadcms/richtext-lexical/react'
 
 interface Track {
   title: string
@@ -15,7 +16,7 @@ interface Track {
 
 interface AudioAlbumCardProps {
   title: string
-  description?: string | null
+  description?: Parameters<typeof RichText>[0]['data'] | null
   coverUrl?: string | null
   tracks: Track[]
 }
@@ -159,7 +160,9 @@ export default function AudioAlbumCard({
           <div className="text-center md:text-left">
             <h2 className="font-heading text-xl text-primary font-bold">{title}</h2>
             {description && (
-              <p className="text-sm text-muted-foreground mt-1">{description}</p>
+              <div className="text-sm text-muted-foreground mt-1 prose prose-invert prose-sm max-w-none">
+                <RichText data={description} />
+              </div>
             )}
           </div>
         </div>

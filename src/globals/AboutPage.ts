@@ -32,15 +32,13 @@ export const AboutPage: GlobalConfig = {
     },
     {
       name: 'historyFallback1',
-      type: 'textarea',
+      type: 'richText',
       label: 'Historia (akapit 1 - fallback)',
-      defaultValue: 'Zespół ARMAGEDON powstał z miłości do muzyki i potrzeby dzielenia się nią z innymi. Od samego początku naszą misją było tworzenie wesel, które goście zapamiętają na lata. Zaczynaliśmy jako mały skład, a dziś jesteśmy jednym z najbardziej rozpoznawalnych zespołów weselnych na Śląsku.',
     },
     {
       name: 'historyFallback2',
-      type: 'textarea',
+      type: 'richText',
       label: 'Historia (akapit 2 - fallback)',
-      defaultValue: 'Przez lata zagraliśmy setki wesel, imprez firmowych i wydarzeń okolicznościowych. Każde z nich nauczyło nas czegoś nowego i pomogło udoskonalić nasz warsztat. Dziś z dumą możemy powiedzieć, że muzyka to nie tylko nasza praca - to nasza największa pasja.',
     },
   ],
 }

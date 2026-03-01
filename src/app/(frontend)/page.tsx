@@ -156,8 +156,9 @@ export default async function Home() {
           </p>
         </AnimateOnScroll>
         <StaggerChildren className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-          {features.map((feature: { icon?: string | null; title: string; description?: string | null }, index: number) => {
+          {features.map((feature: { icon?: string | null; title: string; description?: unknown }, index: number) => {
             const IconComponent = iconMap[feature.icon ?? ''] ?? Music
+            const desc = feature.description
             return (
               <StaggerItem key={index}>
                 <div className="glass-card rounded-xl text-center p-6 h-full transition-all duration-300 hover:scale-105">
@@ -165,9 +166,15 @@ export default async function Home() {
                     <IconComponent size={32} className="text-primary" />
                   </div>
                   <h3 className="text-lg font-semibold mt-4">{feature.title}</h3>
-                  <p className="text-sm text-muted-foreground mt-2">
-                    {feature.description}
-                  </p>
+                  {desc && typeof desc === 'object' && 'root' in desc ? (
+                    <div className="text-sm text-muted-foreground mt-2 prose prose-invert prose-sm max-w-none">
+                      <RichText data={desc as Parameters<typeof RichText>[0]['data']} />
+                    </div>
+                  ) : desc ? (
+                    <p className="text-sm text-muted-foreground mt-2">
+                      {String(desc)}
+                    </p>
+                  ) : null}
                 </div>
               </StaggerItem>
             )
@@ -194,12 +201,24 @@ export default async function Home() {
             <h2 className="font-heading text-3xl shimmer-gold font-bold">
               {about?.heading ?? 'Kim jesteśmy?'}
             </h2>
-            <p className="text-muted-foreground mt-4 leading-relaxed">
-              {about?.paragraph1 ?? 'Jesteśmy zespołem z wieloletnim doświadczeniem, który łączy profesjonalizm z autentyczną pasją do muzyki. Nasz repertuar obejmuje utwory z różnych gatunków - od klasycznych przebojów weselnych, przez pop, rock, disco polo, aż po jazz i swing.'}
-            </p>
-            <p className="text-muted-foreground mt-4 leading-relaxed">
-              {about?.paragraph2 ?? 'Każde wesele traktujemy indywidualnie, dostosowując program do potrzeb i oczekiwań Młodej Pary.'}
-            </p>
+            {about?.paragraph1 && typeof about.paragraph1 === 'object' ? (
+              <div className="text-muted-foreground mt-4 leading-relaxed prose prose-invert max-w-none">
+                <RichText data={about.paragraph1} />
+              </div>
+            ) : (
+              <p className="text-muted-foreground mt-4 leading-relaxed">
+                Jesteśmy zespołem z wieloletnim doświadczeniem, który łączy profesjonalizm z autentyczną pasją do muzyki. Nasz repertuar obejmuje utwory z różnych gatunków - od klasycznych przebojów weselnych, przez pop, rock, disco polo, aż po jazz i swing.
+              </p>
+            )}
+            {about?.paragraph2 && typeof about.paragraph2 === 'object' ? (
+              <div className="text-muted-foreground mt-4 leading-relaxed prose prose-invert max-w-none">
+                <RichText data={about.paragraph2} />
+              </div>
+            ) : (
+              <p className="text-muted-foreground mt-4 leading-relaxed">
+                Każde wesele traktujemy indywidualnie, dostosowując program do potrzeb i oczekiwań Młodej Pary.
+              </p>
+            )}
             <Button variant="outline" asChild className="mt-6 border-primary text-primary hover:bg-primary hover:text-primary-foreground glow-button">
               <Link href={about?.ctaLink ?? '/kim-jestesmy'}>{about?.ctaText ?? 'Więcej o nas'}</Link>
             </Button>

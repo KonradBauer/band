@@ -28,7 +28,7 @@ export const Member: CollectionConfig = {
     },
     {
       name: 'bio',
-      type: 'textarea',
+      type: 'richText',
       label: 'Bio',
     },
     {
