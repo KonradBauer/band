@@ -24,7 +24,10 @@
       "Bash(pnpm lint:*)",
       "Bash(npx cross-env:*)",
       "Bash(node:*)",
-      "Bash(npx tsx:*)"
+      "Bash(npx tsx:*)",
+      "Bash(git clean:*)",
+      "Bash(git:*)",
+      "Bash(GIT_EDITOR=true git rebase:*)"
     ]
   }
 }
