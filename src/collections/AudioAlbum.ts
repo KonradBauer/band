@@ -32,7 +32,7 @@ export const AudioAlbum: CollectionConfig = {
     },
     {
       name: 'description',
-      type: 'richText',
+      type: 'textarea',
       label: 'Opis',
     },
     {

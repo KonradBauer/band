@@ -52,8 +52,8 @@ export default async function KimJestesmyPage() {
   const subheading = aboutPage?.subheading ?? 'Poznaj ludzi, którzy tworzą niezapomniane wesela'
   const historyHeading = aboutPage?.historyHeading ?? 'Nasza historia'
   const hasRichHistory = aboutPage?.history && typeof aboutPage.history === 'object' && (aboutPage.history as { root?: { children?: unknown[] } }).root?.children?.length
-  const historyFallback1 = aboutPage?.historyFallback1
-  const historyFallback2 = aboutPage?.historyFallback2
+  const historyFallback1 = aboutPage?.historyFallback1 ?? 'Zespół ARMAGEDON powstał z miłości do muzyki i potrzeby dzielenia się nią z innymi. Od samego początku naszą misją było tworzenie wesel, które goście zapamiętają na lata. Zaczynaliśmy jako mały skład, a dziś jesteśmy jednym z najbardziej rozpoznawalnych zespołów weselnych na Śląsku.'
+  const historyFallback2 = aboutPage?.historyFallback2 ?? 'Przez lata zagraliśmy setki wesel, imprez firmowych i wydarzeń okolicznościowych. Każde z nich nauczyło nas czegoś nowego i pomogło udoskonalić nasz warsztat. Dziś z dumą możemy powiedzieć, że muzyka to nie tylko nasza praca - to nasza największa pasja.'
 
   const members = memberDocs.length > 0
     ? memberDocs.map((m) => {
@@ -63,12 +63,12 @@ export default async function KimJestesmyPage() {
         return {
           name: m.name,
           role: m.role,
-          bio: m.bio ?? null,
+          bio: m.bio ?? '',
           photoUrl: photo?.sizes?.card?.url ?? photo?.url ?? null,
           photoAlt: photo?.alt ?? m.name,
         }
       })
-    : defaultMembers.map((m) => ({ ...m, bio: m.bio as string | null, photoUrl: null, photoAlt: m.name }))
+    : defaultMembers.map((m) => ({ ...m, photoUrl: null, photoAlt: m.name }))
 
   return (
     <PageTransition>
@@ -112,15 +112,9 @@ export default async function KimJestesmyPage() {
                 <p className="text-sm text-primary font-medium mt-1">
                   {member.role}
                 </p>
-                {member.bio && typeof member.bio === 'object' ? (
-                  <div className="text-sm text-muted-foreground mt-4 leading-relaxed prose prose-invert prose-sm max-w-none">
-                    <RichText data={member.bio} />
-                  </div>
-                ) : member.bio ? (
-                  <p className="text-sm text-muted-foreground mt-4 leading-relaxed">
-                    {member.bio}
-                  </p>
-                ) : null}
+                <p className="text-sm text-muted-foreground mt-4 leading-relaxed">
+                  {member.bio}
+                </p>
               </CardContent>
             </div>
           </StaggerItem>
@@ -146,24 +140,12 @@ export default async function KimJestesmyPage() {
             </div>
           ) : (
             <>
-              {historyFallback1 && typeof historyFallback1 === 'object' ? (
-                <div className="text-muted-foreground mt-4 leading-relaxed prose prose-invert max-w-none">
-                  <RichText data={historyFallback1} />
-                </div>
-              ) : (
-                <p className="text-muted-foreground mt-4 leading-relaxed">
-                  Zespół ARMAGEDON powstał z miłości do muzyki i potrzeby dzielenia się nią z innymi. Od samego początku naszą misją było tworzenie wesel, które goście zapamiętają na lata. Zaczynaliśmy jako mały skład, a dziś jesteśmy jednym z najbardziej rozpoznawalnych zespołów weselnych na Śląsku.
-                </p>
-              )}
-              {historyFallback2 && typeof historyFallback2 === 'object' ? (
-                <div className="text-muted-foreground mt-4 leading-relaxed prose prose-invert max-w-none">
-                  <RichText data={historyFallback2} />
-                </div>
-              ) : (
-                <p className="text-muted-foreground mt-4 leading-relaxed">
-                  Przez lata zagraliśmy setki wesel, imprez firmowych i wydarzeń okolicznościowych. Każde z nich nauczyło nas czegoś nowego i pomogło udoskonalić nasz warsztat. Dziś z dumą możemy powiedzieć, że muzyka to nie tylko nasza praca - to nasza największa pasja.
-                </p>
-              )}
+              <p className="text-muted-foreground mt-4 leading-relaxed">
+                {historyFallback1}
+              </p>
+              <p className="text-muted-foreground mt-4 leading-relaxed">
+                {historyFallback2}
+              </p>
             </>
           )}
         </div>

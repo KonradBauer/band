@@ -194,24 +194,12 @@ export default async function Home() {
             <h2 className="font-heading text-3xl shimmer-gold font-bold">
               {about?.heading ?? 'Kim jesteśmy?'}
             </h2>
-            {about?.paragraph1 && typeof about.paragraph1 === 'object' ? (
-              <div className="text-muted-foreground mt-4 leading-relaxed prose prose-invert max-w-none">
-                <RichText data={about.paragraph1} />
-              </div>
-            ) : (
-              <p className="text-muted-foreground mt-4 leading-relaxed">
-                Jesteśmy zespołem z wieloletnim doświadczeniem, który łączy profesjonalizm z autentyczną pasją do muzyki. Nasz repertuar obejmuje utwory z różnych gatunków - od klasycznych przebojów weselnych, przez pop, rock, disco polo, aż po jazz i swing.
-              </p>
-            )}
-            {about?.paragraph2 && typeof about.paragraph2 === 'object' ? (
-              <div className="text-muted-foreground mt-4 leading-relaxed prose prose-invert max-w-none">
-                <RichText data={about.paragraph2} />
-              </div>
-            ) : (
-              <p className="text-muted-foreground mt-4 leading-relaxed">
-                Każde wesele traktujemy indywidualnie, dostosowując program do potrzeb i oczekiwań Młodej Pary.
-              </p>
-            )}
+            <p className="text-muted-foreground mt-4 leading-relaxed">
+              {about?.paragraph1 ?? 'Jesteśmy zespołem z wieloletnim doświadczeniem, który łączy profesjonalizm z autentyczną pasją do muzyki. Nasz repertuar obejmuje utwory z różnych gatunków - od klasycznych przebojów weselnych, przez pop, rock, disco polo, aż po jazz i swing.'}
+            </p>
+            <p className="text-muted-foreground mt-4 leading-relaxed">
+              {about?.paragraph2 ?? 'Każde wesele traktujemy indywidualnie, dostosowując program do potrzeb i oczekiwań Młodej Pary.'}
+            </p>
             <Button variant="outline" asChild className="mt-6 border-primary text-primary hover:bg-primary hover:text-primary-foreground glow-button">
               <Link href={about?.ctaLink ?? '/kim-jestesmy'}>{about?.ctaText ?? 'Więcej o nas'}</Link>
             </Button>

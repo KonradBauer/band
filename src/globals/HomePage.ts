@@ -182,13 +182,15 @@ export const HomePage: GlobalConfig = {
         },
         {
           name: 'paragraph1',
-          type: 'richText',
+          type: 'textarea',
           label: 'Akapit 1',
+          defaultValue: 'Jesteśmy zespołem z wieloletnim doświadczeniem, który łączy profesjonalizm z autentyczną pasją do muzyki. Nasz repertuar obejmuje utwory z różnych gatunków - od klasycznych przebojów weselnych, przez pop, rock, disco polo, aż po jazz i swing.',
         },
         {
           name: 'paragraph2',
-          type: 'richText',
+          type: 'textarea',
           label: 'Akapit 2',
+          defaultValue: 'Każde wesele traktujemy indywidualnie, dostosowując program do potrzeb i oczekiwań Młodej Pary.',
         },
         {
           name: 'image',
