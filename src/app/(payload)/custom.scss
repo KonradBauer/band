@@ -1,0 +1,11 @@
+/* Rich text editor: auto-expand to always show full content */
+.rich-text-lexical .ContentEditable__root {
+  min-height: 150px;
+  max-height: none !important;
+  overflow: visible !important;
+}
+
+.rich-text-lexical {
+  max-height: none !important;
+  overflow: visible !important;
+}

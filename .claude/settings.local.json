@@ -22,7 +22,8 @@
       "WebFetch(domain:www.creativecorner.studio)",
       "Bash(pnpm payload:*)",
       "Bash(pnpm lint:*)",
-      "Bash(npx cross-env:*)"
+      "Bash(npx cross-env:*)",
+      "Bash(node:*)"
     ]
   }
 }
