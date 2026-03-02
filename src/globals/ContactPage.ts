@@ -9,7 +9,7 @@ export const ContactPage: GlobalConfig = {
   fields: [
     {
       name: 'heading',
-      type: 'text',
+      type: 'textarea',
       label: 'Nagłówek',
       defaultValue: 'Kontakt',
     },
@@ -21,19 +21,19 @@ export const ContactPage: GlobalConfig = {
     },
     {
       name: 'contactInfoHeading',
-      type: 'text',
+      type: 'textarea',
       label: 'Nagłówek danych kontaktowych',
       defaultValue: 'Dane kontaktowe',
     },
     {
       name: 'phonePrimary',
-      type: 'text',
+      type: 'textarea',
       label: 'Telefon główny',
       defaultValue: 'Agnieszka Gołda: 512 369 305',
     },
     {
       name: 'phoneSecondary',
-      type: 'text',
+      type: 'textarea',
       label: 'Telefon dodatkowy',
       defaultValue: ''
     },
@@ -45,7 +45,7 @@ export const ContactPage: GlobalConfig = {
     },
     {
       name: 'address',
-      type: 'text',
+      type: 'textarea',
       label: 'Adres',
       defaultValue: 'ul. Jana Pawła II 44, 42-240 Kościelec',
     },
@@ -75,13 +75,13 @@ export const ContactPage: GlobalConfig = {
     },
     {
       name: 'hoursWeekday',
-      type: 'text',
+      type: 'textarea',
       label: 'Godziny (pn-pt)',
       defaultValue: 'Pon-Pt: 9:00 - 18:00',
     },
     {
       name: 'hoursWeekend',
-      type: 'text',
+      type: 'textarea',
       label: 'Godziny (weekend)',
       defaultValue: 'Sob-Ndz: 10:00 - 16:00',
     },

@@ -34,7 +34,7 @@ export const GalleryPhoto: CollectionConfig = {
   fields: [
     {
       name: 'alt',
-      type: 'text',
+      type: 'textarea',
       required: false,
       label: 'Tekst alternatywny',
     },

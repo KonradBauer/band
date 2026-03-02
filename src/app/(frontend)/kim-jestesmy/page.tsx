@@ -79,7 +79,7 @@ export default async function KimJestesmyPage() {
         <h1 className="font-heading text-3xl md:text-4xl shimmer-gold font-bold text-center">
           {heading}
         </h1>
-        <p className="text-muted-foreground text-center mt-2 mb-16">
+        <p className="text-muted-foreground text-center mt-2 mb-16 whitespace-pre-line">
           {subheading}
         </p>
       </AnimateOnScroll>
@@ -112,7 +112,7 @@ export default async function KimJestesmyPage() {
                 <p className="text-sm text-primary font-medium mt-1">
                   {member.role}
                 </p>
-                <p className="text-sm text-muted-foreground mt-4 leading-relaxed">
+                <p className="text-sm text-muted-foreground mt-4 leading-relaxed whitespace-pre-line">
                   {member.bio}
                 </p>
               </CardContent>
@@ -140,10 +140,10 @@ export default async function KimJestesmyPage() {
             </div>
           ) : (
             <>
-              <p className="text-muted-foreground mt-4 leading-relaxed">
+              <p className="text-muted-foreground mt-4 leading-relaxed whitespace-pre-line">
                 {historyFallback1}
               </p>
-              <p className="text-muted-foreground mt-4 leading-relaxed">
+              <p className="text-muted-foreground mt-4 leading-relaxed whitespace-pre-line">
                 {historyFallback2}
               </p>
             </>

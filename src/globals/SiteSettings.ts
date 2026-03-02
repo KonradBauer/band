@@ -9,20 +9,20 @@ export const SiteSettings: GlobalConfig = {
   fields: [
     {
       name: 'siteName',
-      type: 'text',
+      type: 'textarea',
       required: true,
       label: 'Nazwa strony',
       defaultValue: 'ARMAGEDON',
     },
     {
       name: 'siteTagline',
-      type: 'text',
+      type: 'textarea',
       label: 'Hasło',
       defaultValue: 'Zespół muzyczny na wesele',
     },
     {
       name: 'phone',
-      type: 'text',
+      type: 'textarea',
       label: 'Telefon',
       defaultValue: '505 566 007',
     },
@@ -34,13 +34,13 @@ export const SiteSettings: GlobalConfig = {
     },
     {
       name: 'address',
-      type: 'text',
+      type: 'textarea',
       label: 'Adres',
       defaultValue: 'Śląsk, Polska',
     },
     {
       name: 'copyright',
-      type: 'text',
+      type: 'textarea',
       label: 'Tekst copyright',
       defaultValue: '© 2026 ARMAGEDON. Wszelkie prawa zastrzeżone.',
     },

@@ -76,7 +76,7 @@ export default async function AudioPage() {
         <h1 className="font-heading text-3xl md:text-4xl shimmer-gold font-bold text-center">
           {heading}
         </h1>
-        <p className="text-muted-foreground text-center mt-2 mb-12">{subheading}</p>
+        <p className="text-muted-foreground text-center mt-2 mb-12 whitespace-pre-line">{subheading}</p>
       </AnimateOnScroll>
 
       {hasContent ? (
@@ -106,7 +106,7 @@ export default async function AudioPage() {
       <SectionDivider className="my-12" />
 
       <AnimateOnScroll direction="up">
-        <p className="text-sm text-muted-foreground text-center">{footer}</p>
+        <p className="text-sm text-muted-foreground text-center whitespace-pre-line">{footer}</p>
       </AnimateOnScroll>
     </div>
     </PageTransition>

@@ -16,13 +16,13 @@ export const Member: CollectionConfig = {
   fields: [
     {
       name: 'name',
-      type: 'text',
+      type: 'textarea',
       required: true,
       label: 'Imię',
     },
     {
       name: 'role',
-      type: 'text',
+      type: 'textarea',
       required: true,
       label: 'Rola',
     },

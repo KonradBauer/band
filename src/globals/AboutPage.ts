@@ -9,7 +9,7 @@ export const AboutPage: GlobalConfig = {
   fields: [
     {
       name: 'heading',
-      type: 'text',
+      type: 'textarea',
       label: 'Nagłówek',
       defaultValue: 'Kim jesteśmy',
     },
@@ -21,7 +21,7 @@ export const AboutPage: GlobalConfig = {
     },
     {
       name: 'historyHeading',
-      type: 'text',
+      type: 'textarea',
       label: 'Nagłówek historii',
       defaultValue: 'Nasza historia',
     },

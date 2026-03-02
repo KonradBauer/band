@@ -42,7 +42,7 @@ export default async function KontaktPage() {
         <h1 className="font-heading text-3xl md:text-4xl shimmer-gold font-bold text-center">
           {heading}
         </h1>
-        <p className="text-muted-foreground text-center mt-2 mb-16">
+        <p className="text-muted-foreground text-center mt-2 mb-16 whitespace-pre-line">
           {subheading}
         </p>
       </AnimateOnScroll>
@@ -59,8 +59,8 @@ export default async function KontaktPage() {
                 <Phone className="text-primary shrink-0" size={24} />
                 <div>
                   <p className="text-sm text-muted-foreground">Telefon</p>
-                  <p className="text-foreground font-medium">{phonePrimary}</p>
-                  <p className="text-sm text-muted-foreground">{phoneSecondary}</p>
+                  <p className="text-foreground font-medium whitespace-pre-line">{phonePrimary}</p>
+                  <p className="text-sm text-muted-foreground whitespace-pre-line">{phoneSecondary}</p>
                 </div>
               </CardContent>
             </div>
@@ -84,8 +84,8 @@ export default async function KontaktPage() {
                 <MapPin className="text-primary shrink-0" size={24} />
                 <div>
                   <p className="text-sm text-muted-foreground">Adres</p>
-                  <p className="text-foreground font-medium">{address}</p>
-                  <p className="text-sm text-muted-foreground">{addressDescription}</p>
+                  <p className="text-foreground font-medium whitespace-pre-line">{address}</p>
+                  <p className="text-sm text-muted-foreground whitespace-pre-line">{addressDescription}</p>
                 </div>
               </CardContent>
             </div>
@@ -97,8 +97,8 @@ export default async function KontaktPage() {
                 <Clock className="text-primary shrink-0" size={24} />
                 <div>
                   <p className="text-sm text-muted-foreground">Godziny kontaktu</p>
-                  <p className="text-foreground font-medium">{hoursWeekday}</p>
-                  <p className="text-sm text-muted-foreground">{hoursWeekend}</p>
+                  <p className="text-foreground font-medium whitespace-pre-line">{hoursWeekday}</p>
+                  <p className="text-sm text-muted-foreground whitespace-pre-line">{hoursWeekend}</p>
                 </div>
               </CardContent>
             </div>

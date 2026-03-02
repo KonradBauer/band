@@ -9,7 +9,7 @@ export const GalleryPage: GlobalConfig = {
   fields: [
     {
       name: 'heading',
-      type: 'text',
+      type: 'textarea',
       label: 'Nagłówek',
       defaultValue: 'Galeria',
     },

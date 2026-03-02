@@ -38,7 +38,7 @@ export const Media: CollectionConfig = {
   fields: [
     {
       name: 'alt',
-      type: 'text',
+      type: 'textarea',
       required: true,
       label: 'Tekst alternatywny',
     },

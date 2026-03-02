@@ -159,7 +159,7 @@ export default function AudioAlbumCard({
           <div className="text-center md:text-left">
             <h2 className="font-heading text-xl text-primary font-bold">{title}</h2>
             {description && (
-              <p className="text-sm text-muted-foreground mt-1">{description}</p>
+              <p className="text-sm text-muted-foreground mt-1 whitespace-pre-line">{description}</p>
             )}
           </div>
         </div>

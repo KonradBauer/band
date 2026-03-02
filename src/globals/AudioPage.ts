@@ -9,7 +9,7 @@ export const AudioPage: GlobalConfig = {
   fields: [
     {
       name: 'heading',
-      type: 'text',
+      type: 'textarea',
       label: 'Nagłówek',
       defaultValue: 'Nasze nagrania',
     },

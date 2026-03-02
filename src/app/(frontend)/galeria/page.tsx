@@ -52,7 +52,7 @@ export default async function GaleriaPage() {
         <h1 className="font-heading text-3xl md:text-4xl shimmer-gold font-bold text-center">
           {heading}
         </h1>
-        <p className="text-muted-foreground text-center mt-2 mb-12">
+        <p className="text-muted-foreground text-center mt-2 mb-12 whitespace-pre-line">
           {subheading}
         </p>
       </AnimateOnScroll>

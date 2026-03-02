@@ -34,7 +34,7 @@ export const AudioTrack: CollectionConfig = {
   fields: [
     {
       name: 'title',
-      type: 'text',
+      type: 'textarea',
       required: true,
       label: 'Tytuł utworu',
     },

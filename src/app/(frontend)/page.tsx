@@ -84,12 +84,12 @@ export default async function Home() {
                 </h1>
               </HeroItem>
               <HeroItem>
-                <p className="text-xl md:text-2xl text-foreground font-light mt-4">
+                <p className="text-xl md:text-2xl text-foreground font-light mt-4 whitespace-pre-line">
                   {hero?.subheading ?? 'Zespół muzyczny na wesele'}
                 </p>
               </HeroItem>
               <HeroItem>
-                <p className="text-muted-foreground max-w-2xl mx-auto mt-2">
+                <p className="text-muted-foreground max-w-2xl mx-auto mt-2 whitespace-pre-line">
                   {hero?.description ?? 'Profesjonalna oprawa muzyczna wesel i imprez. Gramy z pasją od ponad 20 lat.'}
                 </p>
               </HeroItem>
@@ -148,10 +148,10 @@ export default async function Home() {
 
       <section className="py-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
         <AnimateOnScroll direction="up">
-          <h2 className="font-heading text-3xl md:text-4xl text-center shimmer-gold font-bold">
+          <h2 className="font-heading text-3xl md:text-4xl text-center shimmer-gold font-bold mb-4">
             {featuresData?.heading ?? 'Dlaczego ARMAGEDON?'}
           </h2>
-          <p className="text-muted-foreground text-center mt-2 mb-12">
+          <p className="text-muted-foreground text-center mt-2 mb-12 whitespace-pre-line">
             {featuresData?.subheading ?? 'Od ponad 20 lat dostarczamy niezapomniane emocje na weselach'}
           </p>
         </AnimateOnScroll>
@@ -165,7 +165,7 @@ export default async function Home() {
                     <IconComponent size={32} className="text-primary" />
                   </div>
                   <h3 className="text-lg font-semibold mt-4">{feature.title}</h3>
-                  <p className="text-sm text-muted-foreground mt-2">
+                  <p className="text-sm text-muted-foreground mt-2 whitespace-pre-line">
                     {feature.description}
                   </p>
                 </div>
@@ -194,10 +194,10 @@ export default async function Home() {
             <h2 className="font-heading text-3xl shimmer-gold font-bold">
               {about?.heading ?? 'Kim jesteśmy?'}
             </h2>
-            <p className="text-muted-foreground mt-4 leading-relaxed">
+            <p className="text-muted-foreground mt-4 leading-relaxed whitespace-pre-line">
               {about?.paragraph1 ?? 'Jesteśmy zespołem z wieloletnim doświadczeniem, który łączy profesjonalizm z autentyczną pasją do muzyki. Nasz repertuar obejmuje utwory z różnych gatunków - od klasycznych przebojów weselnych, przez pop, rock, disco polo, aż po jazz i swing.'}
             </p>
-            <p className="text-muted-foreground mt-4 leading-relaxed">
+            <p className="text-muted-foreground mt-4 leading-relaxed whitespace-pre-line">
               {about?.paragraph2 ?? 'Każde wesele traktujemy indywidualnie, dostosowując program do potrzeb i oczekiwań Młodej Pary.'}
             </p>
             <Button variant="outline" asChild className="mt-6 border-primary text-primary hover:bg-primary hover:text-primary-foreground glow-button">
@@ -217,7 +217,7 @@ export default async function Home() {
             <h2 className="font-heading text-3xl md:text-4xl shimmer-gold font-bold">
               {cta?.heading ?? 'Zarezerwuj termin'}
             </h2>
-            <p className="text-muted-foreground mt-2 mb-8">
+            <p className="text-muted-foreground mt-2 mb-8 whitespace-pre-line">
               {cta?.subheading ?? 'Nie zwlekaj - popularne terminy szybko się zapełniają!'}
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">

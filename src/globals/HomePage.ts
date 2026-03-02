@@ -14,7 +14,7 @@ export const HomePage: GlobalConfig = {
       fields: [
         {
           name: 'heading',
-          type: 'text',
+          type: 'textarea',
           label: 'Nagłówek',
           defaultValue: 'ARMAGEDON',
         },
@@ -47,7 +47,7 @@ export const HomePage: GlobalConfig = {
         },
         {
           name: 'ctaText',
-          type: 'text',
+          type: 'textarea',
           label: 'Tekst przycisku CTA',
           defaultValue: 'Sprawdź dostępność terminu',
         },
@@ -66,7 +66,7 @@ export const HomePage: GlobalConfig = {
       fields: [
         {
           name: 'heading',
-          type: 'text',
+          type: 'textarea',
           label: 'Nagłówek',
           defaultValue: 'Wolne terminy',
         },
@@ -84,7 +84,7 @@ export const HomePage: GlobalConfig = {
       fields: [
         {
           name: 'heading',
-          type: 'text',
+          type: 'textarea',
           label: 'Nagłówek',
           defaultValue: 'ARMAGEDON w liczbach',
         },
@@ -102,12 +102,12 @@ export const HomePage: GlobalConfig = {
             },
             {
               name: 'suffix',
-              type: 'text',
+              type: 'textarea',
               label: 'Sufiks (np. "+", " lat")',
             },
             {
               name: 'label',
-              type: 'text',
+              type: 'textarea',
               required: true,
               label: 'Opis',
             },
@@ -122,7 +122,7 @@ export const HomePage: GlobalConfig = {
       fields: [
         {
           name: 'heading',
-          type: 'text',
+          type: 'textarea',
           label: 'Nagłówek',
           defaultValue: 'Dlaczego ARMAGEDON?',
         },
@@ -156,7 +156,7 @@ export const HomePage: GlobalConfig = {
             },
             {
               name: 'title',
-              type: 'text',
+              type: 'textarea',
               required: true,
               label: 'Tytuł',
             },
@@ -176,7 +176,7 @@ export const HomePage: GlobalConfig = {
       fields: [
         {
           name: 'heading',
-          type: 'text',
+          type: 'textarea',
           label: 'Nagłówek',
           defaultValue: 'Kim jesteśmy?',
         },
@@ -200,7 +200,7 @@ export const HomePage: GlobalConfig = {
         },
         {
           name: 'ctaText',
-          type: 'text',
+          type: 'textarea',
           label: 'Tekst przycisku',
           defaultValue: 'Więcej o nas',
         },
@@ -219,7 +219,7 @@ export const HomePage: GlobalConfig = {
       fields: [
         {
           name: 'heading',
-          type: 'text',
+          type: 'textarea',
           label: 'Nagłówek',
           defaultValue: 'Zarezerwuj termin',
         },
@@ -231,7 +231,7 @@ export const HomePage: GlobalConfig = {
         },
         {
           name: 'phoneText',
-          type: 'text',
+          type: 'textarea',
           label: 'Tekst telefonu',
           defaultValue: 'Zadzwoń: 505 566 007',
         },
@@ -243,7 +243,7 @@ export const HomePage: GlobalConfig = {
         },
         {
           name: 'contactText',
-          type: 'text',
+          type: 'textarea',
           label: 'Tekst kontaktu',
           defaultValue: 'Napisz do nas',
         },
