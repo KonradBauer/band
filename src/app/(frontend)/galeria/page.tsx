@@ -5,6 +5,7 @@ import PhotoGallery from "@/components/photo-gallery";
 import { AnimateOnScroll } from "@/components/animations/animate-on-scroll"
 import { FloatingNotes } from "@/components/animations/floating-notes"
 import { PageTransition } from "@/components/animations/page-transition"
+import { alignClass } from "@/lib/textAlign"
 
 export const metadata: Metadata = {
   title: "Galeria - ARMAGEDON",
@@ -49,10 +50,10 @@ export default async function GaleriaPage() {
       <FloatingNotes count={6} />
 
       <AnimateOnScroll direction="up">
-        <h1 className="font-heading text-3xl md:text-4xl shimmer-gold font-bold text-center">
+        <h1 className={`font-heading text-3xl md:text-4xl shimmer-gold font-bold whitespace-pre-line ${alignClass(galleryPage?.headingAlign as string, 'text-center')}`}>
           {heading}
         </h1>
-        <p className="text-muted-foreground text-center mt-2 mb-12 whitespace-pre-line">
+        <p className={`text-muted-foreground mt-2 mb-12 whitespace-pre-line ${alignClass(galleryPage?.subheadingAlign as string, 'text-center')}`}>
           {subheading}
         </p>
       </AnimateOnScroll>

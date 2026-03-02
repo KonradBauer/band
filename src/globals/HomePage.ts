@@ -1,4 +1,5 @@
 import type { GlobalConfig } from 'payload'
+import { textAlignField } from '@/fields/textAlign'
 
 export const HomePage: GlobalConfig = {
   slug: 'home-page',
@@ -18,18 +19,21 @@ export const HomePage: GlobalConfig = {
           label: 'Nagłówek',
           defaultValue: 'ARMAGEDON',
         },
+        textAlignField('heading', 'center'),
         {
           name: 'subheading',
           type: 'textarea',
           label: 'Podnagłówek',
           defaultValue: 'Zespół muzyczny na wesele',
         },
+        textAlignField('subheading', 'center'),
         {
           name: 'description',
           type: 'textarea',
           label: 'Opis',
           defaultValue: 'Profesjonalna oprawa muzyczna wesel i imprez. Gramy z pasją od ponad 20 lat.',
         },
+        textAlignField('description', 'center'),
         {
           name: 'images',
           type: 'array',
@@ -70,6 +74,7 @@ export const HomePage: GlobalConfig = {
           label: 'Nagłówek',
           defaultValue: 'Wolne terminy',
         },
+        textAlignField('heading', 'center'),
         {
           name: 'content',
           type: 'richText',
@@ -88,6 +93,7 @@ export const HomePage: GlobalConfig = {
           label: 'Nagłówek',
           defaultValue: 'ARMAGEDON w liczbach',
         },
+        textAlignField('heading', 'center'),
         {
           name: 'stats',
           type: 'array',
@@ -126,12 +132,14 @@ export const HomePage: GlobalConfig = {
           label: 'Nagłówek',
           defaultValue: 'Dlaczego ARMAGEDON?',
         },
+        textAlignField('heading', 'center'),
         {
           name: 'subheading',
           type: 'textarea',
           label: 'Podnagłówek',
           defaultValue: 'Od ponad 20 lat dostarczamy niezapomniane emocje na weselach',
         },
+        textAlignField('subheading', 'center'),
         {
           name: 'features',
           type: 'array',
@@ -165,6 +173,7 @@ export const HomePage: GlobalConfig = {
               type: 'textarea',
               label: 'Opis',
             },
+            textAlignField('description', 'center'),
           ],
         },
       ],
@@ -180,18 +189,21 @@ export const HomePage: GlobalConfig = {
           label: 'Nagłówek',
           defaultValue: 'Kim jesteśmy?',
         },
+        textAlignField('heading', 'left'),
         {
           name: 'paragraph1',
           type: 'textarea',
           label: 'Akapit 1',
           defaultValue: 'Jesteśmy zespołem z wieloletnim doświadczeniem, który łączy profesjonalizm z autentyczną pasją do muzyki. Nasz repertuar obejmuje utwory z różnych gatunków - od klasycznych przebojów weselnych, przez pop, rock, disco polo, aż po jazz i swing.',
         },
+        textAlignField('paragraph1', 'left'),
         {
           name: 'paragraph2',
           type: 'textarea',
           label: 'Akapit 2',
           defaultValue: 'Każde wesele traktujemy indywidualnie, dostosowując program do potrzeb i oczekiwań Młodej Pary.',
         },
+        textAlignField('paragraph2', 'left'),
         {
           name: 'image',
           type: 'upload',
@@ -223,12 +235,14 @@ export const HomePage: GlobalConfig = {
           label: 'Nagłówek',
           defaultValue: 'Zarezerwuj termin',
         },
+        textAlignField('heading', 'center'),
         {
           name: 'subheading',
           type: 'textarea',
           label: 'Podnagłówek',
           defaultValue: 'Nie zwlekaj - popularne terminy szybko się zapełniają!',
         },
+        textAlignField('subheading', 'center'),
         {
           name: 'phoneText',
           type: 'textarea',

@@ -1,4 +1,5 @@
 import type { GlobalConfig } from 'payload'
+import { textAlignField } from '@/fields/textAlign'
 
 export const GalleryPage: GlobalConfig = {
   slug: 'gallery-page',
@@ -13,11 +14,13 @@ export const GalleryPage: GlobalConfig = {
       label: 'Nagłówek',
       defaultValue: 'Galeria',
     },
+    textAlignField('heading', 'center'),
     {
       name: 'subheading',
       type: 'textarea',
       label: 'Podnagłówek',
       defaultValue: 'Chwile, które uwieczniamy na każdym wydarzeniu',
     },
+    textAlignField('subheading', 'center'),
   ],
 }

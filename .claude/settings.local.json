@@ -27,7 +27,8 @@
       "Bash(npx tsx:*)",
       "Bash(git clean:*)",
       "Bash(git:*)",
-      "Bash(GIT_EDITOR=true git rebase:*)"
+      "Bash(GIT_EDITOR=true git rebase:*)",
+      "Bash(npx payload:*)"
     ]
   }
 }

@@ -8,6 +8,7 @@ import { StaggerChildren, StaggerItem } from '@/components/animations/stagger-ch
 import { FloatingNotes } from '@/components/animations/floating-notes'
 import { SectionDivider } from '@/components/animations/section-divider'
 import { PageTransition } from '@/components/animations/page-transition'
+import { alignClass } from '@/lib/textAlign'
 
 export const metadata: Metadata = {
   title: 'Audio - ARMAGEDON',
@@ -73,10 +74,10 @@ export default async function AudioPage() {
     <div className="relative overflow-hidden py-20 px-4 sm:px-6 lg:px-8 max-w-5xl mx-auto">
       <FloatingNotes count={8} />
       <AnimateOnScroll direction="up">
-        <h1 className="font-heading text-3xl md:text-4xl shimmer-gold font-bold text-center">
+        <h1 className={`font-heading text-3xl md:text-4xl shimmer-gold font-bold whitespace-pre-line ${alignClass(audioPage?.headingAlign as string, 'text-center')}`}>
           {heading}
         </h1>
-        <p className="text-muted-foreground text-center mt-2 mb-12 whitespace-pre-line">{subheading}</p>
+        <p className={`text-muted-foreground mt-2 mb-12 whitespace-pre-line ${alignClass(audioPage?.subheadingAlign as string, 'text-center')}`}>{subheading}</p>
       </AnimateOnScroll>
 
       {hasContent ? (
@@ -106,7 +107,7 @@ export default async function AudioPage() {
       <SectionDivider className="my-12" />
 
       <AnimateOnScroll direction="up">
-        <p className="text-sm text-muted-foreground text-center whitespace-pre-line">{footer}</p>
+        <p className={`text-sm text-muted-foreground whitespace-pre-line ${alignClass(audioPage?.footerAlign as string, 'text-center')}`}>{footer}</p>
       </AnimateOnScroll>
     </div>
     </PageTransition>

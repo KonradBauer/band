@@ -9,6 +9,7 @@ import { StaggerChildren, StaggerItem } from "@/components/animations/stagger-ch
 import { FloatingNotes } from "@/components/animations/floating-notes"
 import { SectionDivider } from "@/components/animations/section-divider"
 import { PageTransition } from "@/components/animations/page-transition"
+import { alignClass } from "@/lib/textAlign"
 
 export const metadata: Metadata = {
   title: "Kim jesteśmy - ARMAGEDON",
@@ -76,10 +77,10 @@ export default async function KimJestesmyPage() {
       <FloatingNotes count={6} />
 
       <AnimateOnScroll direction="up">
-        <h1 className="font-heading text-3xl md:text-4xl shimmer-gold font-bold text-center">
+        <h1 className={`font-heading text-3xl md:text-4xl shimmer-gold font-bold whitespace-pre-line ${alignClass(aboutPage?.headingAlign as string, 'text-center')}`}>
           {heading}
         </h1>
-        <p className="text-muted-foreground text-center mt-2 mb-16 whitespace-pre-line">
+        <p className={`text-muted-foreground mt-2 mb-16 whitespace-pre-line ${alignClass(aboutPage?.subheadingAlign as string, 'text-center')}`}>
           {subheading}
         </p>
       </AnimateOnScroll>
@@ -131,7 +132,7 @@ export default async function KimJestesmyPage() {
 
       <AnimateOnScroll direction="up">
         <div className="glass-card rounded-lg p-8 md:p-12">
-          <h2 className="font-heading text-2xl shimmer-gold font-bold">
+          <h2 className={`font-heading text-2xl shimmer-gold font-bold whitespace-pre-line ${alignClass(aboutPage?.historyHeadingAlign as string, 'text-left')}`}>
             {historyHeading}
           </h2>
           {hasRichHistory ? (
@@ -140,10 +141,10 @@ export default async function KimJestesmyPage() {
             </div>
           ) : (
             <>
-              <p className="text-muted-foreground mt-4 leading-relaxed whitespace-pre-line">
+              <p className={`text-muted-foreground mt-4 leading-relaxed whitespace-pre-line ${alignClass(aboutPage?.historyFallback1Align as string, 'text-left')}`}>
                 {historyFallback1}
               </p>
-              <p className="text-muted-foreground mt-4 leading-relaxed whitespace-pre-line">
+              <p className={`text-muted-foreground mt-4 leading-relaxed whitespace-pre-line ${alignClass(aboutPage?.historyFallback2Align as string, 'text-left')}`}>
                 {historyFallback2}
               </p>
             </>

@@ -1,4 +1,5 @@
 import type { GlobalConfig } from 'payload'
+import { textAlignField } from '@/fields/textAlign'
 
 export const ContactPage: GlobalConfig = {
   slug: 'contact-page',
@@ -13,18 +14,21 @@ export const ContactPage: GlobalConfig = {
       label: 'Nagłówek',
       defaultValue: 'Kontakt',
     },
+    textAlignField('heading', 'center'),
     {
       name: 'subheading',
       type: 'textarea',
       label: 'Podnagłówek',
       defaultValue: 'Masz pytania? Chętnie na nie odpowiemy!',
     },
+    textAlignField('subheading', 'center'),
     {
       name: 'contactInfoHeading',
       type: 'textarea',
       label: 'Nagłówek danych kontaktowych',
       defaultValue: 'Dane kontaktowe',
     },
+    textAlignField('contactInfoHeading', 'left'),
     {
       name: 'phonePrimary',
       type: 'textarea',

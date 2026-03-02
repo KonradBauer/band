@@ -1,4 +1,5 @@
 import type { GlobalConfig } from 'payload'
+import { textAlignField } from '@/fields/textAlign'
 
 export const AboutPage: GlobalConfig = {
   slug: 'about-page',
@@ -13,18 +14,21 @@ export const AboutPage: GlobalConfig = {
       label: 'Nagłówek',
       defaultValue: 'Kim jesteśmy',
     },
+    textAlignField('heading', 'center'),
     {
       name: 'subheading',
       type: 'textarea',
       label: 'Podnagłówek',
       defaultValue: 'Poznaj ludzi, którzy tworzą niezapomniane wesela',
     },
+    textAlignField('subheading', 'center'),
     {
       name: 'historyHeading',
       type: 'textarea',
       label: 'Nagłówek historii',
       defaultValue: 'Nasza historia',
     },
+    textAlignField('historyHeading', 'left'),
     {
       name: 'history',
       type: 'richText',
@@ -36,11 +40,13 @@ export const AboutPage: GlobalConfig = {
       label: 'Historia (akapit 1 - fallback)',
       defaultValue: 'Zespół ARMAGEDON powstał z miłości do muzyki i potrzeby dzielenia się nią z innymi. Od samego początku naszą misją było tworzenie wesel, które goście zapamiętają na lata. Zaczynaliśmy jako mały skład, a dziś jesteśmy jednym z najbardziej rozpoznawalnych zespołów weselnych na Śląsku.',
     },
+    textAlignField('historyFallback1', 'left'),
     {
       name: 'historyFallback2',
       type: 'textarea',
       label: 'Historia (akapit 2 - fallback)',
       defaultValue: 'Przez lata zagraliśmy setki wesel, imprez firmowych i wydarzeń okolicznościowych. Każde z nich nauczyło nas czegoś nowego i pomogło udoskonalić nasz warsztat. Dziś z dumą możemy powiedzieć, że muzyka to nie tylko nasza praca - to nasza największa pasja.',
     },
+    textAlignField('historyFallback2', 'left'),
   ],
 }

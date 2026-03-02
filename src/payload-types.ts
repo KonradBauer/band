@@ -619,8 +619,11 @@ export interface HomePage {
   id: string;
   heroSection?: {
     heading?: string | null;
+    headingAlign?: ('left' | 'center' | 'right' | 'justify') | null;
     subheading?: string | null;
+    subheadingAlign?: ('left' | 'center' | 'right' | 'justify') | null;
     description?: string | null;
+    descriptionAlign?: ('left' | 'center' | 'right' | 'justify') | null;
     images?:
       | {
           image: string | Media;
@@ -632,6 +635,7 @@ export interface HomePage {
   };
   availabilitySection?: {
     heading?: string | null;
+    headingAlign?: ('left' | 'center' | 'right' | 'justify') | null;
     content?: {
       root: {
         type: string;
@@ -650,6 +654,7 @@ export interface HomePage {
   };
   statsSection?: {
     heading?: string | null;
+    headingAlign?: ('left' | 'center' | 'right' | 'justify') | null;
     stats?:
       | {
           value: number;
@@ -661,7 +666,9 @@ export interface HomePage {
   };
   featuresSection?: {
     heading?: string | null;
+    headingAlign?: ('left' | 'center' | 'right' | 'justify') | null;
     subheading?: string | null;
+    subheadingAlign?: ('left' | 'center' | 'right' | 'justify') | null;
     features?:
       | {
           icon?:
@@ -680,21 +687,27 @@ export interface HomePage {
             | null;
           title: string;
           description?: string | null;
+          descriptionAlign?: ('left' | 'center' | 'right' | 'justify') | null;
           id?: string | null;
         }[]
       | null;
   };
   aboutSection?: {
     heading?: string | null;
+    headingAlign?: ('left' | 'center' | 'right' | 'justify') | null;
     paragraph1?: string | null;
+    paragraph1Align?: ('left' | 'center' | 'right' | 'justify') | null;
     paragraph2?: string | null;
+    paragraph2Align?: ('left' | 'center' | 'right' | 'justify') | null;
     image?: (string | null) | Media;
     ctaText?: string | null;
     ctaLink?: string | null;
   };
   ctaSection?: {
     heading?: string | null;
+    headingAlign?: ('left' | 'center' | 'right' | 'justify') | null;
     subheading?: string | null;
+    subheadingAlign?: ('left' | 'center' | 'right' | 'justify') | null;
     phoneText?: string | null;
     phoneNumber?: string | null;
     contactText?: string | null;
@@ -710,8 +723,11 @@ export interface HomePage {
 export interface AboutPage {
   id: string;
   heading?: string | null;
+  headingAlign?: ('left' | 'center' | 'right' | 'justify') | null;
   subheading?: string | null;
+  subheadingAlign?: ('left' | 'center' | 'right' | 'justify') | null;
   historyHeading?: string | null;
+  historyHeadingAlign?: ('left' | 'center' | 'right' | 'justify') | null;
   history?: {
     root: {
       type: string;
@@ -728,7 +744,9 @@ export interface AboutPage {
     [k: string]: unknown;
   } | null;
   historyFallback1?: string | null;
+  historyFallback1Align?: ('left' | 'center' | 'right' | 'justify') | null;
   historyFallback2?: string | null;
+  historyFallback2Align?: ('left' | 'center' | 'right' | 'justify') | null;
   updatedAt?: string | null;
   createdAt?: string | null;
 }
@@ -739,8 +757,11 @@ export interface AboutPage {
 export interface ContactPage {
   id: string;
   heading?: string | null;
+  headingAlign?: ('left' | 'center' | 'right' | 'justify') | null;
   subheading?: string | null;
+  subheadingAlign?: ('left' | 'center' | 'right' | 'justify') | null;
   contactInfoHeading?: string | null;
+  contactInfoHeadingAlign?: ('left' | 'center' | 'right' | 'justify') | null;
   phonePrimary?: string | null;
   phoneSecondary?: string | null;
   email?: string | null;
@@ -762,7 +783,9 @@ export interface ContactPage {
 export interface GalleryPage {
   id: string;
   heading?: string | null;
+  headingAlign?: ('left' | 'center' | 'right' | 'justify') | null;
   subheading?: string | null;
+  subheadingAlign?: ('left' | 'center' | 'right' | 'justify') | null;
   updatedAt?: string | null;
   createdAt?: string | null;
 }
@@ -773,8 +796,11 @@ export interface GalleryPage {
 export interface AudioPage {
   id: string;
   heading?: string | null;
+  headingAlign?: ('left' | 'center' | 'right' | 'justify') | null;
   subheading?: string | null;
+  subheadingAlign?: ('left' | 'center' | 'right' | 'justify') | null;
   footer?: string | null;
+  footerAlign?: ('left' | 'center' | 'right' | 'justify') | null;
   updatedAt?: string | null;
   createdAt?: string | null;
 }
@@ -802,8 +828,11 @@ export interface HomePageSelect<T extends boolean = true> {
     | T
     | {
         heading?: T;
+        headingAlign?: T;
         subheading?: T;
+        subheadingAlign?: T;
         description?: T;
+        descriptionAlign?: T;
         images?:
           | T
           | {
@@ -817,12 +846,14 @@ export interface HomePageSelect<T extends boolean = true> {
     | T
     | {
         heading?: T;
+        headingAlign?: T;
         content?: T;
       };
   statsSection?:
     | T
     | {
         heading?: T;
+        headingAlign?: T;
         stats?:
           | T
           | {
@@ -836,13 +867,16 @@ export interface HomePageSelect<T extends boolean = true> {
     | T
     | {
         heading?: T;
+        headingAlign?: T;
         subheading?: T;
+        subheadingAlign?: T;
         features?:
           | T
           | {
               icon?: T;
               title?: T;
               description?: T;
+              descriptionAlign?: T;
               id?: T;
             };
       };
@@ -850,8 +884,11 @@ export interface HomePageSelect<T extends boolean = true> {
     | T
     | {
         heading?: T;
+        headingAlign?: T;
         paragraph1?: T;
+        paragraph1Align?: T;
         paragraph2?: T;
+        paragraph2Align?: T;
         image?: T;
         ctaText?: T;
         ctaLink?: T;
@@ -860,7 +897,9 @@ export interface HomePageSelect<T extends boolean = true> {
     | T
     | {
         heading?: T;
+        headingAlign?: T;
         subheading?: T;
+        subheadingAlign?: T;
         phoneText?: T;
         phoneNumber?: T;
         contactText?: T;
@@ -876,11 +915,16 @@ export interface HomePageSelect<T extends boolean = true> {
  */
 export interface AboutPageSelect<T extends boolean = true> {
   heading?: T;
+  headingAlign?: T;
   subheading?: T;
+  subheadingAlign?: T;
   historyHeading?: T;
+  historyHeadingAlign?: T;
   history?: T;
   historyFallback1?: T;
+  historyFallback1Align?: T;
   historyFallback2?: T;
+  historyFallback2Align?: T;
   updatedAt?: T;
   createdAt?: T;
   globalType?: T;
@@ -891,8 +935,11 @@ export interface AboutPageSelect<T extends boolean = true> {
  */
 export interface ContactPageSelect<T extends boolean = true> {
   heading?: T;
+  headingAlign?: T;
   subheading?: T;
+  subheadingAlign?: T;
   contactInfoHeading?: T;
+  contactInfoHeadingAlign?: T;
   phonePrimary?: T;
   phoneSecondary?: T;
   email?: T;
@@ -914,7 +961,9 @@ export interface ContactPageSelect<T extends boolean = true> {
  */
 export interface GalleryPageSelect<T extends boolean = true> {
   heading?: T;
+  headingAlign?: T;
   subheading?: T;
+  subheadingAlign?: T;
   updatedAt?: T;
   createdAt?: T;
   globalType?: T;
@@ -925,8 +974,11 @@ export interface GalleryPageSelect<T extends boolean = true> {
  */
 export interface AudioPageSelect<T extends boolean = true> {
   heading?: T;
+  headingAlign?: T;
   subheading?: T;
+  subheadingAlign?: T;
   footer?: T;
+  footerAlign?: T;
   updatedAt?: T;
   createdAt?: T;
   globalType?: T;

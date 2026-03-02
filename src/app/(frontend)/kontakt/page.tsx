@@ -8,6 +8,7 @@ import { StaggerChildren, StaggerItem } from '@/components/animations/stagger-ch
 import { FloatingNotes } from '@/components/animations/floating-notes'
 import { SectionDivider } from '@/components/animations/section-divider'
 import { PageTransition } from '@/components/animations/page-transition'
+import { alignClass } from '@/lib/textAlign'
 
 export const metadata: Metadata = {
   title: 'Kontakt - ARMAGEDON',
@@ -39,17 +40,17 @@ export default async function KontaktPage() {
       <FloatingNotes count={6} />
 
       <AnimateOnScroll direction="up">
-        <h1 className="font-heading text-3xl md:text-4xl shimmer-gold font-bold text-center">
+        <h1 className={`font-heading text-3xl md:text-4xl shimmer-gold font-bold whitespace-pre-line ${alignClass(contactPage?.headingAlign as string, 'text-center')}`}>
           {heading}
         </h1>
-        <p className="text-muted-foreground text-center mt-2 mb-16 whitespace-pre-line">
+        <p className={`text-muted-foreground mt-2 mb-16 whitespace-pre-line ${alignClass(contactPage?.subheadingAlign as string, 'text-center')}`}>
           {subheading}
         </p>
       </AnimateOnScroll>
 
       <div className="max-w-2xl mx-auto">
         <AnimateOnScroll direction="up">
-          <h2 className="font-heading text-2xl text-primary font-bold mb-6">{contactInfoHeading}</h2>
+          <h2 className={`font-heading text-2xl text-primary font-bold mb-6 whitespace-pre-line ${alignClass(contactPage?.contactInfoHeadingAlign as string, 'text-left')}`}>{contactInfoHeading}</h2>
         </AnimateOnScroll>
 
         <StaggerChildren className="space-y-4">

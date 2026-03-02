@@ -16,6 +16,7 @@ import { TextReveal } from "@/components/animations/text-reveal"
 import { ScrollZoomHero } from "@/components/animations/scroll-zoom-hero"
 import { ParallaxSection } from "@/components/animations/parallax-section"
 import { SmokeEffect } from "@/components/animations/smoke-effect"
+import { alignClass } from "@/lib/textAlign"
 
 const iconMap: Record<string, LucideIcon> = {
   Music,
@@ -79,17 +80,17 @@ export default async function Home() {
           <div className="relative text-center px-4 sm:px-6 lg:px-8 py-16 md:py-24">
             <HeroAnimations>
               <HeroItem>
-                <h1 className="font-heading text-5xl md:text-7xl font-bold tracking-wider gold-gradient-text">
+                <h1 className={`font-heading text-5xl md:text-7xl font-bold tracking-wider gold-gradient-text whitespace-pre-line ${alignClass(hero?.headingAlign as string, 'text-center')}`}>
                   <TextReveal text={heroHeading} />
                 </h1>
               </HeroItem>
               <HeroItem>
-                <p className="text-xl md:text-2xl text-foreground font-light mt-4 whitespace-pre-line">
+                <p className={`text-xl md:text-2xl text-foreground font-light mt-4 whitespace-pre-line ${alignClass(hero?.subheadingAlign as string, 'text-center')}`}>
                   {hero?.subheading ?? 'Zespół muzyczny na wesele'}
                 </p>
               </HeroItem>
               <HeroItem>
-                <p className="text-muted-foreground max-w-2xl mx-auto mt-2 whitespace-pre-line">
+                <p className={`text-muted-foreground max-w-2xl mx-auto mt-2 whitespace-pre-line ${alignClass(hero?.descriptionAlign as string, 'text-center')}`}>
                   {hero?.description ?? 'Profesjonalna oprawa muzyczna wesel i imprez. Gramy z pasją od ponad 20 lat.'}
                 </p>
               </HeroItem>
@@ -122,8 +123,8 @@ export default async function Home() {
       {/* Wolne terminy */}
       <section id="wolne-terminy" className="py-16 px-4 sm:px-6 lg:px-8">
         <AnimateOnScroll direction="up">
-          <div className="max-w-4xl mx-auto text-center">
-            <h2 className="font-heading text-3xl md:text-4xl shimmer-gold font-bold mb-8">
+          <div className="max-w-4xl mx-auto">
+            <h2 className={`font-heading text-3xl md:text-4xl shimmer-gold font-bold mb-8 whitespace-pre-line ${alignClass(availability?.headingAlign as string, 'text-center')}`}>
               {availability?.heading ?? 'Wolne terminy'}
             </h2>
             {availability?.content ? (
@@ -131,7 +132,7 @@ export default async function Home() {
                 <RichText data={availability.content} />
               </div>
             ) : (
-              <div className="glass-card rounded-lg p-8">
+              <div className="glass-card rounded-lg p-8 text-center">
                 <p className="text-muted-foreground">
                   Skontaktuj się z nami, aby sprawdzić dostępność terminów.
                 </p>
@@ -148,15 +149,15 @@ export default async function Home() {
 
       <section className="py-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
         <AnimateOnScroll direction="up">
-          <h2 className="font-heading text-3xl md:text-4xl text-center shimmer-gold font-bold mb-4">
+          <h2 className={`font-heading text-3xl md:text-4xl shimmer-gold font-bold mb-4 whitespace-pre-line ${alignClass(featuresData?.headingAlign as string, 'text-center')}`}>
             {featuresData?.heading ?? 'Dlaczego ARMAGEDON?'}
           </h2>
-          <p className="text-muted-foreground text-center mt-2 mb-12 whitespace-pre-line">
+          <p className={`text-muted-foreground mt-2 mb-12 whitespace-pre-line ${alignClass(featuresData?.subheadingAlign as string, 'text-center')}`}>
             {featuresData?.subheading ?? 'Od ponad 20 lat dostarczamy niezapomniane emocje na weselach'}
           </p>
         </AnimateOnScroll>
         <StaggerChildren className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-          {features.map((feature: { icon?: string | null; title: string; description?: string | null }, index: number) => {
+          {features.map((feature: { icon?: string | null; title: string; description?: string | null; descriptionAlign?: string | null }, index: number) => {
             const IconComponent = iconMap[feature.icon ?? ''] ?? Music
             return (
               <StaggerItem key={index}>
@@ -165,7 +166,7 @@ export default async function Home() {
                     <IconComponent size={32} className="text-primary" />
                   </div>
                   <h3 className="text-lg font-semibold mt-4">{feature.title}</h3>
-                  <p className="text-sm text-muted-foreground mt-2 whitespace-pre-line">
+                  <p className={`text-sm text-muted-foreground mt-2 whitespace-pre-line ${alignClass(feature.descriptionAlign, 'text-center')}`}>
                     {feature.description}
                   </p>
                 </div>
@@ -191,13 +192,13 @@ export default async function Home() {
             )}
           </AnimateOnScroll>
           <AnimateOnScroll direction="right" className="md:w-1/2">
-            <h2 className="font-heading text-3xl shimmer-gold font-bold">
+            <h2 className={`font-heading text-3xl shimmer-gold font-bold whitespace-pre-line ${alignClass(about?.headingAlign as string, 'text-left')}`}>
               {about?.heading ?? 'Kim jesteśmy?'}
             </h2>
-            <p className="text-muted-foreground mt-4 leading-relaxed whitespace-pre-line">
+            <p className={`text-muted-foreground mt-4 leading-relaxed whitespace-pre-line ${alignClass(about?.paragraph1Align as string, 'text-left')}`}>
               {about?.paragraph1 ?? 'Jesteśmy zespołem z wieloletnim doświadczeniem, który łączy profesjonalizm z autentyczną pasją do muzyki. Nasz repertuar obejmuje utwory z różnych gatunków - od klasycznych przebojów weselnych, przez pop, rock, disco polo, aż po jazz i swing.'}
             </p>
-            <p className="text-muted-foreground mt-4 leading-relaxed whitespace-pre-line">
+            <p className={`text-muted-foreground mt-4 leading-relaxed whitespace-pre-line ${alignClass(about?.paragraph2Align as string, 'text-left')}`}>
               {about?.paragraph2 ?? 'Każde wesele traktujemy indywidualnie, dostosowując program do potrzeb i oczekiwań Młodej Pary.'}
             </p>
             <Button variant="outline" asChild className="mt-6 border-primary text-primary hover:bg-primary hover:text-primary-foreground glow-button">
@@ -209,15 +210,15 @@ export default async function Home() {
 
       <SectionDivider />
 
-      <section className="relative overflow-hidden py-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-[#1a1a2e]/50 via-background to-[#1a1a2e]/30 text-center">
+      <section className="relative overflow-hidden py-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-[#1a1a2e]/50 via-background to-[#1a1a2e]/30">
         <FloatingParticles count={6} />
         <FloatingNotes count={4} />
         <AnimateOnScroll direction="scale">
           <div className="relative max-w-7xl mx-auto">
-            <h2 className="font-heading text-3xl md:text-4xl shimmer-gold font-bold">
+            <h2 className={`font-heading text-3xl md:text-4xl shimmer-gold font-bold whitespace-pre-line ${alignClass(cta?.headingAlign as string, 'text-center')}`}>
               {cta?.heading ?? 'Zarezerwuj termin'}
             </h2>
-            <p className="text-muted-foreground mt-2 mb-8 whitespace-pre-line">
+            <p className={`text-muted-foreground mt-2 mb-8 whitespace-pre-line ${alignClass(cta?.subheadingAlign as string, 'text-center')}`}>
               {cta?.subheading ?? 'Nie zwlekaj - popularne terminy szybko się zapełniają!'}
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
