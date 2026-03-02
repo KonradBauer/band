@@ -123,8 +123,8 @@ export default async function Home() {
       {/* Wolne terminy */}
       <section id="wolne-terminy" className="py-16 px-4 sm:px-6 lg:px-8">
         <AnimateOnScroll direction="up">
-          <div className="max-w-4xl mx-auto">
-            <h2 className={`font-heading text-3xl md:text-4xl shimmer-gold font-bold mb-8 whitespace-pre-line ${alignClass(availability?.headingAlign as string, 'text-center')}`}>
+          <div className={`max-w-4xl mx-auto ${alignClass(availability?.headingAlign as string, 'text-center')}`}>
+            <h2 className="font-heading text-3xl md:text-4xl shimmer-gold font-bold mb-8 whitespace-pre-line">
               {availability?.heading ?? 'Wolne terminy'}
             </h2>
             {availability?.content ? (
@@ -149,7 +149,7 @@ export default async function Home() {
 
       <section className="py-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
         <AnimateOnScroll direction="up">
-          <h2 className={`font-heading text-3xl md:text-4xl shimmer-gold font-bold mb-4 whitespace-pre-line ${alignClass(featuresData?.headingAlign as string, 'text-center')}`}>
+          <h2 className={`font-heading text-3xl md:text-4xl shimmer-gold font-bold pb-6 whitespace-pre-line ${alignClass(featuresData?.headingAlign as string, 'text-center')}`}>
             {featuresData?.heading ?? 'Dlaczego ARMAGEDON?'}
           </h2>
           <p className={`text-muted-foreground mt-2 mb-12 whitespace-pre-line ${alignClass(featuresData?.subheadingAlign as string, 'text-center')}`}>
