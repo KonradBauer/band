@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useCallback, useEffect, useRef } from "react";
+import { useState, useCallback, useRef, useMemo } from "react";
 import Image from "next/image";
 import { MasonryPhotoAlbum } from "react-photo-album";
 import "react-photo-album/masonry.css";
@@ -16,6 +16,8 @@ import "yet-another-react-lightbox/styles.css";
 import Zoom from "yet-another-react-lightbox/plugins/zoom";
 import Counter from "yet-another-react-lightbox/plugins/counter";
 import "yet-another-react-lightbox/plugins/counter.css";
+import { motion, AnimatePresence } from "motion/react";
+import { useIsMobile } from "@/hooks/use-is-mobile";
 
 interface Photo {
   id: number | string;
@@ -63,7 +65,6 @@ function NextJsImage({
 
   if (!isNextJsImage(slide)) return undefined;
 
-  // Never upscale beyond native resolution
   const maxWidth = Math.min(rect.width, slide.width);
   const maxHeight = Math.min(rect.height, slide.height);
 
@@ -100,6 +101,74 @@ function NextJsImage({
   );
 }
 
+/* ── Floating sparkle particles ── */
+
+interface Sparkle {
+  id: number;
+  x: number;
+  y: number;
+  size: number;
+  opacity: number;
+  duration: number;
+  delay: number;
+  drift: number;
+}
+
+function FloatingSparkles({ count = 10 }: { count?: number }) {
+  const isMobile = useIsMobile();
+  const effectiveCount = isMobile ? Math.min(count, 4) : count;
+
+  const sparkles = useMemo<Sparkle[]>(
+    () =>
+      Array.from({ length: effectiveCount }, (_, i) => ({
+        id: i,
+        x: Math.random() * 100,
+        y: Math.random() * 100,
+        size: 3 + Math.random() * 5,
+        opacity: 0.15 + Math.random() * 0.25,
+        duration: 4 + Math.random() * 6,
+        delay: Math.random() * 3,
+        drift: (Math.random() - 0.5) * 30,
+      })),
+    [effectiveCount],
+  );
+
+  return (
+    <div
+      className="absolute inset-0 overflow-hidden pointer-events-none"
+      aria-hidden
+    >
+      {sparkles.map((s) => (
+        <motion.div
+          key={s.id}
+          className="absolute rounded-full bg-primary/60 will-change-transform"
+          style={{
+            left: `${s.x}%`,
+            top: `${s.y}%`,
+            width: s.size,
+            height: s.size,
+            filter: `blur(${s.size > 5 ? 1 : 0}px)`,
+          }}
+          animate={{
+            y: [0, -25, 0],
+            x: [0, s.drift, 0],
+            opacity: [s.opacity, s.opacity * 2, s.opacity],
+            scale: [1, 1.4, 1],
+          }}
+          transition={{
+            duration: s.duration,
+            delay: s.delay,
+            repeat: Infinity,
+            ease: "easeInOut",
+          }}
+        />
+      ))}
+    </div>
+  );
+}
+
+/* ── Skeleton with shimmer ── */
+
 function SkeletonImage({
   src,
   alt,
@@ -108,6 +177,7 @@ function SkeletonImage({
   sizes,
   allLoaded,
   onLoad,
+  index,
 }: {
   src: string;
   alt: string;
@@ -116,15 +186,52 @@ function SkeletonImage({
   sizes: string;
   allLoaded: boolean;
   onLoad: () => void;
+  index: number;
 }) {
   return (
-    <div className="relative overflow-hidden rounded-lg gallery-hover" style={{ cursor: "pointer" }}>
-      {!allLoaded && (
-        <div
-          className="absolute inset-0 animate-pulse bg-muted rounded-lg"
-          style={{ aspectRatio: `${width} / ${height}` }}
-        />
-      )}
+    <motion.div
+      className="relative overflow-hidden rounded-lg gallery-hover"
+      style={{ cursor: "pointer" }}
+      initial={{ opacity: 0, y: 30, scale: 0.95 }}
+      animate={
+        allLoaded
+          ? { opacity: 1, y: 0, scale: 1 }
+          : { opacity: 1, y: 0, scale: 1 }
+      }
+      transition={{
+        duration: 0.5,
+        delay: allLoaded ? index * 0.04 : 0,
+        ease: "easeOut",
+      }}
+      whileHover={{
+        scale: 1.03,
+        transition: { duration: 0.3, ease: "easeOut" },
+      }}
+    >
+      <AnimatePresence>
+        {!allLoaded && (
+          <motion.div
+            className="absolute inset-0 rounded-lg overflow-hidden"
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.4 }}
+          >
+            <div className="absolute inset-0 bg-muted rounded-lg" />
+            <motion.div
+              className="absolute inset-0"
+              style={{
+                background:
+                  "linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.06) 50%, transparent 100%)",
+              }}
+              animate={{ x: ["-100%", "100%"] }}
+              transition={{
+                duration: 1.5,
+                repeat: Infinity,
+                ease: "easeInOut",
+              }}
+            />
+          </motion.div>
+        )}
+      </AnimatePresence>
       <Image
         src={src}
         alt={alt}
@@ -134,15 +241,26 @@ function SkeletonImage({
         className={`rounded-lg transition-opacity duration-500 ${allLoaded ? "opacity-100" : "opacity-0"}`}
         onLoad={onLoad}
       />
-    </div>
+    </motion.div>
   );
 }
+
+/* ── Main gallery ── */
 
 export default function PhotoGallery({ photos }: PhotoGalleryProps) {
   const [index, setIndex] = useState(-1);
   const [allLoaded, setAllLoaded] = useState(false);
   const loadedCount = useRef(0);
   const totalPhotos = photos.length;
+  const imageIndexMap = useRef(new Map<string, number>());
+
+  // Build a stable index map for staggered animation
+  if (imageIndexMap.current.size === 0) {
+    photos.forEach((p, i) => {
+      const src = p.thumbnailUrl ?? p.url;
+      imageIndexMap.current.set(src, i);
+    });
+  }
 
   const handleImageLoad = useCallback(() => {
     loadedCount.current += 1;
@@ -168,7 +286,9 @@ export default function PhotoGallery({ photos }: PhotoGalleryProps) {
 
   return (
     <>
-      <div className="gallery-container">
+      <div className="gallery-container relative">
+        <FloatingSparkles count={8} />
+
         <MasonryPhotoAlbum
           photos={albumPhotos}
           columns={(containerWidth) => {
@@ -179,17 +299,22 @@ export default function PhotoGallery({ photos }: PhotoGalleryProps) {
           spacing={(containerWidth) => (containerWidth < 500 ? 8 : 16)}
           onClick={({ index: i }) => setIndex(i)}
           render={{
-            image: (props) => (
-              <SkeletonImage
-                src={props.src as string}
-                alt={(props.alt as string) || ""}
-                width={props.width as number}
-                height={props.height as number}
-                sizes={props.sizes as string}
-                allLoaded={allLoaded}
-                onLoad={handleImageLoad}
-              />
-            ),
+            image: (props) => {
+              const imgIndex =
+                imageIndexMap.current.get(props.src as string) ?? 0;
+              return (
+                <SkeletonImage
+                  src={props.src as string}
+                  alt={(props.alt as string) || ""}
+                  width={props.width as number}
+                  height={props.height as number}
+                  sizes={props.sizes as string}
+                  allLoaded={allLoaded}
+                  onLoad={handleImageLoad}
+                  index={imgIndex}
+                />
+              );
+            },
           }}
         />
       </div>

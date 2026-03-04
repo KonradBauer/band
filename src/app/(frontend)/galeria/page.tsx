@@ -4,7 +4,9 @@ import configPromise from '@payload-config'
 import PhotoGallery from "@/components/photo-gallery";
 import { AnimateOnScroll } from "@/components/animations/animate-on-scroll"
 import { FloatingNotes } from "@/components/animations/floating-notes"
+import { FloatingParticles } from "@/components/animations/floating-particles"
 import { PageTransition } from "@/components/animations/page-transition"
+import { SectionDivider } from "@/components/animations/section-divider"
 import { alignClass } from "@/lib/textAlign"
 
 export const metadata: Metadata = {
@@ -48,14 +50,16 @@ export default async function GaleriaPage() {
     <PageTransition>
     <div className="relative overflow-hidden py-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
       <FloatingNotes count={6} />
+      <FloatingParticles count={14} />
 
       <AnimateOnScroll direction="up">
         <h1 className={`font-heading text-3xl md:text-4xl shimmer-gold font-bold whitespace-pre-line ${alignClass(galleryPage?.headingAlign as string, 'text-center')}`}>
           {heading}
         </h1>
-        <p className={`text-muted-foreground mt-2 mb-12 whitespace-pre-line ${alignClass(galleryPage?.subheadingAlign as string, 'text-center')}`}>
+        <p className={`text-muted-foreground mt-2 mb-8 whitespace-pre-line ${alignClass(galleryPage?.subheadingAlign as string, 'text-center')}`}>
           {subheading}
         </p>
+        <SectionDivider className="mb-12" />
       </AnimateOnScroll>
 
       {photos.length === 0 ? (
