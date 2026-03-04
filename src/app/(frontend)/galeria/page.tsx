@@ -3,7 +3,6 @@ import { getPayload } from 'payload'
 import configPromise from '@payload-config'
 import PhotoGallery from "@/components/photo-gallery";
 import { AnimateOnScroll } from "@/components/animations/animate-on-scroll"
-import { FloatingNotes } from "@/components/animations/floating-notes"
 import { FloatingParticles } from "@/components/animations/floating-particles"
 import { PageTransition } from "@/components/animations/page-transition"
 import { SectionDivider } from "@/components/animations/section-divider"
@@ -49,7 +48,6 @@ export default async function GaleriaPage() {
   return (
     <PageTransition>
     <div className="relative overflow-hidden py-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
-      <FloatingNotes count={6} />
       <FloatingParticles count={14} />
 
       <AnimateOnScroll direction="up">

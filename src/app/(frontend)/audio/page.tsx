@@ -5,7 +5,6 @@ import { getPayload } from 'payload'
 import configPromise from '@payload-config'
 import { AnimateOnScroll } from '@/components/animations/animate-on-scroll'
 import { StaggerChildren, StaggerItem } from '@/components/animations/stagger-children'
-import { FloatingNotes } from '@/components/animations/floating-notes'
 import { SectionDivider } from '@/components/animations/section-divider'
 import { PageTransition } from '@/components/animations/page-transition'
 import { alignClass } from '@/lib/textAlign'
@@ -72,7 +71,6 @@ export default async function AudioPage() {
   return (
     <PageTransition>
     <div className="relative overflow-hidden py-20 px-4 sm:px-6 lg:px-8 max-w-5xl mx-auto">
-      <FloatingNotes count={8} />
       <AnimateOnScroll direction="up">
         <h1 className={`font-heading text-3xl md:text-4xl shimmer-gold font-bold whitespace-pre-line ${alignClass(audioPage?.headingAlign as string, 'text-center')}`}>
           {heading}

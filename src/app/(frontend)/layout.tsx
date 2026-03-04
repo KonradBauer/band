@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Playfair_Display, Inter } from "next/font/google";
 import { SiteHeader } from "@/components/site-header-wrapper";
 import SiteFooter from "@/components/site-footer";
+import { FloatingNotes } from "@/components/animations/floating-notes";
 import "./globals.css";
 import React from 'react'
 
@@ -45,7 +46,10 @@ export default function RootLayout({
     <html lang="pl" className="dark">
     <body className={`${inter.variable} ${playfair.variable} antialiased`}>
     <SiteHeader />
-    <main className="pt-16 min-h-screen">{children}</main>
+    <main className="pt-16 min-h-screen relative">
+      <FloatingNotes count={10} />
+      {children}
+    </main>
     <SiteFooter />
     </body>
     </html>

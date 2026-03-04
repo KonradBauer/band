@@ -11,7 +11,6 @@ import { StaggerChildren, StaggerItem } from "@/components/animations/stagger-ch
 import { FloatingParticles } from "@/components/animations/floating-particles"
 import { HeroAnimations, HeroItem, HeroGlow } from "@/components/animations/hero-animations"
 import { SectionDivider } from "@/components/animations/section-divider"
-import { FloatingNotes } from "@/components/animations/floating-notes"
 import { TextReveal } from "@/components/animations/text-reveal"
 import { ScrollZoomHero } from "@/components/animations/scroll-zoom-hero"
 import { ParallaxSection } from "@/components/animations/parallax-section"
@@ -72,7 +71,6 @@ export default async function Home() {
       {/* Hero */}
       <section className="relative overflow-hidden bg-gradient-to-br from-[#1a1a2e] via-[#0f0f23] to-[#1a1a2e]">
         <FloatingParticles count={12} />
-        <FloatingNotes count={6} />
         <HeroGlow />
         <div className="absolute inset-0 bg-gradient-to-t from-background via-background/60 to-transparent" />
         <SmokeEffect />
@@ -212,7 +210,6 @@ export default async function Home() {
 
       <section className="relative overflow-hidden py-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-[#1a1a2e]/50 via-background to-[#1a1a2e]/30">
         <FloatingParticles count={6} />
-        <FloatingNotes count={4} />
         <AnimateOnScroll direction="scale">
           <div className="relative max-w-7xl mx-auto">
             <h2 className={`font-heading text-3xl md:text-4xl shimmer-gold font-bold whitespace-pre-line ${alignClass(cta?.headingAlign as string, 'text-center')}`}>
