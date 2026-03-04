@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useCallback } from "react";
+import { useState, useCallback, useEffect, useRef } from "react";
 import Image from "next/image";
 import { MasonryPhotoAlbum } from "react-photo-album";
 import "react-photo-album/masonry.css";
@@ -106,18 +106,20 @@ function SkeletonImage({
   width,
   height,
   sizes,
+  allLoaded,
+  onLoad,
 }: {
   src: string;
   alt: string;
   width: number;
   height: number;
   sizes: string;
+  allLoaded: boolean;
+  onLoad: () => void;
 }) {
-  const [loaded, setLoaded] = useState(false);
-
   return (
     <div className="relative overflow-hidden rounded-lg gallery-hover" style={{ cursor: "pointer" }}>
-      {!loaded && (
+      {!allLoaded && (
         <div
           className="absolute inset-0 animate-pulse bg-muted rounded-lg"
           style={{ aspectRatio: `${width} / ${height}` }}
@@ -129,8 +131,8 @@ function SkeletonImage({
         width={width}
         height={height}
         sizes={sizes}
-        className={`rounded-lg transition-opacity duration-300 ${loaded ? "opacity-100" : "opacity-0"}`}
-        onLoad={() => setLoaded(true)}
+        className={`rounded-lg transition-opacity duration-500 ${allLoaded ? "opacity-100" : "opacity-0"}`}
+        onLoad={onLoad}
       />
     </div>
   );
@@ -138,6 +140,16 @@ function SkeletonImage({
 
 export default function PhotoGallery({ photos }: PhotoGalleryProps) {
   const [index, setIndex] = useState(-1);
+  const [allLoaded, setAllLoaded] = useState(false);
+  const loadedCount = useRef(0);
+  const totalPhotos = photos.length;
+
+  const handleImageLoad = useCallback(() => {
+    loadedCount.current += 1;
+    if (loadedCount.current >= totalPhotos) {
+      setAllLoaded(true);
+    }
+  }, [totalPhotos]);
 
   const albumPhotos = photos.map((p) => ({
     src: p.thumbnailUrl ?? p.url,
@@ -174,6 +186,8 @@ export default function PhotoGallery({ photos }: PhotoGalleryProps) {
                 width={props.width as number}
                 height={props.height as number}
                 sizes={props.sizes as string}
+                allLoaded={allLoaded}
+                onLoad={handleImageLoad}
               />
             ),
           }}
