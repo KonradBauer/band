@@ -30,7 +30,7 @@ export const SiteSettings: GlobalConfig = {
       name: 'email',
       type: 'email',
       label: 'E-mail',
-      defaultValue: 'kontakt@armagedon.com.pl',
+      defaultValue: 'zespolarmagedon@gmail.com',
     },
     {
       name: 'address',

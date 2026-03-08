@@ -11,9 +11,23 @@ export default async function SiteFooter() {
   const siteName = settings?.siteName ?? 'ARMAGEDON'
   const tagline = settings?.siteTagline ?? 'Zespół muzyczny na wesele'
   const phone = settings?.phone ?? '505 566 007'
-  const email = settings?.email ?? 'kontakt@armagedon.com.pl'
+  const email = settings?.email ?? 'zespolarmagedon@gmail.com'
   const address = settings?.address ?? 'ul. Jana Pawła II 44, KOŚCIELEC 42-240'
   const copyright = settings?.copyright ?? '© 2026 ARMAGEDON. Wszelkie prawa zastrzeżone.'
+  const powered = (
+    <span>
+    Powered by{" "}
+      <Link
+        className="nav-underline"
+        href="https://kbauer.pl"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+      kbauer.pl
+    </Link>
+  </span>
+
+  );
 
   return (
     <footer className="bg-card border-t border-border">
@@ -101,6 +115,9 @@ export default async function SiteFooter() {
         <div className="text-center py-6">
           <p className="text-xs text-muted-foreground">
             {copyright}
+          </p>
+          <p className="text-xs text-muted-foreground">
+            {powered}
           </p>
         </div>
       </div>
