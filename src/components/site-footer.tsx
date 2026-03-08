@@ -3,10 +3,19 @@ import { Separator } from "@/components/ui/separator";
 import { Phone, Mail, MapPin } from "lucide-react";
 import { getPayload } from 'payload'
 import configPromise from '@payload-config'
+import { unstable_cache } from 'next/cache'
+
+const getSiteSettings = unstable_cache(
+  async () => {
+    const payload = await getPayload({ config: configPromise })
+    return payload.findGlobal({ slug: 'site-settings' })
+  },
+  ['site-settings'],
+  { revalidate: 60 }
+)
 
 export default async function SiteFooter() {
-  const payload = await getPayload({ config: configPromise })
-  const settings = await payload.findGlobal({ slug: 'site-settings' })
+  const settings = await getSiteSettings()
 
   const siteName = settings?.siteName ?? 'ARMAGEDON'
   const tagline = settings?.siteTagline ?? 'Zespół muzyczny na wesele'
