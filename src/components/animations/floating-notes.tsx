@@ -41,7 +41,7 @@ export function FloatingNotes({ count = 12 }: { count?: number }) {
       {notes.map((n) => (
         <motion.span
           key={n.id}
-          className="absolute text-primary select-none will-change-transform"
+          className="absolute text-primary select-none"
           style={{
             left: `${n.x}%`,
             top: `${n.y}%`,

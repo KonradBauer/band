@@ -141,7 +141,7 @@ function FloatingSparkles({ count = 10 }: { count?: number }) {
       {sparkles.map((s) => (
         <motion.div
           key={s.id}
-          className="absolute rounded-full bg-primary/60 will-change-transform"
+          className="absolute rounded-full bg-primary/60"
           style={{
             left: `${s.x}%`,
             top: `${s.y}%`,
@@ -190,14 +190,9 @@ function SkeletonImage({
 }) {
   return (
     <motion.div
-      className="relative overflow-hidden rounded-lg gallery-hover"
-      style={{ cursor: "pointer" }}
+      className="relative overflow-hidden rounded-lg gallery-hover cursor-pointer"
       initial={{ opacity: 0, y: 30, scale: 0.95 }}
-      animate={
-        allLoaded
-          ? { opacity: 1, y: 0, scale: 1 }
-          : { opacity: 1, y: 0, scale: 1 }
-      }
+      animate={{ opacity: 1, y: 0, scale: 1 }}
       transition={{
         duration: 0.5,
         delay: allLoaded ? index * 0.04 : 0,
@@ -252,15 +247,12 @@ export default function PhotoGallery({ photos }: PhotoGalleryProps) {
   const [allLoaded, setAllLoaded] = useState(false);
   const loadedCount = useRef(0);
   const totalPhotos = photos.length;
-  const imageIndexMap = useRef(new Map<string, number>());
 
-  // Build a stable index map for staggered animation
-  if (imageIndexMap.current.size === 0) {
-    photos.forEach((p, i) => {
-      const src = p.thumbnailUrl ?? p.url;
-      imageIndexMap.current.set(src, i);
-    });
-  }
+  const imageIndexMap = useMemo(() => {
+    const map = new Map<string, number>();
+    photos.forEach((p, i) => map.set(p.thumbnailUrl ?? p.url, i));
+    return map;
+  }, [photos]);
 
   const handleImageLoad = useCallback(() => {
     loadedCount.current += 1;
@@ -269,20 +261,20 @@ export default function PhotoGallery({ photos }: PhotoGalleryProps) {
     }
   }, [totalPhotos]);
 
-  const albumPhotos = photos.map((p) => ({
+  const albumPhotos = useMemo(() => photos.map((p) => ({
     src: p.thumbnailUrl ?? p.url,
     width: p.thumbnailWidth ?? p.width,
     height: p.thumbnailHeight ?? p.height,
     alt: p.alt ?? "",
     key: String(p.id),
-  }));
+  })), [photos]);
 
-  const lightboxSlides = photos.map((p) => ({
+  const lightboxSlides = useMemo(() => photos.map((p) => ({
     src: p.largeUrl ?? p.url,
     width: p.width,
     height: p.height,
     alt: p.alt ?? "",
-  }));
+  })), [photos]);
 
   return (
     <>
@@ -301,7 +293,7 @@ export default function PhotoGallery({ photos }: PhotoGalleryProps) {
           render={{
             image: (props) => {
               const imgIndex =
-                imageIndexMap.current.get(props.src as string) ?? 0;
+                imageIndexMap.get(props.src as string) ?? 0;
               return (
                 <SkeletonImage
                   src={props.src as string}
