@@ -16,14 +16,17 @@ export const metadata: Metadata = {
 
 export default async function KontaktPage() {
   const payload = await getPayload({ config: configPromise })
-  const contactPage = await payload.findGlobal({ slug: 'contact-page' })
+  const [contactPage, siteSettings] = await Promise.all([
+    payload.findGlobal({ slug: 'contact-page' }),
+    payload.findGlobal({ slug: 'site-settings' }),
+  ])
 
   const heading = contactPage?.heading ?? 'Kontakt'
   const subheading = contactPage?.subheading ?? 'Masz pytania? Chętnie na nie odpowiemy!'
   const contactInfoHeading = contactPage?.contactInfoHeading ?? 'Dane kontaktowe'
   const phonePrimary = contactPage?.phonePrimary ?? 'Agnieszka Gołda: 512 369 305'
   const phoneSecondary = contactPage?.phoneSecondary ?? 'Biuro: 505 566 007'
-  const email = contactPage?.email ?? 'zespolarmagedon@gmail.com'
+  const email = siteSettings?.email ?? 'zespolarmagedon@gmail.com'
   const address = contactPage?.address ?? 'ul. Jana Pawła II 44, KOŚCIELEC 42-240'
   const addressDescription = contactPage?.addressDescription ?? 'Obsługujemy całe województwo śląskie i okolice'
   const nip = contactPage?.nip ?? '573-239-90-62'

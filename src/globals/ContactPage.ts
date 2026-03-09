@@ -42,12 +42,6 @@ export const ContactPage: GlobalConfig = {
       defaultValue: ''
     },
     {
-      name: 'email',
-      type: 'email',
-      label: 'E-mail',
-      defaultValue: 'zespolarmagedon@gmail.com',
-    },
-    {
       name: 'address',
       type: 'textarea',
       label: 'Adres',
