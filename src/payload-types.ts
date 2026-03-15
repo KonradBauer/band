@@ -764,7 +764,6 @@ export interface ContactPage {
   contactInfoHeadingAlign?: ('left' | 'center' | 'right' | 'justify') | null;
   phonePrimary?: string | null;
   phoneSecondary?: string | null;
-  email?: string | null;
   address?: string | null;
   addressDescription?: string | null;
   nip?: string | null;
@@ -942,7 +941,6 @@ export interface ContactPageSelect<T extends boolean = true> {
   contactInfoHeadingAlign?: T;
   phonePrimary?: T;
   phoneSecondary?: T;
-  email?: T;
   address?: T;
   addressDescription?: T;
   nip?: T;

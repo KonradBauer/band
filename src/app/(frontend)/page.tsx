@@ -199,7 +199,7 @@ export default async function Home() {
             <p className={`text-muted-foreground mt-4 leading-relaxed whitespace-pre-line ${alignClass(about?.paragraph2Align as string, 'text-left')}`}>
               {about?.paragraph2 ?? 'Każde wesele traktujemy indywidualnie, dostosowując program do potrzeb i oczekiwań Młodej Pary.'}
             </p>
-            <Button variant="outline" asChild className="mt-6 border-primary text-primary hover:bg-primary hover:text-primary-foreground glow-button">
+            <Button variant="outline" asChild className="mt-6 border-primary text-primary hover:bg-primary/20 hover:text-white glow-button">
               <Link href={about?.ctaLink ?? '/kim-jestesmy'}>{about?.ctaText ?? 'Więcej o nas'}</Link>
             </Button>
           </AnimateOnScroll>
@@ -222,7 +222,7 @@ export default async function Home() {
               <Button variant="default" size="lg" asChild className="text-lg px-8 py-6 glow-button cta-pulse">
                 <a href={`tel:${cta?.phoneNumber ?? '505566007'}`}>{cta?.phoneText ?? 'Zadzwoń: 505 566 007'}</a>
               </Button>
-              <Button variant="outline" size="lg" asChild className="text-lg px-8 py-6 border-primary text-primary hover:bg-primary hover:text-primary-foreground glow-button">
+              <Button variant="outline" size="lg" asChild className="text-lg px-8 py-6 border-primary text-primary hover:bg-primary/20 hover:text-white glow-button">
                 <Link href={cta?.contactLink ?? '/kontakt'}>{cta?.contactText ?? 'Napisz do nas'}</Link>
               </Button>
             </div>
