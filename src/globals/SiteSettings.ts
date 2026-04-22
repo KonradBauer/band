@@ -24,7 +24,7 @@ export const SiteSettings: GlobalConfig = {
       name: 'phone',
       type: 'textarea',
       label: 'Telefon',
-      defaultValue: '505 566 007',
+      defaultValue: '512 369 305',
     },
     {
       name: 'email',

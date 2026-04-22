@@ -39,7 +39,10 @@ const defaultFeatures = [
 
 export default async function Home() {
   const payload = await getPayload({ config: configPromise })
-  const homePage = await payload.findGlobal({ slug: 'home-page' })
+  const [homePage, siteSettings] = await Promise.all([
+    payload.findGlobal({ slug: 'home-page' }),
+    payload.findGlobal({ slug: 'site-settings' }),
+  ])
 
   const hero = homePage?.heroSection
   const featuresData = homePage?.featuresSection
@@ -220,7 +223,7 @@ export default async function Home() {
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Button variant="default" size="lg" asChild className="text-lg px-8 py-6 glow-button cta-pulse">
-                <a href={`tel:${cta?.phoneNumber ?? '505566007'}`}>{cta?.phoneText ?? 'Zadzwoń: 505 566 007'}</a>
+                <a href={`tel:${(siteSettings?.phone ?? '512369305').replace(/\s/g, '')}`}>Zadzwoń: {siteSettings?.phone ?? '512 369 305'}</a>
               </Button>
               <Button variant="outline" size="lg" asChild className="text-lg px-8 py-6 border-primary text-primary hover:bg-primary/20 hover:text-white glow-button">
                 <Link href={cta?.contactLink ?? '/kontakt'}>{cta?.contactText ?? 'Napisz do nas'}</Link>

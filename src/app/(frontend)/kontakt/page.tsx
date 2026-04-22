@@ -24,8 +24,7 @@ export default async function KontaktPage() {
   const heading = contactPage?.heading ?? 'Kontakt'
   const subheading = contactPage?.subheading ?? 'Masz pytania? Chętnie na nie odpowiemy!'
   const contactInfoHeading = contactPage?.contactInfoHeading ?? 'Dane kontaktowe'
-  const phonePrimary = contactPage?.phonePrimary ?? 'Agnieszka Gołda: 512 369 305'
-  const phoneSecondary = contactPage?.phoneSecondary ?? 'Biuro: 505 566 007'
+  const phone = siteSettings?.phone ?? '512 369 305'
   const email = siteSettings?.email ?? 'zespolarmagedon@gmail.com'
   const address = contactPage?.address ?? 'ul. Jana Pawła II 44, KOŚCIELEC 42-240'
   const addressDescription = contactPage?.addressDescription ?? 'Obsługujemy całe województwo śląskie i okolice'
@@ -61,8 +60,7 @@ export default async function KontaktPage() {
                 <Phone className="text-primary shrink-0" size={24} />
                 <div>
                   <p className="text-sm text-muted-foreground">Telefon</p>
-                  <p className="text-foreground font-medium whitespace-pre-line">{phonePrimary}</p>
-                  <p className="text-sm text-muted-foreground whitespace-pre-line">{phoneSecondary}</p>
+                  <p className="text-foreground font-medium">{phone}</p>
                 </div>
               </CardContent>
             </div>

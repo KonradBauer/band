@@ -244,18 +244,6 @@ export const HomePage: GlobalConfig = {
         },
         textAlignField('subheading', 'center'),
         {
-          name: 'phoneText',
-          type: 'textarea',
-          label: 'Tekst telefonu',
-          defaultValue: 'Zadzwoń: 505 566 007',
-        },
-        {
-          name: 'phoneNumber',
-          type: 'text',
-          label: 'Numer telefonu',
-          defaultValue: '505566007',
-        },
-        {
           name: 'contactText',
           type: 'textarea',
           label: 'Tekst kontaktu',

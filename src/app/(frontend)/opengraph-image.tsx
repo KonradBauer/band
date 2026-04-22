@@ -1,10 +1,15 @@
 import { ImageResponse } from 'next/og'
+import { getPayload } from 'payload'
+import configPromise from '@payload-config'
 
 export const alt = 'ARMAGEDON - Zespół muzyczny na wesele'
 export const size = { width: 1200, height: 630 }
 export const contentType = 'image/png'
 
-export default function OgImage() {
+export default async function OgImage() {
+  const payload = await getPayload({ config: configPromise })
+  const siteSettings = await payload.findGlobal({ slug: 'site-settings' })
+  const phone = siteSettings?.phone ?? '512 369 305'
   return new ImageResponse(
     (
       <div
@@ -148,7 +153,7 @@ export default function OgImage() {
             letterSpacing: 2,
           }}
         >
-          505 566 007
+          {phone}
         </span>
 
         {/* Bottom decorative line */}

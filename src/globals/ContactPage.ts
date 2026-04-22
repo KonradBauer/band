@@ -30,18 +30,6 @@ export const ContactPage: GlobalConfig = {
     },
     textAlignField('contactInfoHeading', 'left'),
     {
-      name: 'phonePrimary',
-      type: 'textarea',
-      label: 'Telefon główny',
-      defaultValue: 'Agnieszka Gołda: 512 369 305',
-    },
-    {
-      name: 'phoneSecondary',
-      type: 'textarea',
-      label: 'Telefon dodatkowy',
-      defaultValue: ''
-    },
-    {
       name: 'address',
       type: 'textarea',
       label: 'Adres',
