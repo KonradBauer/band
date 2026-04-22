@@ -43,6 +43,8 @@ export const BulkUpload: React.FC = () => {
     setIsUploading(true)
 
     const audioFiles = selectedFilesRef.current
+    let successCount = 0
+
     for (let i = 0; i < audioFiles.length; i++) {
       const file = audioFiles[i]
       setFiles((prev) =>
@@ -72,6 +74,7 @@ export const BulkUpload: React.FC = () => {
           throw new Error(errData?.errors?.[0]?.message || `HTTP ${res.status}`)
         }
 
+        successCount++
         setFiles((prev) =>
           prev.map((f, idx) => (idx === i ? { ...f, status: 'done' } : f)),
         )
@@ -79,7 +82,7 @@ export const BulkUpload: React.FC = () => {
         setFiles((prev) =>
           prev.map((f, idx) =>
             idx === i
-              ? { ...f, status: 'error', error: err instanceof Error ? err.message : 'Błąd' }
+              ? { ...f, status: 'error', error: err instanceof Error ? err.message : 'Nieznany błąd' }
               : f,
           ),
         )
@@ -87,7 +90,9 @@ export const BulkUpload: React.FC = () => {
     }
 
     setIsUploading(false)
-    window.location.reload()
+    if (successCount > 0) {
+      window.location.reload()
+    }
   }, [id])
 
   if (!id) {
@@ -182,8 +187,8 @@ export const BulkUpload: React.FC = () => {
                 <span style={{ color: 'var(--theme-success-500)' }}>Gotowe</span>
               )}
               {f.status === 'error' && (
-                <span style={{ color: 'var(--theme-error-500)' }} title={f.error}>
-                  Błąd
+                <span style={{ color: 'var(--theme-error-500)', fontSize: '12px' }}>
+                  Błąd: {f.error}
                 </span>
               )}
             </div>
