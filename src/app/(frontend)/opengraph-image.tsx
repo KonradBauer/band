@@ -2,6 +2,8 @@ import { ImageResponse } from 'next/og'
 import { getPayload } from 'payload'
 import configPromise from '@payload-config'
 
+export const dynamic = 'force-dynamic'
+
 export const alt = 'ARMAGEDON - Zespół muzyczny na wesele'
 export const size = { width: 1200, height: 630 }
 export const contentType = 'image/png'
