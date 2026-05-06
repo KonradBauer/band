@@ -69,6 +69,13 @@ export default function AudioAlbumCard({
       const container = containerRefs.current.get(index)
       if (!container) return
 
+      // Pre-create audio element so browser starts buffering immediately.
+      // WaveSurfer v7 removed the 'backend' option — passing 'media' here bypasses
+      // full-file WebAudio decode and lets the browser stream natively.
+      const mediaEl = document.createElement('audio')
+      mediaEl.preload = 'auto'
+      mediaEl.src = tracks[index].src
+
       const ws = WaveSurfer.create({
         container,
         waveColor: 'rgba(201, 168, 76, 0.3)',
@@ -78,13 +85,22 @@ export default function AudioAlbumCard({
         barGap: 2,
         barRadius: 2,
         height: 40,
-        url: tracks[index].src,
-        backend: 'MediaElement',
+        media: mediaEl,
       })
+
+      // canplay fires as soon as the browser has enough data — much earlier than
+      // canplaythrough (which WaveSurfer's 'ready' waits for)
+      mediaEl.addEventListener(
+        'canplay',
+        () => {
+          ws.play().catch(() => {})
+          setIsPlaying(true)
+        },
+        { once: true },
+      )
 
       ws.on('ready', () => {
         setDuration(ws.getDuration())
-        ws.play()
       })
 
       ws.on('audioprocess', () => {
@@ -106,7 +122,6 @@ export default function AudioAlbumCard({
 
       wsRef.current = ws
       setCurrentTrack(index)
-      setIsPlaying(true)
     },
     [tracks, destroyWaveSurfer, resetState],
   )
