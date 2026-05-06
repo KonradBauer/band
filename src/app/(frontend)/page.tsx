@@ -72,26 +72,41 @@ export default async function Home() {
   return (
     <div>
       {/* Hero */}
-      <section className="relative overflow-hidden bg-gradient-to-br from-[#1a1a2e] via-[#0f0f23] to-[#1a1a2e]">
-        <FloatingParticles count={12} />
-        <HeroGlow />
-        <div className="absolute inset-0 bg-gradient-to-t from-background via-background/60 to-transparent" />
+      <section className="relative overflow-hidden bg-[#080808]">
+        {/* Stage spotlight — radial gold glow from top-center */}
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_60%_at_50%_0%,rgba(201,168,76,0.18)_0%,rgba(201,168,76,0.04)_45%,transparent_70%)]" />
+        {/* Ghost band name — massive typographic background element */}
+        <div className="absolute inset-0 flex items-center justify-center overflow-hidden select-none pointer-events-none">
+          <span className="font-heading font-black text-[22vw] text-white/[0.025] tracking-[0.15em] whitespace-nowrap leading-none">
+            {heroHeading.split('\n')[0]}
+          </span>
+        </div>
+        {/* Subtle horizontal scan line at top */}
+        <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-primary/40 to-transparent" />
+        <FloatingParticles count={8} />
+        <div className="absolute inset-0 bg-gradient-to-t from-background via-transparent to-transparent" />
         <SmokeEffect />
         <ScrollZoomHero className="relative">
-          <div className="relative text-center px-4 sm:px-6 lg:px-8 py-16 md:py-24">
+          <div className="relative text-center px-4 sm:px-6 lg:px-8 py-20 md:py-32">
             <HeroAnimations>
               <HeroItem>
-                <h1 className={`font-heading text-5xl md:text-7xl font-bold tracking-wider gold-gradient-text whitespace-pre-line ${alignClass(hero?.headingAlign as string, 'text-center')}`}>
+                {/* Decorative line above heading */}
+                <div className="flex items-center justify-center gap-4 mb-6">
+                  <div className="h-px w-16 bg-gradient-to-r from-transparent to-primary/60" />
+                  <span className="text-[11px] tracking-[0.4em] text-primary/70 uppercase font-medium">Zespół weselny</span>
+                  <div className="h-px w-16 bg-gradient-to-l from-transparent to-primary/60" />
+                </div>
+                <h1 className={`font-heading text-6xl md:text-8xl font-bold tracking-[0.12em] gold-gradient-text whitespace-pre-line ${alignClass(hero?.headingAlign as string, 'text-center')}`}>
                   <TextReveal text={heroHeading} />
                 </h1>
               </HeroItem>
               <HeroItem>
-                <p className={`text-xl md:text-2xl text-foreground font-light mt-4 whitespace-pre-line ${alignClass(hero?.subheadingAlign as string, 'text-center')}`}>
-                  {hero?.subheading ?? 'Zespół muzyczny na wesele'}
+                <p className={`text-lg md:text-xl text-foreground/80 font-light mt-5 tracking-wide whitespace-pre-line ${alignClass(hero?.subheadingAlign as string, 'text-center')}`}>
+                  {hero?.subheading ?? 'Muzyczna oprawa wesel i imprez'}
                 </p>
               </HeroItem>
               <HeroItem>
-                <p className={`text-muted-foreground max-w-2xl mx-auto mt-2 whitespace-pre-line ${alignClass(hero?.descriptionAlign as string, 'text-center')}`}>
+                <p className={`text-muted-foreground max-w-xl mx-auto mt-3 leading-relaxed whitespace-pre-line ${alignClass(hero?.descriptionAlign as string, 'text-center')}`}>
                   {hero?.description ?? 'Profesjonalna oprawa muzyczna wesel i imprez. Gramy z pasją od ponad 20 lat.'}
                 </p>
               </HeroItem>
@@ -110,7 +125,15 @@ export default async function Home() {
                 </HeroItem>
               )}
               <HeroItem>
-                <Button variant="default" size="lg" asChild className="mt-8 text-lg px-8 py-6 glow-button cta-pulse">
+                {/* Decorative line below content, before CTA */}
+                <div className="flex items-center justify-center gap-6 mt-10 mb-6">
+                  <div className="h-px flex-1 max-w-24 bg-gradient-to-r from-transparent to-border" />
+                  <div className="h-1 w-1 rounded-full bg-primary/50" />
+                  <div className="h-1 w-1 rounded-full bg-primary" />
+                  <div className="h-1 w-1 rounded-full bg-primary/50" />
+                  <div className="h-px flex-1 max-w-24 bg-gradient-to-l from-transparent to-border" />
+                </div>
+                <Button variant="default" size="lg" asChild className="text-base px-10 py-6 glow-button cta-pulse tracking-wider">
                   <a href="#wolne-terminy">Sprawdź dostępne terminy</a>
                 </Button>
               </HeroItem>

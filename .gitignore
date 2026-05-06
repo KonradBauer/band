@@ -52,3 +52,6 @@ node_modules/
 /playwright-report/
 /blob-report/
 /playwright/.cache/
+
+compound-engineering-plugin-main/
+.DS_Store
