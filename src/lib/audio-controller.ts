@@ -1,4 +1,4 @@
-import { Howl, Howler } from 'howler'
+import { Howl } from 'howler'
 import { captureException } from '@/lib/error-reporting'
 
 export interface AudioTrack {
@@ -21,15 +21,15 @@ export interface PlayerState {
 
 type StateListener = (state: PlayerState) => void
 
-const FADE_DURATION = 500   // ms fade-in to hide latency / click sounds
-const SEEK_INTERVAL = 250   // ms between progress updates
+const FADE_OUT_DURATION = 300  // ms — pause fade-out only
+const SEEK_INTERVAL = 250      // ms between progress updates
 
 // ─── Singleton ───────────────────────────────────────────────────────────────
-// One class instance shared across the entire app. Navigation doesn't destroy it.
 
 class AudioController {
   private active: Howl | null = null
-  private lookahead: Howl | null = null   // next-track buffer
+  private lookahead: Howl | null = null
+  private lookaheadSrc: string | null = null
   private seekTimer: ReturnType<typeof setInterval> | null = null
   private listeners = new Set<StateListener>()
 
@@ -59,17 +59,16 @@ class AudioController {
 
   pause() {
     if (!this.active) return
-    this.active.fade(this.active.volume(), 0, FADE_DURATION)
-    setTimeout(() => this.active?.pause(), FADE_DURATION)
+    this.stopSeekTimer()
+    this.active.fade(1, 0, FADE_OUT_DURATION)
+    setTimeout(() => this.active?.pause(), FADE_OUT_DURATION)
     this.setState({ status: 'paused' })
   }
 
   resume() {
     if (!this.active) return
-    // Optimistic UI — update state immediately before buffer is ready
     this.setState({ status: 'playing' })
     this.active.play()
-    this.active.fade(0, 1, FADE_DURATION)
     this.startSeekTimer()
   }
 
@@ -103,43 +102,54 @@ class AudioController {
     const track = playlist[index]
     if (!track) return
 
-    // Optimistic UI: reflect intent immediately
     this.setState({ status: 'loading', track, trackIndex: index, playlist, currentTime: 0, duration: 0 })
-
     this.teardown()
 
-    // Reuse look-ahead buffer if it was preloaded for this track
-    if (this.lookahead && this.state.playlist[index]?.src === track.src) {
+    // Reuse lookahead only when its src matches the requested track
+    if (this.lookahead && this.lookaheadSrc === track.src) {
       this.active = this.lookahead
       this.lookahead = null
+      this.lookaheadSrc = null
     } else {
       this.discardLookahead()
       this.active = this.createHowl(track.src)
     }
 
-    this.active.on('load', () => {
-      this.setState({ duration: this.active!.duration() })
-      this.active!.volume(0)
-      this.active!.play()
-      this.active!.fade(0, 1, FADE_DURATION)
+    const howl = this.active
+
+    const startPlay = () => {
+      // Guard against stale callbacks if a newer loadAndPlay superseded this one
+      if (this.active !== howl) return
+      this.setState({ duration: howl.duration() })
+      howl.play()
       this.setState({ status: 'playing' })
       this.startSeekTimer()
       this.updateMediaSession(track, playlist, index)
       this.scheduleLookahead(playlist, index)
       this.bufferFullTrack(track.src)
-    })
+    }
 
-    this.active.on('play', () => {
+    // If howl already loaded (lookahead reuse), on('load') won't fire — call directly
+    if (howl.state() === 'loaded') {
+      startPlay()
+    } else {
+      howl.once('load', startPlay)
+    }
+
+    howl.on('play', () => {
+      if (this.active !== howl) return
       this.setState({ status: 'playing' })
       this.startSeekTimer()
     })
 
-    this.active.on('pause', () => {
+    howl.on('pause', () => {
+      if (this.active !== howl) return
       this.setState({ status: 'paused' })
       this.stopSeekTimer()
     })
 
-    this.active.on('end', () => {
+    howl.on('end', () => {
+      if (this.active !== howl) return
       this.stopSeekTimer()
       this.setState({ currentTime: 0 })
       const next = index + 1
@@ -150,14 +160,13 @@ class AudioController {
       }
     })
 
-    this.active.on('loaderror', (_id: number, err: unknown) => {
+    howl.on('loaderror', (_id: number, err: unknown) => {
       captureException(err, { context: '[AudioController] load error', src: track.src })
       this.setState({ status: 'error' })
       this.stopSeekTimer()
     })
 
-    this.active.on('playerror', (_id: number, err: unknown) => {
-      // Autoplay policy blocked — wait for next user gesture
+    howl.on('playerror', (_id: number, err: unknown) => {
       if (String(err).includes('NotAllowedError')) {
         this.setState({ status: 'paused' })
         return
@@ -167,8 +176,6 @@ class AudioController {
     })
   }
 
-  // Preload next track silently into browser memory while current plays.
-  // Howl with preload:true + html5:true fetches via range request, zero volume.
   private scheduleLookahead(playlist: AudioTrack[], currentIndex: number) {
     const nextIndex = currentIndex + 1
     if (nextIndex >= playlist.length) return
@@ -176,11 +183,12 @@ class AudioController {
     const nextTrack = playlist[nextIndex]
     this.discardLookahead()
 
+    this.lookaheadSrc = nextTrack.src
     this.lookahead = new Howl({
       src: [nextTrack.src],
       html5: true,
       preload: true,
-      volume: 0,
+      volume: 1,
       autoplay: false,
     })
   }
@@ -194,13 +202,14 @@ class AudioController {
     if (this.lookahead) {
       this.lookahead.unload()
       this.lookahead = null
+      this.lookaheadSrc = null
     }
   }
 
   private createHowl(src: string): Howl {
     return new Howl({
       src: [src],
-      html5: true,          // streaming via range requests, no full-file decode
+      html5: true,
       preload: true,
       volume: 1,
       autoplay: false,
@@ -211,8 +220,8 @@ class AudioController {
   private teardown() {
     if (this.active) {
       this.stopSeekTimer()
-      this.active.off()     // remove all event listeners
-      this.active.unload()  // release memory / HTTP connections
+      this.active.off()
+      this.active.unload()
       this.active = null
     }
   }
@@ -241,7 +250,6 @@ class AudioController {
   }
 
   // ── Media Session API ──────────────────────────────────────────────────────
-  // Shows track info + controls on mobile lock screen / notification centre.
 
   private updateMediaSession(track: AudioTrack, playlist: AudioTrack[], index: number) {
     if (typeof navigator === 'undefined' || !('mediaSession' in navigator)) return
@@ -272,5 +280,4 @@ class AudioController {
   }
 }
 
-// Export singleton — same instance across all imports
 export const audioController = new AudioController()
