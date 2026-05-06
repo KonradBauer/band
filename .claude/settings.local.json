@@ -28,7 +28,11 @@
       "Bash(git clean:*)",
       "Bash(git:*)",
       "Bash(GIT_EDITOR=true git rebase:*)",
-      "Bash(npx payload:*)"
+      "Bash(npx payload:*)",
+      "mcp__claude_ai_Gmail__gmail_get_profile",
+      "Bash(npx howler *)",
+      "Bash(gh repo *)",
+      "WebFetch(domain:github.com)"
     ]
   }
 }

@@ -708,8 +708,6 @@ export interface HomePage {
     headingAlign?: ('left' | 'center' | 'right' | 'justify') | null;
     subheading?: string | null;
     subheadingAlign?: ('left' | 'center' | 'right' | 'justify') | null;
-    phoneText?: string | null;
-    phoneNumber?: string | null;
     contactText?: string | null;
     contactLink?: string | null;
   };
@@ -762,8 +760,6 @@ export interface ContactPage {
   subheadingAlign?: ('left' | 'center' | 'right' | 'justify') | null;
   contactInfoHeading?: string | null;
   contactInfoHeadingAlign?: ('left' | 'center' | 'right' | 'justify') | null;
-  phonePrimary?: string | null;
-  phoneSecondary?: string | null;
   address?: string | null;
   addressDescription?: string | null;
   nip?: string | null;
@@ -899,8 +895,6 @@ export interface HomePageSelect<T extends boolean = true> {
         headingAlign?: T;
         subheading?: T;
         subheadingAlign?: T;
-        phoneText?: T;
-        phoneNumber?: T;
         contactText?: T;
         contactLink?: T;
       };
@@ -939,8 +933,6 @@ export interface ContactPageSelect<T extends boolean = true> {
   subheadingAlign?: T;
   contactInfoHeading?: T;
   contactInfoHeadingAlign?: T;
-  phonePrimary?: T;
-  phoneSecondary?: T;
   address?: T;
   addressDescription?: T;
   nip?: T;

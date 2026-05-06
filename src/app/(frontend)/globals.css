@@ -278,6 +278,12 @@ html {
   box-shadow: 0 0 25px rgba(201, 168, 76, 0.35), 0 0 50px rgba(201, 168, 76, 0.15);
 }
 
+/* Equalizer bars animation for audio player */
+@keyframes eq-bar {
+  from { height: 2px; }
+  to   { height: 14px; }
+}
+
 /* CTA pulse animation */
 @keyframes cta-pulse {
   0%, 100% { box-shadow: 0 0 0 0 rgba(201, 168, 76, 0.4); }
