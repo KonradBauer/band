@@ -75,9 +75,12 @@ export default async function Home() {
       <section className="relative overflow-hidden bg-[#080808]">
         {/* Stage spotlight — radial gold glow from top-center */}
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_60%_at_50%_0%,rgba(201,168,76,0.18)_0%,rgba(201,168,76,0.04)_45%,transparent_70%)]" />
-        {/* Ghost band name — massive typographic background element */}
+        {/* Ghost band name — decorative background text, clipped to viewport */}
         <div className="absolute inset-0 flex items-center justify-center overflow-hidden select-none pointer-events-none">
-          <span className="font-heading font-black text-[22vw] text-white/[0.025] tracking-[0.15em] whitespace-nowrap leading-none">
+          <span
+            className="font-heading font-black text-white/[0.025] whitespace-nowrap leading-none block"
+            style={{ fontSize: 'clamp(2rem, 14vw, 18rem)', letterSpacing: '0.1em' }}
+          >
             {heroHeading.split('\n')[0]}
           </span>
         </div>
