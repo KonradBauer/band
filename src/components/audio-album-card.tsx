@@ -1,10 +1,11 @@
 'use client'
 
-import React, { useState, useRef, useEffect, useCallback, memo } from 'react'
+import React, { useMemo, memo } from 'react'
 import Image from 'next/image'
-import { Play, Disc3 } from 'lucide-react'
+import { Play, Pause, Disc3 } from 'lucide-react'
 import { cn, formatTime } from '@/lib/utils'
-import { useAudioPlayer } from '@/components/audio-player-context'
+import { usePlayer } from '@/components/player-context'
+import type { AudioTrack } from '@/lib/audio-controller'
 
 interface Track {
   title: string
@@ -17,6 +18,37 @@ interface AudioAlbumCardProps {
   coverUrl?: string | null
   tracks: Track[]
 }
+
+// ── SeekBar ──────────────────────────────────────────────────────────────────
+
+const SeekBar = memo(function SeekBar({
+  currentTime,
+  duration,
+  onSeek,
+}: {
+  currentTime: number
+  duration: number
+  onSeek: (e: React.MouseEvent<HTMLDivElement>) => void
+}) {
+  const progress = duration > 0 ? currentTime / duration : 0
+  return (
+    <div
+      className='mx-3 mb-2.5 h-[3px] rounded-full bg-border/80 cursor-pointer relative group/seek'
+      onClick={onSeek}
+    >
+      <div
+        className='absolute inset-y-0 left-0 bg-primary rounded-full transition-[width] duration-200'
+        style={{ width: `${progress * 100}%` }}
+      />
+      <div
+        className='absolute top-1/2 -translate-y-1/2 -translate-x-1/2 size-2.5 bg-foreground rounded-full shadow opacity-0 group-hover/seek:opacity-100 transition-opacity pointer-events-none'
+        style={{ left: `${progress * 100}%` }}
+      />
+    </div>
+  )
+})
+
+// ── EqualizerBars ─────────────────────────────────────────────────────────────
 
 function EqualizerBars({ playing }: { playing: boolean }) {
   return (
@@ -36,151 +68,51 @@ function EqualizerBars({ playing }: { playing: boolean }) {
   )
 }
 
-const SeekBar = memo(function SeekBar({
-  currentTime, duration, onSeek,
-}: {
-  currentTime: number
-  duration: number
-  onSeek: (e: React.MouseEvent<HTMLDivElement>) => void
-}) {
-  const progress = duration > 0 ? currentTime / duration : 0
-  return (
-    <div
-      className='mx-3 mb-2.5 h-[3px] rounded-full bg-border/80 cursor-pointer relative group/seek'
-      onClick={onSeek}
-    >
-      <div className='absolute inset-y-0 left-0 bg-primary rounded-full' style={{ width: `${progress * 100}%` }} />
-      <div
-        className='absolute top-1/2 -translate-y-1/2 -translate-x-1/2 size-2.5 bg-foreground rounded-full shadow opacity-0 group-hover/seek:opacity-100 transition-opacity pointer-events-none'
-        style={{ left: `${progress * 100}%` }}
-      />
-    </div>
-  )
-})
+// ── AudioAlbumCard ────────────────────────────────────────────────────────────
 
 export default function AudioAlbumCard({ title, description, coverUrl, tracks }: AudioAlbumCardProps) {
-  const [currentTrack, setCurrentTrack] = useState<number | null>(null)
-  const [isPlaying, setIsPlaying] = useState(false)
-  const [isLoading, setIsLoading] = useState(false)
-  const [currentTime, setCurrentTime] = useState(0)
-  const [duration, setDuration] = useState(0)
-  const [hoveredTrack, setHoveredTrack] = useState<number | null>(null)
+  const { state, play, pause, resume, seek } = usePlayer()
 
-  const audioRef = useRef<HTMLAudioElement | null>(null)
-  const currentTrackRef = useRef<number | null>(null)
-  const currentTimeRef = useRef(0)
-  const cancelCanPlayRef = useRef<(() => void) | null>(null)
-  const albumPrefetchedRef = useRef(false)
-  const tracksRef = useRef(tracks)
-  tracksRef.current = tracks
+  // Build AudioTrack[] once — stable reference, includes album metadata for Media Session
+  const playlist = useMemo<AudioTrack[]>(
+    () => tracks.map((t) => ({
+      title: t.title,
+      src: t.src,
+      albumTitle: title,
+      albumArt: coverUrl ?? undefined,
+    })),
+    [tracks, title, coverUrl],
+  )
 
-  const { requestPlay } = useAudioPlayer()
+  // Determine if this album is the active one
+  const isThisAlbum = state.playlist === playlist ||
+    (state.playlist.length > 0 && state.playlist[0]?.src === playlist[0]?.src)
 
-  const stopPlayback = useCallback(() => {
-    audioRef.current?.pause()
-    setIsPlaying(false)
-    setCurrentTrack(null)
-    currentTrackRef.current = null
-    setCurrentTime(0)
-    setDuration(0)
-    setIsLoading(false)
-  }, [])
+  const activeIndex = isThisAlbum ? state.trackIndex : null
+  const isPlaying = isThisAlbum && state.status === 'playing'
+  const isLoading = isThisAlbum && state.status === 'loading'
 
-  useEffect(() => {
-    const audio = new Audio()
-    audio.preload = 'auto'
-    audioRef.current = audio
-
-    const onTimeUpdate = () => { currentTimeRef.current = audio.currentTime; setCurrentTime(audio.currentTime) }
-    const onDurationChange = () => { if (isFinite(audio.duration)) setDuration(audio.duration) }
-    const onPlay = () => { setIsPlaying(true); setIsLoading(false) }
-    const onPause = () => setIsPlaying(false)
-    const onWaiting = () => setIsLoading(true)
-    const onPlaying = () => setIsLoading(false)
-    const onEnded = () => { setIsPlaying(false); setCurrentTime(0) }
-
-    audio.addEventListener('timeupdate', onTimeUpdate)
-    audio.addEventListener('durationchange', onDurationChange)
-    audio.addEventListener('play', onPlay)
-    audio.addEventListener('pause', onPause)
-    audio.addEventListener('waiting', onWaiting)
-    audio.addEventListener('playing', onPlaying)
-    audio.addEventListener('ended', onEnded)
-
-    return () => {
-      cancelCanPlayRef.current?.()
-      audio.pause()
-      audio.src = ''
-      audio.removeEventListener('timeupdate', onTimeUpdate)
-      audio.removeEventListener('durationchange', onDurationChange)
-      audio.removeEventListener('play', onPlay)
-      audio.removeEventListener('pause', onPause)
-      audio.removeEventListener('waiting', onWaiting)
-      audio.removeEventListener('playing', onPlaying)
-      audio.removeEventListener('ended', onEnded)
-    }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
-
-  // Fetch all album tracks into browser cache — runs once per album session.
-  // Subsequent audio.src assignments hit the cache → canplay fires instantly.
-  const prefetchAlbum = useCallback(() => {
-    if (albumPrefetchedRef.current) return
-    albumPrefetchedRef.current = true
-    tracksRef.current.forEach((track) => {
-      fetch(track.src, { priority: 'low' } as RequestInit).catch(() => {})
-    })
-  }, [])
-
-  const loadAndPlay = useCallback((index: number) => {
-    const audio = audioRef.current
-    if (!audio) return
-
-    cancelCanPlayRef.current?.()
-
-    setCurrentTrack(index)
-    currentTrackRef.current = index
-    setIsLoading(true)
-    setCurrentTime(0)
-    setDuration(0)
-
-    audio.src = tracksRef.current[index].src
-    audio.load()
-
-    const onCanPlay = () => {
-      audio.play().catch(() => setIsLoading(false))
-      prefetchAlbum()
-    }
-    audio.addEventListener('canplay', onCanPlay, { once: true })
-    cancelCanPlayRef.current = () => audio.removeEventListener('canplay', onCanPlay)
-  }, [prefetchAlbum])
-
-  const loadAndPlayRef = useRef(loadAndPlay)
-  loadAndPlayRef.current = loadAndPlay
-
-  const handleTrackClick = useCallback((index: number) => {
-    const audio = audioRef.current
-    if (!audio) return
-    if (currentTrackRef.current === index) {
-      audio.paused ? audio.play().catch(() => {}) : audio.pause()
+  const handleTrackClick = (index: number) => {
+    if (activeIndex === index) {
+      // Same track — toggle play/pause
+      isPlaying ? pause() : resume()
     } else {
-      requestPlay(stopPlayback)
-      loadAndPlay(index)
+      // Different track — play immediately (optimistic UI in controller)
+      play(playlist, index)
     }
-  }, [loadAndPlay, requestPlay, stopPlayback])
+  }
 
-  const handleSeekClick = useCallback((e: React.MouseEvent<HTMLDivElement>) => {
+  const handleSeek = (e: React.MouseEvent<HTMLDivElement>) => {
     e.stopPropagation()
-    const audio = audioRef.current
-    if (!audio || !isFinite(audio.duration)) return
     const rect = e.currentTarget.getBoundingClientRect()
-    audio.currentTime = Math.max(0, Math.min(1, (e.clientX - rect.left) / rect.width)) * audio.duration
-  }, [])
+    seek(Math.max(0, Math.min(1, (e.clientX - rect.left) / rect.width)))
+  }
 
   return (
     <div className='glass-card rounded-xl overflow-hidden'>
       <div className='flex flex-col md:flex-row'>
 
+        {/* Cover + album info */}
         <div className='md:w-56 shrink-0 p-6 flex flex-col items-center gap-5 bg-card/60 border-b md:border-b-0 md:border-r border-border'>
           {coverUrl ? (
             <div className='relative w-44 h-44 rounded-lg overflow-hidden shadow-xl shadow-black/60 ring-1 ring-white/10'>
@@ -199,6 +131,7 @@ export default function AudioAlbumCard({ title, description, coverUrl, tracks }:
           </div>
         </div>
 
+        {/* Track list */}
         <div className='flex-1 px-2 py-3 min-w-0'>
           <div className='flex items-center gap-3 px-3 pb-2 mb-1 border-b border-border/40 text-[11px] text-muted-foreground/50 uppercase tracking-widest'>
             <span className='w-5 text-center'>#</span>
@@ -206,29 +139,35 @@ export default function AudioAlbumCard({ title, description, coverUrl, tracks }:
           </div>
 
           {tracks.map((track, index) => {
-            const isActive = currentTrack === index
-            const isHovered = hoveredTrack === index
-            const indicator = isActive
-              ? <EqualizerBars playing={isPlaying && !isLoading} />
-              : isHovered
-                ? <Play className='size-3.5 fill-foreground text-foreground' />
-                : <span className='text-xs text-muted-foreground'>{index + 1}</span>
+            const isActive = activeIndex === index
+            const isActiveAndPlaying = isActive && isPlaying
+            const isActiveAndLoading = isActive && isLoading
 
             return (
               <div
                 key={index}
                 className={cn(
-                  'rounded-md overflow-hidden transition-colors duration-100',
+                  'rounded-md overflow-hidden transition-colors duration-100 group',
                   isActive ? 'bg-primary/10' : 'hover:bg-white/[0.04]',
                 )}
               >
                 <div
                   className='flex items-center gap-3 px-3 py-2.5 cursor-pointer select-none'
                   onClick={() => handleTrackClick(index)}
-                  onMouseEnter={() => setHoveredTrack(index)}
-                  onMouseLeave={() => setHoveredTrack(null)}
                 >
-                  <div className='w-5 flex items-center justify-center shrink-0'>{indicator}</div>
+                  {/* Number / state indicator */}
+                  <div className='w-5 flex items-center justify-center shrink-0'>
+                    {isActiveAndLoading ? (
+                      <span className='size-3.5 rounded-full border border-primary/60 border-t-transparent animate-spin block' />
+                    ) : isActive ? (
+                      <EqualizerBars playing={isActiveAndPlaying} />
+                    ) : (
+                      <span className='text-xs text-muted-foreground group-hover:hidden'>{index + 1}</span>
+                    )}
+                    {!isActive && (
+                      <Play className='size-3.5 fill-foreground text-foreground hidden group-hover:block' />
+                    )}
+                  </div>
 
                   <span className={cn(
                     'text-sm font-medium flex-1 truncate',
@@ -237,15 +176,32 @@ export default function AudioAlbumCard({ title, description, coverUrl, tracks }:
                     {track.title}
                   </span>
 
+                  {/* Time — only on active track */}
                   {isActive && (
-                    <span className='text-[11px] text-muted-foreground tabular-nums hidden sm:inline'>
-                      {formatTime(currentTime)}<span className='opacity-40'> / {formatTime(duration)}</span>
+                    <span className='text-[11px] text-muted-foreground tabular-nums hidden sm:inline shrink-0'>
+                      {formatTime(state.currentTime)}
+                      <span className='opacity-40'> / {formatTime(state.duration)}</span>
+                    </span>
+                  )}
+
+                  {/* Pause icon overlay on active track hover */}
+                  {isActive && (
+                    <span className='shrink-0'>
+                      {isActiveAndPlaying
+                        ? <Pause className='size-3.5 fill-primary text-primary opacity-0 group-hover:opacity-100 transition-opacity' />
+                        : <Play className='size-3.5 fill-primary text-primary opacity-0 group-hover:opacity-100 transition-opacity ml-[1px]' />
+                      }
                     </span>
                   )}
                 </div>
 
+                {/* Seek bar — expands below active row */}
                 {isActive && (
-                  <SeekBar currentTime={currentTime} duration={duration} onSeek={handleSeekClick} />
+                  <SeekBar
+                    currentTime={state.currentTime}
+                    duration={state.duration}
+                    onSeek={handleSeek}
+                  />
                 )}
               </div>
             )

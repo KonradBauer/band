@@ -37,6 +37,7 @@ FILES=$(echo "$CHANGED_FILES" | grep -E '\.(ts|tsx)$' \
     | grep -v 'tailwind\.config' \
     | grep -v 'tsconfig' \
     | grep -v 'node_modules' \
+    | grep -v 'error-reporting' \
     || true)
 
 if [ -z "$FILES" ]; then
