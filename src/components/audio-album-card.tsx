@@ -1,11 +1,14 @@
 'use client'
 
-import React, { useMemo, memo } from 'react'
+import React, { useMemo, memo, useCallback } from 'react'
 import Image from 'next/image'
 import { Play, Pause, Disc3 } from 'lucide-react'
 import { cn, formatTime } from '@/lib/utils'
 import { usePlayer } from '@/components/player-context'
 import type { AudioTrack } from '@/lib/audio-controller'
+
+// Module-level set — avoid duplicate hover prefetches across card instances
+const prefetchedSrcs = new Set<string>()
 
 interface Track {
   title: string
@@ -102,6 +105,12 @@ export default function AudioAlbumCard({ title, description, coverUrl, tracks }:
     }
   }
 
+  const handleTrackHover = useCallback((src: string) => {
+    if (!src || prefetchedSrcs.has(src)) return
+    prefetchedSrcs.add(src)
+    fetch(src, { headers: { Range: 'bytes=0-524287' } } as RequestInit).catch(() => {})
+  }, [])
+
   const handleSeek = (e: React.MouseEvent<HTMLDivElement>) => {
     e.stopPropagation()
     const rect = e.currentTarget.getBoundingClientRect()
@@ -150,6 +159,7 @@ export default function AudioAlbumCard({ title, description, coverUrl, tracks }:
                   'rounded-md overflow-hidden transition-colors duration-100 group',
                   isActive ? 'bg-primary/10' : 'hover:bg-white/[0.04]',
                 )}
+                onMouseEnter={() => handleTrackHover(track.src)}
               >
                 <div
                   className='flex items-center gap-3 px-3 py-2.5 cursor-pointer select-none'

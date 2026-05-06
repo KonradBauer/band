@@ -126,6 +126,7 @@ class AudioController {
       this.startSeekTimer()
       this.updateMediaSession(track, playlist, index)
       this.scheduleLookahead(playlist, index)
+      this.bufferFullTrack(track.src)
     })
 
     this.active.on('play', () => {
@@ -182,6 +183,11 @@ class AudioController {
       volume: 0,
       autoplay: false,
     })
+  }
+
+  private bufferFullTrack(src: string) {
+    if (typeof fetch === 'undefined') return
+    fetch(src).catch(() => {})
   }
 
   private discardLookahead() {
