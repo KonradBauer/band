@@ -1,6 +1,5 @@
 import Link from "next/link";
 import { Music, Drama, Volume2, Users, Guitar, Mic, Heart, Star, PartyPopper, Sparkles } from "lucide-react";
-import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { getPayload } from 'payload'
 import configPromise from '@payload-config'
@@ -9,12 +8,12 @@ import { RichText } from '@payloadcms/richtext-lexical/react'
 import { AnimateOnScroll } from "@/components/animations/animate-on-scroll"
 import { StaggerChildren, StaggerItem } from "@/components/animations/stagger-children"
 import { FloatingParticles } from "@/components/animations/floating-particles"
-import { HeroAnimations, HeroItem, HeroGlow } from "@/components/animations/hero-animations"
+import { HeroAnimations, HeroItem } from "@/components/animations/hero-animations"
 import { SectionDivider } from "@/components/animations/section-divider"
 import { TextReveal } from "@/components/animations/text-reveal"
 import { ScrollZoomHero } from "@/components/animations/scroll-zoom-hero"
 import { ParallaxSection } from "@/components/animations/parallax-section"
-import { SmokeEffect } from "@/components/animations/smoke-effect"
+import { HeroSlideshow } from "@/components/animations/hero-slideshow"
 import { alignClass } from "@/lib/textAlign"
 
 const iconMap: Record<string, LucideIcon> = {
@@ -54,15 +53,6 @@ export default async function Home() {
     ? featuresData.features
     : defaultFeatures
 
-  const heroImages = (hero?.images as Array<{ image: { sizes?: { thumbnail?: { url?: string } }; url?: string } | string }> | undefined)
-    ?.map((item) => {
-      if (typeof item.image === 'object' && item.image) {
-        return item.image.sizes?.thumbnail?.url ?? item.image.url ?? null
-      }
-      return null
-    })
-    .filter(Boolean) as string[] | undefined
-
   const aboutImageUrl = about?.image && typeof about.image === 'object' && 'sizes' in about.image
     ? ((about.image as { sizes?: { card?: { url?: string } }; url?: string }).sizes?.card?.url ?? (about.image as { url?: string }).url)
     : null
@@ -72,23 +62,11 @@ export default async function Home() {
   return (
     <div>
       {/* Hero */}
-      <section className="relative overflow-hidden bg-[#080808]">
-        {/* Stage spotlight — radial gold glow from top-center */}
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_60%_at_50%_0%,rgba(201,168,76,0.18)_0%,rgba(201,168,76,0.04)_45%,transparent_70%)]" />
-        {/* Ghost band name — decorative background text, clipped to viewport */}
-        <div className="absolute inset-0 flex items-center justify-center overflow-hidden select-none pointer-events-none">
-          <span
-            className="font-heading font-black text-white/[0.025] whitespace-nowrap leading-none block"
-            style={{ fontSize: 'clamp(2rem, 14vw, 18rem)', letterSpacing: '0.1em' }}
-          >
-            {heroHeading.split('\n')[0]}
-          </span>
-        </div>
+        <section className="relative overflow-hidden bg-[#080808]">
+        <HeroSlideshow />
         {/* Subtle horizontal scan line at top */}
         <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-primary/40 to-transparent" />
-        <FloatingParticles count={8} />
         <div className="absolute inset-0 bg-gradient-to-t from-background via-transparent to-transparent" />
-        <SmokeEffect />
         <ScrollZoomHero className="relative">
           <div className="relative text-center px-4 sm:px-6 lg:px-8 py-20 md:py-32">
             <HeroAnimations>
@@ -116,21 +94,7 @@ export default async function Home() {
                   {hero?.description ?? 'Profesjonalna oprawa muzyczna wesel i imprez. Gramy z pasją od ponad 20 lat.'}
                 </p>
               </HeroItem>
-              {heroImages && heroImages.length > 0 && (
-                <HeroItem>
-                  <div className="flex items-center justify-center mt-8 -space-x-3">
-                    {heroImages.map((url, i) => (
-                      <img
-                        key={i}
-                        src={url}
-                        alt=""
-                        className="w-16 h-16 md:w-20 md:h-20 rounded-full object-cover border-2 border-primary/50 shadow-lg"
-                      />
-                    ))}
-                  </div>
-                </HeroItem>
-              )}
-              <HeroItem>
+<HeroItem>
                 {/* Decorative line below content, before CTA */}
                 <div className="flex items-center justify-center gap-6 mt-10 mb-6">
                   <div className="h-px flex-1 max-w-24 bg-gradient-to-r from-transparent to-border" />
