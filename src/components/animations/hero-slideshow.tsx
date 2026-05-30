@@ -4,8 +4,6 @@ import { useState, useEffect } from "react"
 import { motion, AnimatePresence } from "motion/react"
 
 const IMAGES = [
-  "/konradiusz1-1400x933.webp",
-  "/pawe3ek-2-1400x942.webp",
   "/7b614157-c048-469c-b07d-ffec5d18d8c3.webp",
   "/763127a4-87da-4a50-b2fc-f07187d9b0d0.webp",
   "/9b652e4b-9e30-49cb-854f-1f6f1b2186c7-1400x1400.webp",
