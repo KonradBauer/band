@@ -114,11 +114,11 @@ export default async function SiteFooter() {
             Powered by{" "}
             <Link
               className="nav-underline"
-              href="https://kbauer.pl"
+              href="https://www.studiocodeart.pl/"
               target="_blank"
               rel="noopener noreferrer"
             >
-              kbauer.pl
+              studiocodeart.pl
             </Link>
           </p>
         </div>
