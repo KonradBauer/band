@@ -5,7 +5,6 @@ import SiteFooter from "@/components/site-footer";
 import { FloatingNotes } from "@/components/animations/floating-notes";
 import "./globals.css";
 import React from 'react'
-import { PlayerProvider } from '@/components/player-context'
 
 const inter = Inter({
   variable: "--font-inter",
@@ -76,14 +75,12 @@ export default function RootLayout({
       type="application/ld+json"
       dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
     />
-    <PlayerProvider>
     <SiteHeader />
     <main className="pt-16 min-h-screen relative">
       <FloatingNotes count={10} />
       {children}
     </main>
     <SiteFooter />
-    </PlayerProvider>
     </body>
     </html>
   );

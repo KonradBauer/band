@@ -74,7 +74,7 @@ Pominięto zewnętrzny research (tabela decyzyjna 1.2: repo ma jasny, dobrze udo
 
 ## Implementation Units
 
-- [ ] **Unit 1: Zeskopuj PlayerProvider do route `/audio`**
+- [x] **Unit 1: Zeskopuj PlayerProvider do route `/audio`**
 
 **Cel:** Usunąć `player-context.tsx` → `audio-controller.ts` → `howler` z bundle'a każdej strony poza `/audio`.
 

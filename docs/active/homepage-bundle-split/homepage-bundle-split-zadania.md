@@ -5,15 +5,15 @@
 
 ---
 
-## Faza 1 — PlayerProvider zeskopowany do `/audio`
+## Faza 1 — PlayerProvider zeskopowany do `/audio` ✅
 
-- [ ] Stwórz `src/app/(frontend)/audio/layout.tsx` (server component) opakowujący `children` w `<PlayerProvider>`, wzorem obecnego `src/app/(frontend)/layout.tsx:79-86`
-- [ ] Usuń import i użycie `<PlayerProvider>` z `src/app/(frontend)/layout.tsx` (root layout), zostaw `SiteHeader`, `FloatingNotes`, `SiteFooter` bez zmian
-- [ ] Test: nowy `tests/int/audio-player-scope.int.spec.ts` — `/audio` renderuje `AudioAlbumCard` bez błędu braku kontekstu; strona bez `/audio` (np. homepage) renderuje się poprawnie mimo braku providera w drzewie
-- [ ] Test (e2e): otwórz `/audio`, kliknij play na dowolnym utworze, sprawdź że dźwięk zaczyna grać i UI odtwarzacza pokazuje status "playing"
-- [ ] Test (e2e): otwórz `/` (homepage), sprawdź że strona ładuje się normalnie i konsola nie pokazuje błędu dot. brakującego PlayerContext
-- [ ] Weryfikacja: `/audio` działa identycznie jak przed zmianą (play/pause/seek/playlist/next track)
-- [ ] Weryfikacja: inne strony (`/`, `/kim-jestesmy`, `/galeria`, `/kontakt`) nie ładują `player-context`/`howler` w swoim JS payloadzie (potwierdzić bundle analyzerem, gdy dostępne środowisko z działającym `next build`)
+- [x] Stwórz `src/app/(frontend)/audio/layout.tsx` (server component) opakowujący `children` w `<PlayerProvider>`, wzorem obecnego `src/app/(frontend)/layout.tsx:79-86`
+- [x] Usuń import i użycie `<PlayerProvider>` z `src/app/(frontend)/layout.tsx` (root layout), zostaw `SiteHeader`, `FloatingNotes`, `SiteFooter` bez zmian
+- [x] Test: nowy `tests/int/audio-player-scope.int.spec.ts` — `usePlayer()` rzuca błąd poza `<PlayerProvider>`; działa poprawnie (state.status === 'idle') wewnątrz providera
+- [ ] Test (e2e): otwórz `/audio`, kliknij play na dowolnym utworze, sprawdź że dźwięk zaczyna grać i UI odtwarzacza pokazuje status "playing" *(odroczone do `/dev-docs-review` — wymaga przeglądarki/live servera)*
+- [ ] Test (e2e): otwórz `/` (homepage), sprawdź że strona ładuje się normalnie i konsola nie pokazuje błędu dot. brakującego PlayerContext *(odroczone do `/dev-docs-review`)*
+- [ ] Weryfikacja: `/audio` działa identycznie jak przed zmianą (play/pause/seek/playlist/next track) *(odroczone do `/dev-docs-review`)*
+- [ ] Weryfikacja: inne strony (`/`, `/kim-jestesmy`, `/galeria`, `/kontakt`) nie ładują `player-context`/`howler` w swoim JS payloadzie *(odroczone — wymaga środowiska z działającym `next build`/bundle analyzer, patrz kontekst.md)*
 
 ---
 

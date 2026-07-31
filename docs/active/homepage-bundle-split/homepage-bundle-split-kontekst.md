@@ -22,6 +22,10 @@
 - **`next/dynamic(..., { ssr: false })` dla below-fold sekcji**, nie przepisywanie na server components: komponenty używają `motion/react` (client-only hooks `useScroll`, `whileInView`) więc pozostają client components — jedyna dostępna dźwignia to przesunięcie parsowania/wykonania poza krytyczną ścieżkę, nie eliminacja. (zob. plan techniczny)
 - **FloatingNotes też `dynamic(ssr:false)`**: czysto kosmetyczny efekt, brak treści, brak ryzyka layout shift przy opóźnionym mountowaniu. (zob. plan techniczny)
 
+## Postęp
+
+**Faza 1 (2026-07-31) — ukończona.** `PlayerProvider` przeniesiony z root `layout.tsx` do nowego `src/app/(frontend)/audio/layout.tsx`. Typecheck czysty, nowy test integracyjny (`tests/int/audio-player-scope.int.spec.ts`) przechodzi, cały pakiet testów (`test:int`) zielony. `pnpm run build` próbowany — fail identyczny jak przed zmianą (`next/font` nie może pobrać Google Fonts w tym sandboxie, błąd w `layout.tsx` na etapie font-fetch, przed jakąkolwiek analizą routingu) — potwierdzone że to pre-existing środowiskowy blocker, nie regresja tej zmiany. Pełna weryfikacja (że `howler` faktycznie zniknął z bundle'a innych stron) wymaga środowiska z działającym buildem.
+
 ## Zależności
 
 - Wszystkie 4 fazy wzajemnie niezależne — kolejność rekomendowana (największy/najpewniejszy efekt najpierw): Faza 1 → Faza 2 → Faza 4 → Faza 3.
