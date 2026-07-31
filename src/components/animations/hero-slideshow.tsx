@@ -23,7 +23,7 @@ export function HeroSlideshow() {
 
   return (
     <div className="absolute inset-0 overflow-hidden">
-      <AnimatePresence>
+      <AnimatePresence initial={false}>
         <motion.div
           key={current}
           className="absolute inset-0"
@@ -35,6 +35,7 @@ export function HeroSlideshow() {
           <motion.img
             src={IMAGES[current]}
             alt=""
+            fetchPriority={current === 0 ? "high" : undefined}
             className="absolute inset-0 w-full h-full object-cover"
             initial={{ scale: 1 }}
             animate={{ scale: 1.12 }}

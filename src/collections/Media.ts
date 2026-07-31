@@ -13,6 +13,10 @@ export const Media: CollectionConfig = {
     crop: true,
     focalPoint: true,
     mimeTypes: ['image/*'],
+    formatOptions: {
+      format: 'webp',
+      options: { quality: 80 },
+    },
     imageSizes: [
       {
         name: 'thumbnail',
