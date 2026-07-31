@@ -41,6 +41,29 @@ export const metadata: Metadata = {
   },
 };
 
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'MusicGroup',
+  name: 'ARMAGEDON',
+  description:
+    'Zespół weselny ARMAGEDON - profesjonalna oprawa muzyczna wesel i imprez okolicznościowych.',
+  url: 'https://armagedon.com.pl',
+  telephone: '+48512369305',
+  email: 'zespolarmagedon@gmail.com',
+  address: {
+    '@type': 'PostalAddress',
+    streetAddress: 'Jana Pawła II 44',
+    postalCode: '42-240',
+    addressLocality: 'Kościelec',
+    addressCountry: 'PL',
+  },
+  areaServed: ['województwo śląskie', 'Polska'],
+  sameAs: [
+    'https://www.facebook.com/armagedon.wesele/',
+    'https://www.instagram.com/armagedon_pl/',
+  ],
+};
+
 export default function RootLayout({
                                      children,
                                    }: Readonly<{
@@ -49,6 +72,10 @@ export default function RootLayout({
   return (
     <html lang="pl" className="dark">
     <body className={`${inter.variable} ${playfair.variable} antialiased`}>
+    <script
+      type="application/ld+json"
+      dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+    />
     <PlayerProvider>
     <SiteHeader />
     <main className="pt-16 min-h-screen relative">

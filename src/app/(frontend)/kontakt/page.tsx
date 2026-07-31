@@ -1,6 +1,6 @@
 import type { Metadata } from 'next'
 import { CardContent } from '@/components/ui/card'
-import { Phone, Mail, MapPin, Clock, Facebook, CreditCard, FileText } from 'lucide-react'
+import { Phone, Mail, MapPin, Clock, Facebook, CreditCard, FileText, Banknote } from 'lucide-react'
 import { getPayload } from 'payload'
 import configPromise from '@payload-config'
 import { AnimateOnScroll } from '@/components/animations/animate-on-scroll'
@@ -12,6 +12,9 @@ import { alignClass } from '@/lib/textAlign'
 export const metadata: Metadata = {
   title: 'Kontakt - ARMAGEDON',
   description: 'Skontaktuj się z zespołem weselnym ARMAGEDON',
+  alternates: {
+    canonical: '/kontakt',
+  },
 }
 
 export default async function KontaktPage() {
@@ -73,6 +76,19 @@ export default async function KontaktPage() {
                 <div>
                   <p className="text-sm text-muted-foreground">E-mail</p>
                   <p className="text-foreground font-medium">{email}</p>
+                </div>
+              </CardContent>
+            </div>
+          </StaggerItem>
+
+          <StaggerItem>
+            <div className="glass-card rounded-xl p-4">
+              <CardContent className="p-0 flex items-center gap-4">
+                <Banknote className="text-primary shrink-0" size={24} />
+                <div>
+                  <p className="text-sm text-muted-foreground">Wycena</p>
+                  <p className="text-foreground font-medium">Cena ustalana indywidualnie</p>
+                  <p className="text-sm text-muted-foreground">Zależy od lokalizacji, czasu trwania i pakietu — zadzwoń lub napisz po bezpłatną wycenę</p>
                 </div>
               </CardContent>
             </div>

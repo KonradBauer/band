@@ -1,4 +1,5 @@
 import Link from "next/link";
+import type { Metadata } from "next";
 import { Music, Drama, Volume2, Users, Guitar, Mic, Heart, Star, PartyPopper, Sparkles } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { getPayload } from 'payload'
@@ -27,6 +28,12 @@ const iconMap: Record<string, LucideIcon> = {
   Star,
   PartyPopper,
   Sparkles,
+}
+
+export const metadata: Metadata = {
+  alternates: {
+    canonical: '/',
+  },
 }
 
 const defaultFeatures = [
@@ -195,9 +202,14 @@ export default async function Home() {
             <p className={`text-muted-foreground mt-4 leading-relaxed whitespace-pre-line ${alignClass(about?.paragraph2Align as string, 'text-left')}`}>
               {about?.paragraph2 ?? 'Każde wesele traktujemy indywidualnie, dostosowując program do potrzeb i oczekiwań Młodej Pary.'}
             </p>
-            <Button variant="outline" asChild className="mt-6 border-primary text-primary hover:bg-primary/20 hover:text-white glow-button">
-              <Link href={about?.ctaLink ?? '/kim-jestesmy'}>{about?.ctaText ?? 'Więcej o nas'}</Link>
-            </Button>
+            <div className="flex flex-wrap gap-4 mt-6">
+              <Button variant="outline" asChild className="border-primary text-primary hover:bg-primary/20 hover:text-white glow-button">
+                <Link href={about?.ctaLink ?? '/kim-jestesmy'}>{about?.ctaText ?? 'Więcej o nas'}</Link>
+              </Button>
+              <Button variant="outline" asChild className="border-primary text-primary hover:bg-primary/20 hover:text-white glow-button">
+                <Link href="/audio">Posłuchaj nas</Link>
+              </Button>
+            </div>
           </AnimateOnScroll>
         </div>
       </ParallaxSection>

@@ -11,6 +11,9 @@ import { alignClass } from "@/lib/textAlign"
 export const metadata: Metadata = {
   title: "Galeria - ARMAGEDON",
   description: "Galeria zdjęć zespołu weselnego ARMAGEDON",
+  alternates: {
+    canonical: '/galeria',
+  },
 };
 
 export default async function GaleriaPage() {

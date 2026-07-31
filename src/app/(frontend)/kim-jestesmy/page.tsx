@@ -13,6 +13,9 @@ import { alignClass } from "@/lib/textAlign"
 export const metadata: Metadata = {
   title: "Kim jesteśmy - ARMAGEDON",
   description: "Poznaj członków zespołu weselnego ARMAGEDON",
+  alternates: {
+    canonical: '/kim-jestesmy',
+  },
 };
 
 const defaultMembers = [

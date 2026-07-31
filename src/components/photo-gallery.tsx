@@ -2,6 +2,7 @@
 
 import { useState, useCallback, useRef, useMemo } from "react";
 import Image from "next/image";
+import { Button } from "@/components/ui/button";
 import { MasonryPhotoAlbum } from "react-photo-album";
 import "react-photo-album/masonry.css";
 import Lightbox, {
@@ -39,6 +40,7 @@ interface NextSlide extends Slide {
   width: number;
   height: number;
   src: string;
+  alt?: string;
 }
 
 function isNextJsImage(slide: Slide): slide is NextSlide {
@@ -84,7 +86,7 @@ function NextJsImage({
     <div style={{ position: "relative", width, height }}>
       <Image
         fill
-        alt=""
+        alt={slide.alt ?? "Zdjęcie z wesela - zespół weselny ARMAGEDON"}
         src={slide.src}
         loading="eager"
         draggable={false}
@@ -178,6 +180,7 @@ function SkeletonImage({
   allLoaded,
   onLoad,
   index,
+  priority,
 }: {
   src: string;
   alt: string;
@@ -187,6 +190,7 @@ function SkeletonImage({
   allLoaded: boolean;
   onLoad: () => void;
   index: number;
+  priority: boolean;
 }) {
   return (
     <motion.div
@@ -233,6 +237,8 @@ function SkeletonImage({
         width={width}
         height={height}
         sizes={sizes}
+        priority={priority}
+        loading={priority ? undefined : "lazy"}
         className={`rounded-lg transition-opacity duration-500 ${allLoaded ? "opacity-100" : "opacity-0"}`}
         onLoad={onLoad}
       />
@@ -242,17 +248,25 @@ function SkeletonImage({
 
 /* ── Main gallery ── */
 
+const BATCH_SIZE = 24;
+
 export default function PhotoGallery({ photos }: PhotoGalleryProps) {
   const [index, setIndex] = useState(-1);
   const [allLoaded, setAllLoaded] = useState(false);
+  const [visibleCount, setVisibleCount] = useState(BATCH_SIZE);
   const loadedCount = useRef(0);
-  const totalPhotos = photos.length;
+
+  const visiblePhotos = useMemo(
+    () => photos.slice(0, visibleCount),
+    [photos, visibleCount],
+  );
+  const totalPhotos = visiblePhotos.length;
 
   const imageIndexMap = useMemo(() => {
     const map = new Map<string, number>();
-    photos.forEach((p, i) => map.set(p.thumbnailUrl ?? p.url, i));
+    visiblePhotos.forEach((p, i) => map.set(p.thumbnailUrl ?? p.url, i));
     return map;
-  }, [photos]);
+  }, [visiblePhotos]);
 
   const handleImageLoad = useCallback(() => {
     loadedCount.current += 1;
@@ -261,20 +275,26 @@ export default function PhotoGallery({ photos }: PhotoGalleryProps) {
     }
   }, [totalPhotos]);
 
-  const albumPhotos = useMemo(() => photos.map((p) => ({
+  const handleLoadMore = useCallback(() => {
+    loadedCount.current = 0;
+    setAllLoaded(false);
+    setVisibleCount((c) => Math.min(c + BATCH_SIZE, photos.length));
+  }, [photos.length]);
+
+  const albumPhotos = useMemo(() => visiblePhotos.map((p) => ({
     src: p.thumbnailUrl ?? p.url,
     width: p.thumbnailWidth ?? p.width,
     height: p.thumbnailHeight ?? p.height,
-    alt: p.alt ?? "",
+    alt: p.alt || "Zdjęcie z wesela - zespół weselny ARMAGEDON",
     key: String(p.id),
-  })), [photos]);
+  })), [visiblePhotos]);
 
-  const lightboxSlides = useMemo(() => photos.map((p) => ({
+  const lightboxSlides = useMemo(() => visiblePhotos.map((p) => ({
     src: p.largeUrl ?? p.url,
     width: p.width,
     height: p.height,
-    alt: p.alt ?? "",
-  })), [photos]);
+    alt: p.alt || "Zdjęcie z wesela - zespół weselny ARMAGEDON",
+  })), [visiblePhotos]);
 
   return (
     <>
@@ -304,12 +324,21 @@ export default function PhotoGallery({ photos }: PhotoGalleryProps) {
                   allLoaded={allLoaded}
                   onLoad={handleImageLoad}
                   index={imgIndex}
+                  priority={imgIndex < 4}
                 />
               );
             },
           }}
         />
       </div>
+
+      {visibleCount < photos.length && (
+        <div className="flex justify-center mt-8">
+          <Button variant="outline" onClick={handleLoadMore} className="border-primary text-primary hover:bg-primary/20 hover:text-white">
+            Pokaż więcej ({photos.length - visibleCount})
+          </Button>
+        </div>
+      )}
 
       <Lightbox
         slides={lightboxSlides}

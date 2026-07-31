@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { Separator } from "@/components/ui/separator";
-import { Phone, Mail, MapPin } from "lucide-react";
+import { Phone, Mail, MapPin, Facebook, Instagram } from "lucide-react";
 import { getPayload } from 'payload'
 import configPromise from '@payload-config'
 import { unstable_cache } from 'next/cache'
@@ -99,6 +99,26 @@ export default async function SiteFooter() {
                 <span className="text-sm text-muted-foreground">
                   {address}
                 </span>
+              </div>
+              <div className="flex items-center gap-4 mt-2">
+                <a
+                  href="https://www.facebook.com/armagedon.wesele/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label="Facebook ARMAGEDON"
+                  className="text-muted-foreground hover:text-primary transition-colors"
+                >
+                  <Facebook size={20} />
+                </a>
+                <a
+                  href="https://www.instagram.com/armagedon_pl/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label="Instagram ARMAGEDON"
+                  className="text-muted-foreground hover:text-primary transition-colors"
+                >
+                  <Instagram size={20} />
+                </a>
               </div>
             </div>
           </div>

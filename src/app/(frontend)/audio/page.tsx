@@ -11,6 +11,9 @@ import { alignClass } from '@/lib/textAlign'
 export const metadata: Metadata = {
   title: 'Audio - ARMAGEDON',
   description: 'Posłuchaj naszych nagrań - zespół weselny ARMAGEDON',
+  alternates: {
+    canonical: '/audio',
+  },
 }
 
 export default async function AudioPage() {
