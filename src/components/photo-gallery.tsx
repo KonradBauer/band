@@ -192,6 +192,12 @@ function SkeletonImage({
   index: number;
   priority: boolean;
 }) {
+  const [loaded, setLoaded] = useState(false);
+  const handleLoad = useCallback(() => {
+    setLoaded(true);
+    onLoad();
+  }, [onLoad]);
+
   return (
     <motion.div
       className="relative overflow-hidden rounded-lg gallery-hover cursor-pointer"
@@ -208,7 +214,7 @@ function SkeletonImage({
       }}
     >
       <AnimatePresence>
-        {!allLoaded && (
+        {!loaded && (
           <motion.div
             className="absolute inset-0 rounded-lg overflow-hidden"
             exit={{ opacity: 0 }}
@@ -239,8 +245,8 @@ function SkeletonImage({
         sizes={sizes}
         priority={priority}
         loading={priority ? undefined : "lazy"}
-        className={`rounded-lg transition-opacity duration-500 ${allLoaded ? "opacity-100" : "opacity-0"}`}
-        onLoad={onLoad}
+        className={`rounded-lg transition-opacity duration-500 ${loaded ? "opacity-100" : "opacity-0"}`}
+        onLoad={handleLoad}
       />
     </motion.div>
   );

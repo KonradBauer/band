@@ -20,6 +20,7 @@ export function AnimateOnScroll({
   duration = 0.6,
   className,
   once = true,
+  skipAnimation = false,
 }: {
   children: ReactNode
   direction?: Direction
@@ -27,12 +28,14 @@ export function AnimateOnScroll({
   duration?: number
   className?: string
   once?: boolean
+  /** Skip the entrance animation — use for above-the-fold LCP content that must paint immediately. */
+  skipAnimation?: boolean
 }) {
   const offset = offsets[direction]
 
   return (
     <motion.div
-      initial={{ opacity: 0, x: offset.x, y: offset.y, scale: offset.scale }}
+      initial={skipAnimation ? false : { opacity: 0, x: offset.x, y: offset.y, scale: offset.scale }}
       whileInView={{ opacity: 1, x: 0, y: 0, scale: 1 }}
       viewport={{ once, margin: "-80px" }}
       transition={{ duration, delay, ease: "easeOut" }}
