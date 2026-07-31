@@ -59,7 +59,7 @@ const jsonLd = {
   areaServed: ['województwo śląskie', 'Polska'],
   sameAs: [
     'https://www.facebook.com/armagedon.wesele/',
-    'https://www.instagram.com/armagedon_pl/',
+    'https://www.instagram.com/zespol_armagedon/',
   ],
 };
 

@@ -111,7 +111,7 @@ export default async function SiteFooter() {
                   <Facebook size={20} />
                 </a>
                 <a
-                  href="https://www.instagram.com/armagedon_pl/"
+                  href="https://www.instagram.com/zespol_armagedon/"
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label="Instagram ARMAGEDON"
