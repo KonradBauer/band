@@ -60,9 +60,26 @@ export default async function Home() {
     ? featuresData.features
     : defaultFeatures
 
-  const aboutImageUrl = about?.image && typeof about.image === 'object' && 'sizes' in about.image
-    ? ((about.image as { sizes?: { card?: { url?: string } }; url?: string }).sizes?.card?.url ?? (about.image as { url?: string }).url)
+  const aboutImage = about?.image && typeof about.image === 'object' && 'sizes' in about.image
+    ? (about.image as {
+        sizes?: {
+          thumbnail?: { url?: string }
+          card?: { url?: string }
+          hero?: { url?: string }
+        }
+        url?: string
+      })
     : null
+
+  const aboutImageUrl = aboutImage?.sizes?.card?.url ?? aboutImage?.url ?? null
+
+  const aboutImageSrcSet = aboutImage
+    ? [
+        aboutImage.sizes?.thumbnail?.url ? `${aboutImage.sizes.thumbnail.url} 400w` : null,
+        aboutImage.sizes?.card?.url ? `${aboutImage.sizes.card.url} 768w` : null,
+        aboutImage.sizes?.hero?.url ? `${aboutImage.sizes.hero.url} 1920w` : null,
+      ].filter(Boolean).join(', ')
+    : undefined
 
   const heroHeading = hero?.heading ?? 'ARMAGEDON'
 
@@ -184,8 +201,12 @@ export default async function Home() {
           <AnimateOnScroll direction="left" className="md:w-1/2">
             {aboutImageUrl ? (
               <img
-                src={aboutImageUrl}
+                src={aboutImageUrl ?? undefined}
+                srcSet={aboutImageSrcSet}
+                sizes="(min-width: 768px) 640px, 100vw"
                 alt={about?.heading ?? 'Kim jesteśmy?'}
+                loading="lazy"
+                decoding="async"
                 className="rounded-lg h-80 w-full object-cover"
               />
             ) : (

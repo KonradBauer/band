@@ -4,9 +4,21 @@ import { useState, useEffect } from "react"
 import { motion, AnimatePresence } from "motion/react"
 
 const IMAGES = [
-  "/7b614157-c048-469c-b07d-ffec5d18d8c3.webp",
-  "/763127a4-87da-4a50-b2fc-f07187d9b0d0.webp",
-  "/9b652e4b-9e30-49cb-854f-1f6f1b2186c7-1400x1400.webp",
+  {
+    src: "/7b614157-c048-469c-b07d-ffec5d18d8c3.webp",
+    srcSet:
+      "/7b614157-c048-469c-b07d-ffec5d18d8c3-480w.webp 480w, /7b614157-c048-469c-b07d-ffec5d18d8c3-768w.webp 768w, /7b614157-c048-469c-b07d-ffec5d18d8c3.webp 1080w",
+  },
+  {
+    src: "/763127a4-87da-4a50-b2fc-f07187d9b0d0.webp",
+    srcSet:
+      "/763127a4-87da-4a50-b2fc-f07187d9b0d0-480w.webp 480w, /763127a4-87da-4a50-b2fc-f07187d9b0d0-768w.webp 768w, /763127a4-87da-4a50-b2fc-f07187d9b0d0.webp 1080w",
+  },
+  {
+    src: "/9b652e4b-9e30-49cb-854f-1f6f1b2186c7-1400x1400.webp",
+    srcSet:
+      "/9b652e4b-9e30-49cb-854f-1f6f1b2186c7-1400x1400-480w.webp 480w, /9b652e4b-9e30-49cb-854f-1f6f1b2186c7-1400x1400-768w.webp 768w, /9b652e4b-9e30-49cb-854f-1f6f1b2186c7-1400x1400.webp 1080w",
+  },
 ]
 
 const SLIDE_DURATION = 5000
@@ -33,7 +45,9 @@ export function HeroSlideshow() {
           transition={{ duration: 1.5, ease: "easeInOut" }}
         >
           <motion.img
-            src={IMAGES[current]}
+            src={IMAGES[current].src}
+            srcSet={IMAGES[current].srcSet}
+            sizes="100vw"
             alt=""
             fetchPriority={current === 0 ? "high" : undefined}
             className="absolute inset-0 w-full h-full object-cover"
