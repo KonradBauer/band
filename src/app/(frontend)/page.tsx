@@ -94,7 +94,7 @@ export default async function Home() {
         <ScrollZoomHero className="relative">
           <div className="relative text-center px-4 sm:px-6 lg:px-8 py-20 md:py-32">
             <HeroAnimations>
-              <HeroItem>
+              <div>
                 {/* Decorative line above heading */}
                 <div className="flex items-center justify-center gap-4 mb-6">
                   <div className="h-px w-16 bg-gradient-to-r from-transparent to-primary/60" />
@@ -107,7 +107,7 @@ export default async function Home() {
                 >
                   <TextReveal text={heroHeading} className="whitespace-nowrap" />
                 </h1>
-              </HeroItem>
+              </div>
               <HeroItem>
                 <p className={`text-lg md:text-xl text-foreground/80 font-light mt-5 tracking-wide whitespace-pre-line ${alignClass(hero?.subheadingAlign as string, 'text-center')}`}>
                   {hero?.subheading ?? 'Muzyczna oprawa wesel i imprez'}
