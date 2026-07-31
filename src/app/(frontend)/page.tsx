@@ -9,10 +9,7 @@ import { RichText } from '@payloadcms/richtext-lexical/react'
 import { AnimateOnScroll } from "@/components/animations/animate-on-scroll"
 import { StaggerChildren, StaggerItem } from "@/components/animations/stagger-children"
 import { FloatingParticles } from "@/components/animations/floating-particles"
-import { HeroAnimations, HeroItem } from "@/components/animations/hero-animations"
 import { SectionDivider } from "@/components/animations/section-divider"
-import { TextReveal } from "@/components/animations/text-reveal"
-import { ScrollZoomHero } from "@/components/animations/scroll-zoom-hero"
 import { ParallaxSection } from "@/components/animations/parallax-section"
 import { HeroSlideshow } from "@/components/animations/hero-slideshow"
 import { alignClass } from "@/lib/textAlign"
@@ -91,49 +88,47 @@ export default async function Home() {
         {/* Subtle horizontal scan line at top */}
         <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-primary/40 to-transparent" />
         <div className="absolute inset-0 bg-gradient-to-t from-background via-transparent to-transparent" />
-        <ScrollZoomHero className="relative">
+        <div className="relative">
           <div className="relative text-center px-4 sm:px-6 lg:px-8 py-20 md:py-32">
-            <HeroAnimations>
-              <div>
-                {/* Decorative line above heading */}
-                <div className="flex items-center justify-center gap-4 mb-6">
-                  <div className="h-px w-16 bg-gradient-to-r from-transparent to-primary/60" />
-                  <span className="text-[11px] tracking-[0.4em] text-primary/70 uppercase font-medium">Zespół weselny</span>
-                  <div className="h-px w-16 bg-gradient-to-l from-transparent to-primary/60" />
-                </div>
-                <h1
-                  className={`font-heading font-bold gold-gradient-text ${alignClass(hero?.headingAlign as string, 'text-center')}`}
-                  style={{ fontSize: 'clamp(2rem, calc(100vw / 8), 5.5rem)', letterSpacing: '0.06em' }}
-                >
-                  <TextReveal text={heroHeading} className="whitespace-nowrap" />
-                </h1>
+            <div>
+              {/* Decorative line above heading */}
+              <div className="flex items-center justify-center gap-4 mb-6">
+                <div className="h-px w-16 bg-gradient-to-r from-transparent to-primary/60" />
+                <span className="text-[11px] tracking-[0.4em] text-primary/70 uppercase font-medium">Zespół weselny</span>
+                <div className="h-px w-16 bg-gradient-to-l from-transparent to-primary/60" />
               </div>
-              <HeroItem>
-                <p className={`text-lg md:text-xl text-foreground/80 font-light mt-5 tracking-wide whitespace-pre-line ${alignClass(hero?.subheadingAlign as string, 'text-center')}`}>
-                  {hero?.subheading ?? 'Muzyczna oprawa wesel i imprez'}
-                </p>
-              </HeroItem>
-              <HeroItem>
-                <p className={`text-muted-foreground max-w-xl mx-auto mt-3 leading-relaxed whitespace-pre-line ${alignClass(hero?.descriptionAlign as string, 'text-center')}`}>
-                  {hero?.description ?? 'Profesjonalna oprawa muzyczna wesel i imprez. Gramy z pasją od ponad 20 lat.'}
-                </p>
-              </HeroItem>
-<HeroItem>
-                {/* Decorative line below content, before CTA */}
-                <div className="flex items-center justify-center gap-6 mt-10 mb-6">
-                  <div className="h-px flex-1 max-w-24 bg-gradient-to-r from-transparent to-border" />
-                  <div className="h-1 w-1 rounded-full bg-primary/50" />
-                  <div className="h-1 w-1 rounded-full bg-primary" />
-                  <div className="h-1 w-1 rounded-full bg-primary/50" />
-                  <div className="h-px flex-1 max-w-24 bg-gradient-to-l from-transparent to-border" />
-                </div>
-                <Button variant="default" size="lg" asChild className="text-base px-10 py-6 glow-button cta-pulse tracking-wider">
-                  <a href="#wolne-terminy">Sprawdź dostępne terminy</a>
-                </Button>
-              </HeroItem>
-            </HeroAnimations>
+              <h1
+                className={`font-heading font-bold gold-gradient-text whitespace-nowrap ${alignClass(hero?.headingAlign as string, 'text-center')}`}
+                style={{ fontSize: 'clamp(2rem, calc(100vw / 8), 5.5rem)', letterSpacing: '0.06em' }}
+              >
+                {heroHeading}
+              </h1>
+            </div>
+            <div>
+              <p className={`text-lg md:text-xl text-foreground/80 font-light mt-5 tracking-wide whitespace-pre-line ${alignClass(hero?.subheadingAlign as string, 'text-center')}`}>
+                {hero?.subheading ?? 'Muzyczna oprawa wesel i imprez'}
+              </p>
+            </div>
+            <div>
+              <p className={`text-muted-foreground max-w-xl mx-auto mt-3 leading-relaxed whitespace-pre-line ${alignClass(hero?.descriptionAlign as string, 'text-center')}`}>
+                {hero?.description ?? 'Profesjonalna oprawa muzyczna wesel i imprez. Gramy z pasją od ponad 20 lat.'}
+              </p>
+            </div>
+            <div>
+              {/* Decorative line below content, before CTA */}
+              <div className="flex items-center justify-center gap-6 mt-10 mb-6">
+                <div className="h-px flex-1 max-w-24 bg-gradient-to-r from-transparent to-border" />
+                <div className="h-1 w-1 rounded-full bg-primary/50" />
+                <div className="h-1 w-1 rounded-full bg-primary" />
+                <div className="h-1 w-1 rounded-full bg-primary/50" />
+                <div className="h-px flex-1 max-w-24 bg-gradient-to-l from-transparent to-border" />
+              </div>
+              <Button variant="default" size="lg" asChild className="text-base px-10 py-6 glow-button cta-pulse tracking-wider">
+                <a href="#wolne-terminy">Sprawdź dostępne terminy</a>
+              </Button>
+            </div>
           </div>
-        </ScrollZoomHero>
+        </div>
       </section>
 
       <SectionDivider className="my-0" />
