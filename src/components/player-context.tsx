@@ -23,6 +23,12 @@ export function PlayerProvider({ children }: { children: React.ReactNode }) {
     return unsub
   }, [])
 
+  useEffect(() => {
+    // Stop playback when leaving /audio — audioController is a singleton
+    // outside React's lifecycle, so it keeps playing past unmount otherwise.
+    return () => audioController.stop()
+  }, [])
+
   const play = useCallback((playlist: AudioTrack[], index: number) => {
     audioController.play(playlist, index)
   }, [])
